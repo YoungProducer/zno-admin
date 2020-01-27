@@ -1,0 +1,4 @@
+export const FETCH_SIGNUP = 'FETCH_SIGNUP';
+export const SUCCESS_SIGNUP = 'SUCCESS_SIGNUP';
+export const FAILURE_SIGNUP = 'FAILURE_SIGNUP';
+export const LOADING_SIGNUP = 'LOADING_SIGNUP';

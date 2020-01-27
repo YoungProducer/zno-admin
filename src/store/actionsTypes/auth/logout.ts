@@ -1,0 +1,2 @@
+export const LOADING_LOGOUT = 'LOADING_LOGOUT';
+export const FAILURE_LOGOUT = 'FAILURE_LOGOUT';

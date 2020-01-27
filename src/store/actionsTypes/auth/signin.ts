@@ -1,0 +1,6 @@
+export const FETCH_SIGNIN = 'api:SIGNIN';
+export const SUCCESS_SIGNIN = 'SUCCESS_SIGNIN';
+export const FAILURE_SIGNIN = 'FAILURE_SIGNIN';
+export const LOADING_SIGNIN = 'LOADING_SIGNIN';
+export const SET_LOGGEDIN = 'SET_LOGGEDIN';
+export const SET_USER_DATA = 'SET_USER_DATA';
