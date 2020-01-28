@@ -10,7 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import Divider from '@material-ui/core/Divider';
+import Fade from '@material-ui/core/Fade';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const drawerWidth: number = 240;
@@ -46,11 +52,38 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         overflowX: 'hidden',
         width: theme.spacing(7) + 1,
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9) + 1,
+            width: theme.spacing(8) + 1,
         },
     },
-    chevron: {
+    icon: {
         color: '#fff',
+    },
+    list: {
+        backgroundColor: theme.palette.primary.main,
+    },
+    listItem: {
+        justifyContent: 'space-between',
+    },
+    listItemText: {
+        color: '#fff',
+        width: 150,
+    },
+    listItemTextOpen: {
+        width: 150,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    listItemTextClose: {
+        width: 0,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    listIcon: {
+        minWidth: 0,
     },
 }));
 
@@ -89,11 +122,23 @@ const Component = () => {
             <div className={classes.drawerHeader}>
                 <IconButton onClick={toggleDrawer}>
                     {open
-                        ? <ChevronLeftIcon className={classes.chevron}/>
-                        : <ChevronRightIcon className={classes.chevron}/>}
+                        ? <ChevronLeftIcon className={classes.icon}/>
+                        : <ChevronRightIcon className={classes.icon}/>}
                 </IconButton>
             </div>
-            <Divider />
+            {/* <Divider /> */}
+            <List className={classes.list}>
+                <ListItem button color='primary'>
+                    <Fade in={open}>
+                        <ListItemText className={classes.listItemText}>
+                            Тести
+                        </ListItemText>
+                    </Fade>
+                    <ListItemIcon className={classes.listIcon}>
+                        <BuildOutlinedIcon className={classes.icon}/>
+                    </ListItemIcon>
+                </ListItem>
+            </List>
         </Drawer>
     );
 };
