@@ -6,22 +6,53 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseLine from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
+import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import Divider from '@material-ui/core/Divider';
+import Collapse from '@material-ui/core/Collapse';
 import Fade from '@material-ui/core/Fade';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { NavLink, NavLinkProps as RouterLinkProps } from 'react-router-dom';
+import { Omit } from '@material-ui/types';
+
+import TestsIcon from 'components/Icons/TestsIcon';
 
 const drawerWidth: number = 240;
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
+    root: {
+        display: 'flex',
+    },
+    appBar: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        background: '#333',
+        ...theme.mixins.toolbar,
+        width: `calc(100% - ${theme.spacing(9) + 1}px)`,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
@@ -47,16 +78,38 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     drawerClose: {
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
+            duration: theme.transitions.duration.enteringScreen,
         }),
         overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
+        width: theme.spacing(9) + 1,
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(8) + 1,
+            width: theme.spacing(9) + 1,
         },
+    },
+    drawerPaper: {
+        borderColor: '#333',
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        paddingTop: 64,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: -drawerWidth,
+    },
+    contentShift: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
     },
     icon: {
         color: '#fff',
+        width: 35,
+        height: 35,
     },
     list: {
         backgroundColor: theme.palette.primary.main,
@@ -85,11 +138,59 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     listIcon: {
         minWidth: 0,
     },
+    nested: {
+        paddingLeft: theme.spacing(3),
+    },
+    title: {
+        paddingLeft: theme.spacing(3),
+        color: '#fff',
+    },
 }));
 
-const Component = () => {
+interface IListItemLinkProps {
+    icon?: React.ReactElement;
+    primary: string;
+    to: string;
+    open: boolean;
+    nested: boolean;
+    onClick?: () => void;
+    classes: any;
+}
+
+const ListItemLink = (props: IListItemLinkProps) => {
+    const { icon, primary, to, classes, open, nested, onClick } = props;
+
+    return (
+        <li>
+            <NavLink to={to} onClick={onClick}>
+                <ListItem button>
+                    <Fade in={open}>
+                        <ListItemText
+                            className={classNames(classes.listItemText, {
+                                [classes.nested]: nested,
+                            })}
+                        >
+                            {primary}
+                        </ListItemText>
+                    </Fade>
+                    {icon && <ListItemIcon className={classes.listIcon}>{icon}</ListItemIcon>}
+                </ListItem>
+            </NavLink>
+        </li>
+    );
+};
+
+interface IDrawerProps {
+    content: React.ReactNode;
+}
+
+const Component = ({
+    content,
+}: IDrawerProps) => {
     const classes = useStyles({});
     const [open, toggleOpen] = useState<boolean>(true);
+    // Variable related to sublist of 'Tests' list item
+    const [openTests, toggleOpenTests] = useState<boolean>(false);
 
     const handleDrawerOpen = () => {
         toggleOpen(true);
@@ -103,43 +204,121 @@ const Component = () => {
         open ? handleDrawerClose() : handleDrawerOpen();
     };
 
+    const handleTestsOpen = () => {
+        toggleOpenTests(true);
+    };
+
+    const handleTestsClose = () => {
+        toggleOpenTests(false);
+    };
+
+    const toggleTests = () => {
+        openTests ? handleTestsClose() : handleTestsOpen();
+    };
+
     return (
-        <Drawer
-            variant='permanent'
-            anchor='left'
-            open={open}
-            className={classNames(classes.drawer, {
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-            })}
-            classes={{
-                paper: classNames({
+        <div className={classes.root}>
+            <AppBar
+                position='fixed'
+                className={classNames(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+            >
+                <NavLink to='/dashboard'>
+                    <Typography
+                        className={classes.title}
+                        variant='h6'
+                        color='primary'
+                    >
+                        ПІДРУЧНИКИ ТА ПОСІБНИКИ
+                    </Typography>
+                </NavLink>
+            </AppBar>
+            <Drawer
+                variant='permanent'
+                anchor='left'
+                open={open}
+                className={classNames(classes.drawer, {
                     [classes.drawerOpen]: open,
                     [classes.drawerClose]: !open,
-                }),
-            }}
-        >
-            <div className={classes.drawerHeader}>
-                <IconButton onClick={toggleDrawer}>
-                    {open
-                        ? <ChevronLeftIcon className={classes.icon}/>
-                        : <ChevronRightIcon className={classes.icon}/>}
-                </IconButton>
-            </div>
-            {/* <Divider /> */}
-            <List className={classes.list}>
-                <ListItem button color='primary'>
-                    <Fade in={open}>
-                        <ListItemText className={classes.listItemText}>
-                            Тести
-                        </ListItemText>
-                    </Fade>
-                    <ListItemIcon className={classes.listIcon}>
-                        <BuildOutlinedIcon className={classes.icon}/>
-                    </ListItemIcon>
-                </ListItem>
-            </List>
-        </Drawer>
+                })}
+                classes={{
+                    paper: classNames(classes.drawerPaper, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
+            >
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={() => {
+                        toggleDrawer();
+                        handleTestsClose();
+                    }}>
+                        {open
+                            ? <ChevronLeftIcon className={classes.icon}/>
+                            : <ChevronRightIcon className={classes.icon}/>}
+                    </IconButton>
+                </div>
+                <List className={classes.list}>
+                    <ListItem
+                        button
+                        color='primary'
+                        onClick={() => {
+                            handleDrawerOpen();
+                            toggleTests();
+                        }}
+                    >
+                            <Fade in={open}>
+                                <ListItemText className={classes.listItemText}>
+                                    Тести
+                                </ListItemText>
+                            </Fade>
+                            <ListItemIcon className={classes.listIcon}>
+                                <TestsIcon width='35px' height='35px' />
+                            </ListItemIcon>
+                    </ListItem>
+                    <Collapse
+                        in={openTests && open}
+                    >
+                        <>
+                            <ListItemLink
+                                to='/dashboard/create'
+                                primary='Створити новий'
+                                nested
+                                classes={classes}
+                                open={open}
+                            />
+                            <ListItemLink
+                                to='/dashboard/edit'
+                                primary='Редагувати наявний'
+                                nested
+                                classes={classes}
+                                open={open}
+                            />
+                            <Divider />
+                        </>
+                    </Collapse>
+                    <ListItemLink
+                        to='/dashboard/settings'
+                        primary='Налаштування'
+                        onClick={() => {
+                            handleDrawerOpen();
+                        }}
+                        icon={<SettingsOutlinedIcon className={classes.icon} />}
+                        open={open}
+                        nested={false}
+                        classes={classes}
+                    />
+                </List>
+            </Drawer>
+            <main
+                className={classNames(classes.content, {
+                    [classes.contentShift]: open,
+                })}
+            >
+                {content}
+            </main>
+        </div>
     );
 };
 

@@ -26,6 +26,11 @@
     "jsx": "react",
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"],
+    },
+    "typeRoots" : ["./src/typings"]
   },
   "include": ["./src/**/*"]
 }

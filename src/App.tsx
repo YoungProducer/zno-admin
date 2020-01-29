@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-import Routes from './components/routes';
-import Drawer from './components/Drawer';
+// import Routes from './components/routes';
+// import Drawer from './components/Drawer';
+
+import Routes from './routes';
 
 interface IApp {
     loggedIn: boolean;
@@ -20,10 +22,10 @@ const App = ({
 
     return(
         <>
-            <Drawer />
+            {/* <Drawer /> */}
             <Routes
-                loggedIn={loggedIn}
-                emailAfterSignUp={emailAfterSignUp}
+                // loggedIn={loggedIn}
+                // emailAfterSignUp={emailAfterSignUp}
             />
         </>
     );
