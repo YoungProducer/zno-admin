@@ -7,6 +7,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 
 // Application's imports
 import Drawer from 'components/Drawer';
+import CreateTest from 'components/CreateTest';
 
 const Component = () => (
     <HashRouter>
@@ -14,6 +15,11 @@ const Component = () => (
             <Route exact path='/dashboard'>
                 <Drawer content={
                     <h1>dashboard</h1>
+                }/>
+            </Route>
+            <Route exact path='/dashboard/create'>
+                <Drawer content={
+                    <CreateTest />
                 }/>
             </Route>
             <Route exact path='/dashboard/settings'>

@@ -27,7 +27,7 @@ const theme = createMuiTheme({
         h5: {
             fontSize: '1rem',
         },
-        fontFamily: 'ProductSans, Arial',
+        fontFamily: 'ProductSans-Light, Arial',
     },
 });
 
