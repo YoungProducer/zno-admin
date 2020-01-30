@@ -3,14 +3,36 @@
 
 // External imports
 import React from 'react';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
-import SubjectConfiguration from './SubjectConfiguration';
+import TaskConfigurations from './TaskConfigurations';
+
+const useStyles = makeStyles((theme: Theme) => createStyles({
+    root: {
+        width: `100%`,
+        padding: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+}));
 
 const Component = () => {
+    const classes = useStyles({});
 
     return (
-        <SubjectConfiguration />
+        <Paper
+            elevation={3}
+            className={classes.root}
+        >
+            <Typography variant='h4' color='secondary'>
+                Створення завдань та тесту
+            </Typography>
+            <TaskConfigurations />
+        </Paper>
     );
 };
 

@@ -91,7 +91,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         // borderColor: '#333',
         border: 'none',
     },
+    panel: {
+        display: 'flex',
+        flexGrow: 1,
+        minHeight: `calc(100vh - 64px)`,
+        padding: theme.spacing(3),
+        marginTop: 64,
+        borderRight: `1px solid rgba(0,0,0,0.12)`,
+    },
     content: {
+        width: `100%`,
+        display: 'flex',
         flexGrow: 1,
         minHeight: `calc(100vh - 64px)`,
         padding: theme.spacing(3),
@@ -186,10 +196,12 @@ const ListItemLink = (props: IListItemLinkProps) => {
 
 interface IDrawerProps {
     content: React.ReactNode;
+    panel?: React.ReactNode;
 }
 
 const Component = ({
     content,
+    panel,
 }: IDrawerProps) => {
     const classes = useStyles({});
     const [open, toggleOpen] = useState<boolean>(true);
@@ -319,6 +331,11 @@ const Component = ({
                     />
                 </List>
             </Drawer>
+            { panel && (
+                <aside className={classes.panel}>
+                    {panel}
+                </aside>
+            )}
             <main
                 className={classNames(classes.content, {
                     [classes.contentShift]: open,

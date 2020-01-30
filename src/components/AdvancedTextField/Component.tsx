@@ -19,12 +19,12 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
-        width: 220,
+        width: `100%`,
         '& .MuiTextField-root': {
-            width: 220,
+            width: `100%`,
         },
         '& .MuiInputBase-root': {
-            width: 220,
+            width: `100%`,
         },
         '& .MuiFormLabel-root': {
             fontSize: '1.3rem',

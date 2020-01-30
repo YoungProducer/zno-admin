@@ -6,6 +6,7 @@
 // External imports
 import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import CheckBox from '@material-ui/core/Checkbox';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     part: {
         marginBottom: theme.spacing(2),
     },
+    title: {
+        marginBottom: 20,
+    },
 }));
 
 const subjects = [
@@ -47,7 +51,13 @@ export enum EExamTypes {
     'PREV_SESSIONS' = '1',
 }
 
-const Component = () => {
+interface ISubjectConfigurationsPanelProps {
+    className: string;
+}
+
+const Component = ({
+    className,
+}: ISubjectConfigurationsPanelProps) => {
     const classes = useStyles({});
 
     const [subjectName, setSubjectName] = useState<string>('');
@@ -74,8 +84,11 @@ const Component = () => {
     return (
         <Paper
             elevation={3}
-            className={classes.paper}
+            className={className}
         >
+            <Typography variant='h4' color='secondary' className={classes.title}>
+                Налаштування тесту
+            </Typography>
             <div className={classes.part}>
                 <AdvancedTextField
                     value={subjectName}
