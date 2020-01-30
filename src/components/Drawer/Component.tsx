@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseLine from '@material-ui/core/CssBaseline';
+import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         flexDirection: 'row',
         alignItems: 'center',
         background: '#333',
-        ...theme.mixins.toolbar,
+        // ...theme.mixins.toolbar,
         width: `calc(100% - ${theme.spacing(9) + 1}px)`,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
@@ -87,17 +88,20 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         },
     },
     drawerPaper: {
-        borderColor: '#333',
+        // borderColor: '#333',
+        border: 'none',
     },
     content: {
         flexGrow: 1,
+        minHeight: `calc(100vh - 64px)`,
         padding: theme.spacing(3),
-        paddingTop: 64,
+        marginTop: 64,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: -drawerWidth,
+        borderRight: `1px solid rgba(0,0,0,0.12)`,
+        // marginLeft: theme.spacing(9) + 1,
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
@@ -218,21 +222,25 @@ const Component = ({
 
     return (
         <div className={classes.root}>
+            <CssBaseLine />
             <AppBar
                 position='fixed'
                 className={classNames(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
             >
-                <NavLink to='/dashboard'>
-                    <Typography
-                        className={classes.title}
-                        variant='h6'
-                        color='primary'
-                    >
-                        ПІДРУЧНИКИ ТА ПОСІБНИКИ
-                    </Typography>
-                </NavLink>
+                <Toolbar>
+                    <NavLink to='/dashboard'>
+                        <Typography
+                            className={classes.title}
+                            variant='h6'
+                            color='primary'
+                            noWrap
+                        >
+                            ПІДРУЧНИКИ ТА ПОСІБНИКИ
+                        </Typography>
+                    </NavLink>
+                </Toolbar>
             </AppBar>
             <Drawer
                 variant='permanent'
