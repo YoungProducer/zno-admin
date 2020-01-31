@@ -18,9 +18,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    title: {
+        marginBottom: theme.spacing(2),
+    },
 }));
 
 const Component = () => {
+    // Declare and define classes.
     const classes = useStyles({});
 
     return (
@@ -28,7 +32,11 @@ const Component = () => {
             elevation={3}
             className={classes.root}
         >
-            <Typography variant='h4' color='secondary'>
+            <Typography
+                variant='h4'
+                color='secondary'
+                className={classes.title}
+            >
                 Створення завдань та тесту
             </Typography>
             <TaskConfigurations />

@@ -12,10 +12,25 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
+// Application's imports
+import AnswerSelection from './AnswerSelection';
+
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
         width: `100%`,
         display: 'flex',
+        justifyContent: 'space-between',
+        border: `1px solid rgba(0, 0, 0, 0.12)`,
+        padding: theme.spacing(1),
+        [theme.breakpoints.up('lg')]: {
+            justifyContent: 'flex-start',
+        },
+    },
+    answerWrapper: {
+        marginLeft: 0,
+        [theme.breakpoints.up('lg')]: {
+            marginLeft: theme.spacing(3),
+        },
     },
 }));
 
@@ -51,7 +66,7 @@ const Component = () => {
                     <FormControlLabel
                         value={ETaskType.ONE_RIGHT}
                         control={<Radio color='secondary'/>}
-                        label='Одна правильно відповідь'
+                        label='Одна правильна відповідь'
                     />
                     <FormControlLabel
                         value={ETaskType.RELATIONS}
@@ -65,6 +80,11 @@ const Component = () => {
                     />
                 </RadioGroup>
             </FormControl>
+            <div className={classes.answerWrapper}>
+                <AnswerSelection
+                    taskType={taskType as ETaskType}
+                />
+            </div>
         </div>
     );
 };

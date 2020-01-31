@@ -204,7 +204,7 @@ const Component = ({
     panel,
 }: IDrawerProps) => {
     const classes = useStyles({});
-    const [open, toggleOpen] = useState<boolean>(true);
+    const [open, toggleOpen] = useState<boolean>(false);
     // Variable related to sublist of 'Tests' list item
     const [openTests, toggleOpenTests] = useState<boolean>(false);
 
