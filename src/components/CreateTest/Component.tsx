@@ -9,6 +9,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
 import TaskConfigurations from './TaskConfigurations';
+import UploadImages from './UploadImages';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -40,6 +41,7 @@ const Component = () => {
                 Створення завдань та тесту
             </Typography>
             <TaskConfigurations />
+            <UploadImages />
         </Paper>
     );
 };

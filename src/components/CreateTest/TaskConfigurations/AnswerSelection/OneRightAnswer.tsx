@@ -4,13 +4,14 @@
 // Component to select right answer for tasks with only one right answer.
 
 // External imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
 import Cell from './Cell';
+import { TAnswerProps } from './container';
 
 // Describe styles as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -22,14 +23,20 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const Component = () => {
+const Component = ({
+    answer,
+    setTaskAnswer,
+}: TAnswerProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
 
-    const [answer, setAnswer] = useState<number>(-1);
+    // useEffect(() => {
+    //     setTaskAnswer(-1);
+    // },        []);
+    // const [answer, setAnswer] = useState<number>(-1);
 
     const handleSetAnswer = (index: number) => {
-        setAnswer(index === answer ? -1 : index);
+        setTaskAnswer(index === answer ? -1 : index);
     };
 
     return (

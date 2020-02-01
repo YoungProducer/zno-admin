@@ -9,6 +9,9 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
+// Application's imports
+import { TAnswerProps } from './container';
+
 // Describe classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -24,43 +27,32 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const Component = () => {
+const Component = ({
+    answer,
+    setTaskAnswer,
+    answersAmount,
+    setAnswerAmount,
+}: TAnswerProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
 
-    const [answers, setAnswers] = useState<string[]>([]);
     const handleChangeAnswerById = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         // Extract value from event
         const value = (event.target as HTMLInputElement).value;
         // If index of answers in mapped array equals to index from parametr replace it to value from event.
         // In other case return previous value.
-        const newAnswer = answers.map((answer, idx) => idx === index ? value : answer);
-        setAnswers(newAnswer);
+        if (Array.isArray(answer)) {
+            const newAnswer = answer.map((ans, idx) => idx === index ? value : answer);
+            setTaskAnswer(newAnswer);
+        }
     };
 
-    const [answersCount, setAnswersCount] = useState<number>(1);
-    const handleChangeAnswersCount = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeAnswersAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
         // Extract value from event
         const value = Number((event.target as HTMLInputElement).value);
         // If value lower than 0 equal it to 0
-        setAnswersCount(value < 0 ? 0 : value);
+        setAnswerAmount(value < 0 ? 0 : value);
     };
-
-    useEffect(() => {
-        /**
-         * To save previous answers used 'concat' and 'slice' methods.
-         * For example:
-         * Current array: ['1', '2.5'].
-         * Answers count: 1
-         * Answers array length: 2
-         * New array: ['1'].
-         */
-        if (answers.length < answersCount) {
-            setAnswers(answers.concat(['']));
-        } else if (answers.length > answersCount) {
-            setAnswers(answers.slice(answersCount));
-        }
-    },        [answersCount, setAnswers, answers]);
 
     return (
         <Grid
@@ -74,17 +66,17 @@ const Component = () => {
                 label='Кількість відповідей'
                 type='number'
                 color='secondary'
-                value={answersCount}
-                onChange={handleChangeAnswersCount}
+                value={answersAmount}
+                onChange={handleChangeAnswersAmount}
             />
-            { answers.map((answer, index) => (
+            { Array.isArray(answer) && answer.map((ans, index) => (
                 <TextField
                     key={index}
                     className={classes.textField}
                     label={`Відповідь №${index + 1}`}
                     color='secondary'
                     type='text'
-                    value={answer}
+                    value={ans}
                     onChange={(event) => handleChangeAnswerById(index, event as React.ChangeEvent<HTMLInputElement>)}
                 />
             ))}

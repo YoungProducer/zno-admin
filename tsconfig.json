@@ -16,21 +16,44 @@
 //   }
 // }
 
+// {
+//   "compilerOptions": {
+//     "outDir": "./build/",
+//     "sourceMap": true,
+//     "noImplicitAny": true,
+//     "module": "ESNext",
+//     "moduleResolution": "Node",
+//     "jsx": "react",
+//     "resolveJsonModule": true,
+//     "esModuleInterop": true,
+//     "experimentalDecorators": true,
+//     "baseUrl": "./",
+//     "paths": {
+//       "*": ["src/*"],
+//     },
+//     "typeRoots" : ["./src/typings"]
+//   },
+//   "include": ["./src/**/*"]
+// }
 {
   "compilerOptions": {
-    "outDir": "./build/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es6",
     "jsx": "react",
+    "allowJs": true,
+    "module": "ESNext",
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
     "baseUrl": "./",
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "paths": {
-      "*": ["src/*"],
+      "*": ["src/*", "node_modules/*"],
     },
     "typeRoots" : ["./src/typings"]
   },
-  "include": ["./src/**/*"]
+  "include": [
+    "src/**/*"
+  ],
 }

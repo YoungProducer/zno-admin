@@ -12,7 +12,10 @@ import UpdateUserRootsReducer from './update/userRoots';
 import UsersSearchResultReducer from './users/searchResult';
 import FindUserByEmailReducer from './users/findByEmail';
 
-export default combineReducers({
+import createTest from './createTest';
+
+const rootReducer = combineReducers({
+    createTest,
     signin: SignInReducer,
     signup: SignUpReducer,
     me: MeReducer,
@@ -23,3 +26,7 @@ export default combineReducers({
     usersSearchResult: UsersSearchResultReducer,
     findUserByEmail: FindUserByEmailReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export default rootReducer;

@@ -4,7 +4,7 @@
 // Component to select answer to relation type of tasks.
 
 // External imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
 import Cell from './Cell';
+import { TAnswerProps } from './container';
 
 // Describe styles as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -38,14 +39,24 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const Component = () => {
+const Component = ({
+    answer,
+    setTaskAnswer,
+}: TAnswerProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
 
-    const [answers, setAnswers] = useState<number[]>([-1, -1, -1, -1]);
+    // useEffect(() => {
+    //     setTaskAnswer([-1, -1, -1, -1]);
+    // },        []);
+
+    // const [answers, setAnswers] = useState<number[]>([-1, -1, -1, -1]);
     const handleChangeAnswers = (hindex: number, vindex: number) => {
-        const newAnswers = answers.map((ans, index) => index === hindex && answers.every(ans => ans !== vindex) ? vindex : ans);
-        setAnswers(newAnswers);
+        if (Array.isArray(answer)) {
+            const newAnswers = answer.map((ans, index) => index === hindex && answer.every(ans => ans !== vindex) ? vindex : ans);
+            setTaskAnswer(newAnswers);
+        }
+        // const newAnswers = answers.map((ans, index) => index === hindex && answers.every(ans => ans !== vindex) ? vindex : ans);
     };
 
     return (
@@ -79,7 +90,7 @@ const Component = () => {
                                 </Typography>
                             )}
                             <Cell
-                                selected={answers[hindex] === vindex}
+                                selected={Array.isArray(answer) && answer[hindex] === vindex}
                                 callback={() => handleChangeAnswers(hindex, vindex)}
                             />
                         </Grid>

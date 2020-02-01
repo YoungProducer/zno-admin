@@ -11,7 +11,7 @@ module.exports = {
       components: path.resolve(__dirname, 'src/components'),
       containers: path.resolve(__dirname, 'src/containers'),
       routes: path.resolve(__dirname, 'src/routes'),
-      srore: path.resolve(__dirname, 'src/routes'),
+      store: path.join(__dirname, 'src/store'),
       public: path.resolve(__dirname, 'public'),
       types: path.resolve(__dirname, 'src/types'),
       utils: path.resolve(__dirname, 'src/utils')
@@ -30,13 +30,14 @@ module.exports = {
         use: 'tslint-loader',
       },
       {
-        test: /\.ts(x?)$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: "ts-loader"
+        loaders: [{ 
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true
           }
-        ]
+        }],
       },
       {
         enforce: "pre",

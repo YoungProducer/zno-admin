@@ -14,6 +14,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
 import AnswerSelection from './AnswerSelection';
+import { TTaskConfigurationProps } from './container';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -35,20 +36,24 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 export enum ETaskType {
+    'DEFAULT' = '',
     'ONE_RIGHT' = '0',
     'RELATIONS' = '1',
     'TEXT_FIELDS' = '2',
 }
 
-const Component = () => {
+const Component = ({
+    taskType,
+    setTaskType,
+}: TTaskConfigurationProps) => {
     // Declare and define classes
     const classes = useStyles({});
 
     // Declare task type var and set it by default to '0'(One right answer)
-    const [taskType, setTaskType] = useState<string>(ETaskType.ONE_RIGHT);
+    // const [taskType, setTaskType] = useState<string>(ETaskType.ONE_RIGHT);
     // Handle change in radio group
     const handleChangeTaskType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskType((event.target as HTMLInputElement).value);
+        setTaskType((event.target as HTMLInputElement).value as ETaskType);
     };
 
     return (

@@ -10,26 +10,24 @@ import React from 'react';
 import OneRightAnswer from './OneRightAnswer';
 import RelationAnswer from './RelationAnswer';
 import TextAnswer from './TextAnswer';
+import { TAnswerSelectionProps } from './container';
 import { ETaskType } from '../Component';
-
-interface IAnswerSelectionProps {
-    taskType: ETaskType;
-}
 
 const Component = ({
     taskType,
-}: IAnswerSelectionProps) => {
+    ...store
+}: TAnswerSelectionProps) => {
 
     return (
         <>
             {taskType === ETaskType.ONE_RIGHT && (
-                <OneRightAnswer />
+                <OneRightAnswer {...store} />
             )}
             {taskType === ETaskType.RELATIONS && (
-                <RelationAnswer />
+                <RelationAnswer {...store} />
             )}
             {taskType === ETaskType.TEXT_FIELDS && (
-                <TextAnswer />
+                <TextAnswer {...store} />
             )}
         </>
     );

@@ -1,3 +1,3 @@
-import { RefreshInitialState } from "../../reducers/auth/refresh";
+import { RefreshInitialState } from "../../slices/auth/refresh";
 
 export const getRefreshLoading = (state: RefreshInitialState) => state.loading;

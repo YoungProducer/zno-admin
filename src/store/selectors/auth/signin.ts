@@ -1,4 +1,4 @@
-import { SignInInitialState } from '../../reducers/auth/signin';
+import { SignInInitialState } from '../../slices/auth/signin';
 
 export const getLoggedIn = (state: SignInInitialState) => state.loggedIn;
 
