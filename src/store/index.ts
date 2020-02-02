@@ -15,7 +15,13 @@ import rootReducer from './slices';
 
 const midlleware = getDefaultMiddleware({
     thunk: true,
-    serializableCheck: true,
+    serializableCheck: ({
+        ignoredActions: [
+            // This actions work with File's. To prevent error about non-serializable values needed to ignore its.
+            'TaskBuffer/setTaskImageAction',
+            'TaskBuffer/setExplanationImageAction',
+        ],
+    }),
     immutableCheck: true,
 });
 

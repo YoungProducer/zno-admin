@@ -1,11 +1,12 @@
 // Created by: Oleksandr Bezrukov
-// Creation date: 31 January 2020
+// Creation date: 2 February 2020
 
-// The entry point of the UploadImages component
+// The entry point of UploadImageModal component.
 
 // Application's imports
 import Component from './Component';
 import container from './container';
 
-// Connect state and actions to the component
+export * from './container';
+
 export default container(Component);

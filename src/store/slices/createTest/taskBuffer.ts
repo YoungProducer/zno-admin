@@ -15,8 +15,14 @@ import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
 interface ITaskBufferInitialState {
     taskType: ETaskType;
     answer: number | any[];
-    taskImage?: any;
-    explanationImage?: any;
+    /**
+     * Contain file to send it to server and preview
+     */
+    taskImage: any;
+    /**
+     * Contain file to send it to server and preview
+     */
+    explanationImage: any;
     /**
      * Related only to text answer.
      * Responsible for amount of text answers.
@@ -48,6 +54,8 @@ const initialState: ITaskBufferInitialState = {
     taskType: ETaskType.ONE_RIGHT,
     answer: -1,
     answersAmount: 1,
+    taskImage: null,
+    explanationImage: null,
 };
 
 const taskBufferSlice = createSlice({
@@ -91,12 +99,24 @@ const taskBufferSlice = createSlice({
             ...state,
             taskImage: payload,
         }),
+        deleteTaskImageAction: (
+            state: ITaskBufferInitialState,
+        ) => ({
+            ...state,
+            taskImage: null,
+        }),
         setExplanationImageAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetExplanationImageAction,
         ) => ({
             ...state,
             explanationImage: payload,
+        }),
+        deleteExplanationImageAction: (
+            state: ITaskBufferInitialState,
+        ) => ({
+            ...state,
+            explanationImage: null,
         }),
         setAnswersAmountAction: (
             state: ITaskBufferInitialState,
@@ -132,7 +152,9 @@ export const {
     setTaskTypeAction,
     setTaskAnswerAction,
     setTaskImageAction,
+    deleteExplanationImageAction,
     setExplanationImageAction,
+    deleteTaskImageAction,
     setAnswersAmountAction,
 } = taskBufferSlice.actions;
 

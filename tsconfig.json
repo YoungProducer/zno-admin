@@ -48,6 +48,7 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "target": "ESNext",
     "paths": {
       "*": ["src/*", "node_modules/*"],
     },

@@ -16,9 +16,9 @@ const App = ({
     emailAfterSignUp,
     fetchMe,
 }: IApp) => {
-    useEffect(() => {
-        fetchMe({});
-    },        [fetchMe]);
+    // useEffect(() => {
+    //     fetchMe({});
+    // },        [fetchMe]);
 
     return(
         <>

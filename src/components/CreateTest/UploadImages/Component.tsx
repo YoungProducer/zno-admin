@@ -4,33 +4,147 @@
 // Component to upload task and explanation images.
 
 // External imports
-import React, { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import Zoom from '@material-ui/core/Zoom';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-const Component = () => {
+// Application's imports
+import ImageUploadModal from 'modals/ImageUploadModal';
+import { TUploadImageType } from 'modals/ImageUploadModal';
+import { TUploadImagesProps } from './container';
 
-    const onDrop = useCallback((acceptedFiles: any) => {
-        console.log(acceptedFiles);
-    },                         []);
+// Describe classes as hook
+const useStyles = makeStyles((theme: Theme) => createStyles({
+    root: {
+        padding: theme.spacing(2),
+        border: `1px solid rgba(0, 0, 0, 0.12)`,
+        marginTop: theme.spacing(2),
+        width: `100%`,
+    },
+    container: {
+        padding: theme.spacing(2),
+    },
+    button: {
+        display: 'block',
+        minWidth: 240,
+        marginBottom: theme.spacing(1),
+    },
+    imageWrapper: {
+        width: `100%`,
+    },
+    buttonsWrapper: {
+        justifyContent: 'space-between',
+        [theme.breakpoints.up('lg')]: {
+            justifyContent: 'flex-start',
+            '& button': {
+                marginRight: theme.spacing(3),
+            },
+        },
+    },
+}));
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        multiple: false,
-    });
+const Component = ({
+    taskImage,
+    explanationImage,
+    taskImageName,
+    explanationImageName,
+    deleteTaskImage,
+    deleteExplanationImage,
+}: TUploadImagesProps) => {
+    // Declare and define classes
+    const classes = useStyles({});
+
+    const [uploadImageType, setUploadImageType] = useState<TUploadImageType>('task');
+
+    const [openModal, toggleOpenModal] = useState<boolean>(false);
+    const handleOpenModal = () => toggleOpenModal(true);
+    const handleCloseModal = () => toggleOpenModal(false);
 
     return (
-        <div>
-            <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                    {
-                    isDragActive ?
-                        <p>Drop the files here ...</p> :
-                        <p>Drag 'n' drop some files here, or click to select files</p>
-                    }
-            </div>
+        <div className={classes.root}>
+            <Typography variant='h4' color='secondary' align='center'>
+                Завантаження зображень
+            </Typography>
+            <Grid
+                container
+                direction='column'
+                justify='space-between'
+                className={classes.container}
+            >
+                <Grid
+                    item
+                    container
+                    direction='row'
+                    className={classes.buttonsWrapper}
+                >
+                    <Grid item>
+                        <Button
+                            className={classes.button}
+                            color='primary'
+                            variant='outlined'
+                            onClick={() => {
+                                setUploadImageType('task');
+                                if (!taskImageName) {
+                                    handleOpenModal();
+                                }
+                            }}
+                            endIcon={
+                                taskImage && (
+                                    <CloseIcon
+                                        color='primary'
+                                        width='24px'
+                                        height='24px'
+                                        onClick={() => {
+                                            console.log('click');
+                                            deleteTaskImage()
+                                        }}
+                                    />
+                                )
+                            }
+                        >
+                            {taskImageName ? taskImageName : 'Завантажити завдання'}
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button
+                            className={classes.button}
+                            color='primary'
+                            variant='outlined'
+                            onClick={() => {
+                                setUploadImageType('explanation');
+                                if (!explanationImageName) {
+                                    handleOpenModal();
+                                }
+                            }}
+                        >
+                            {explanationImageName ? explanationImageName : 'Завантажити пояснення'}
+                            {explanationImage && (
+                                <CloseIcon
+                                    color='primary'
+                                    width='24px'
+                                    height='24px'
+                                    onClick={() => {
+                                        console.log('click');
+                                        deleteExplanationImage();
+                                    }}
+                                />
+                            )}
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid item className={classes.imageWrapper}>
+                    <img width='100%' src={uploadImageType === 'task' ? taskImage : explanationImage} />
+                </Grid>
+            </Grid>
+            <ImageUploadModal
+                uploadImageType={uploadImageType}
+                open={openModal}
+                onClose={handleCloseModal}
+            />
         </div>
     );
 };
