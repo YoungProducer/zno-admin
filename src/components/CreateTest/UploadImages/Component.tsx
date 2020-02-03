@@ -52,11 +52,42 @@ const Component = ({
     explanationImage,
     taskImageName,
     explanationImageName,
+    setTaskImage,
+    setExplanationImage,
     deleteTaskImage,
     deleteExplanationImage,
 }: TUploadImagesProps) => {
     // Declare and define classes
     const classes = useStyles({});
+
+    // Store task image until the task will be added to global list.
+    const [bufferTaskImage, setBufferTaskImage] = useState<File>(null);
+    const handleSetTaskImage = (file: File) => {
+        // Set image to local state
+        setBufferTaskImage(file);
+        // Set image to global store
+        setTaskImage(file);
+    };
+    const handleDeleteTaskImage = () => {
+        // Delete image from local state
+        setBufferTaskImage(null);
+        // Delete image from global store
+        deleteTaskImage();
+    };
+    // Store explanation image until the task will be added to global list.
+    const [bufferExplanationImage, setBufferExplanationImage] = useState<File>();
+    const handleSetExplanationImage = (file: File) => {
+        // Set image to local state
+        setBufferExplanationImage(file);
+        // Set image to global store
+        setExplanationImage(file);
+    };
+    const handleDeleteExplanationImage = () => {
+        // Delete image from local storage
+        setBufferExplanationImage(null);
+        // Delete image from global store
+        deleteExplanationImage();
+    };
 
     const [uploadImageType, setUploadImageType] = useState<TUploadImageType>('task');
 
@@ -84,7 +115,7 @@ const Component = ({
                     <Grid item>
                         <Button
                             className={classes.button}
-                            color='primary'
+                            color='secondary'
                             variant='outlined'
                             onClick={() => {
                                 setUploadImageType('task');
@@ -99,8 +130,8 @@ const Component = ({
                                         width='24px'
                                         height='24px'
                                         onClick={() => {
-                                            console.log('click');
-                                            deleteTaskImage()
+                                            handleDeleteTaskImage();
+                                            // deleteTaskImage();
                                         }}
                                     />
                                 )
@@ -112,7 +143,7 @@ const Component = ({
                     <Grid item>
                         <Button
                             className={classes.button}
-                            color='primary'
+                            color='secondary'
                             variant='outlined'
                             onClick={() => {
                                 setUploadImageType('explanation');
@@ -124,7 +155,7 @@ const Component = ({
                             {explanationImageName ? explanationImageName : 'Завантажити пояснення'}
                             {explanationImage && (
                                 <CloseIcon
-                                    color='primary'
+                                    color='secondary'
                                     width='24px'
                                     height='24px'
                                     onClick={() => {
@@ -142,6 +173,10 @@ const Component = ({
             </Grid>
             <ImageUploadModal
                 uploadImageType={uploadImageType}
+                setTaskImage={handleSetTaskImage}
+                setExplanationImage={handleSetExplanationImage}
+                deleteTaskImage={handleDeleteTaskImage}
+                deleteExplanationImage={handleDeleteExplanationImage}
                 open={openModal}
                 onClose={handleCloseModal}
             />

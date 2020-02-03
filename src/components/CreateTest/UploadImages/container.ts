@@ -13,6 +13,8 @@ import {
     selectImagesNames,
 } from 'store/selectors/createTest';
 import {
+    setTaskImageAction,
+    setExplanationImageAction,
     deleteTaskImageAction,
     deleteExplanationImageAction,
 } from 'store/slices/createTest';
@@ -31,6 +33,8 @@ interface IStateProps {
 
 // Props(actions) which component can dispatch
 interface IDispatchToProps {
+    setTaskImage: (file: File) => void;
+    setExplanationImage: (file: File) => void;
     deleteTaskImage: () => void;
     deleteExplanationImage: () => void;
 }
@@ -48,6 +52,8 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 // Define mapDispatchToProps.
 // Connect action related to this component
 const mapDispatchToProps = (dispatch: any): IDispatchToProps => ({
+    setTaskImage: (file: File) => dispatch(setTaskImageAction(file)),
+    setExplanationImage: (file: File) => dispatch(setExplanationImageAction(file)),
     deleteTaskImage: () => dispatch(deleteTaskImageAction()),
     deleteExplanationImage: () => dispatch(deleteExplanationImageAction()),
 });

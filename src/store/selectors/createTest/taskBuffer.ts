@@ -8,6 +8,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 // Application's imports
 import { RootState } from 'store/slices';
+import { IImage } from 'store/slices/createTest';
 
 export const selectTaskBuffer = (state: RootState) =>
     state.createTest.taskBuffer;
@@ -28,7 +29,7 @@ interface ISelectImagesPreviews {
 // Select only previews from images
 export const selectImagesPreviews = createSelector(
     [selectTaskImage, selectExplanationImage],
-    (taskImage: any, explanationImage: any): ISelectImagesPreviews => ({
+    (taskImage: IImage, explanationImage: IImage): ISelectImagesPreviews => ({
         taskImage: taskImage !== null ? taskImage.preview : null,
         explanationImage: explanationImage !== null ? explanationImage.preview : null,
     }),
@@ -42,8 +43,8 @@ interface ISelecetImagesNames {
 // Select only names of images
 export const selectImagesNames = createSelector(
     [selectTaskImage, selectExplanationImage],
-    (taskImage: any, explanationImage: any): ISelecetImagesNames => ({
-        taskImageName: taskImage !== null ? taskImage.path : null,
-        explanationImageName: explanationImage !== null ? explanationImage.path : null,
+    (taskImage: IImage, explanationImage: IImage): ISelecetImagesNames => ({
+        taskImageName: taskImage !== null ? taskImage.name : null,
+        explanationImageName: explanationImage !== null ? explanationImage.name : null,
     }),
 );

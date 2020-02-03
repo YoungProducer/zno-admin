@@ -10,19 +10,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Application's imports
+import { ITask } from 'store/slices/createTest';
 import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
 
-interface ITaskBufferInitialState {
-    taskType: ETaskType;
-    answer: number | any[];
-    /**
-     * Contain file to send it to server and preview
-     */
-    taskImage: any;
-    /**
-     * Contain file to send it to server and preview
-     */
-    explanationImage: any;
+export interface IImage {
+    name: string;
+    preview: string;
+}
+
+interface ITaskBufferInitialState extends Omit<ITask, 'id'> {
     /**
      * Related only to text answer.
      * Responsible for amount of text answers.
@@ -97,27 +93,41 @@ const taskBufferSlice = createSlice({
             { payload }: ISetTaskImageAction,
         ) => ({
             ...state,
-            taskImage: payload,
+            taskImage: {
+                name: payload.name,
+                preview: URL.createObjectURL(payload),
+            },
         }),
         deleteTaskImageAction: (
             state: ITaskBufferInitialState,
-        ) => ({
-            ...state,
-            taskImage: null,
-        }),
+        ) => {
+            URL.revokeObjectURL(state.taskImage.preview);
+
+            return {
+                ...state,
+                taskImage: null,
+            };
+        },
         setExplanationImageAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetExplanationImageAction,
         ) => ({
             ...state,
-            explanationImage: payload,
+            explanationImage: {
+                name: payload.name,
+                preview: URL.createObjectURL(payload),
+            },
         }),
         deleteExplanationImageAction: (
             state: ITaskBufferInitialState,
-        ) => ({
-            ...state,
-            explanationImage: null,
-        }),
+        ) => {
+            URL.revokeObjectURL(state.explanationImage.preview);
+
+            return {
+                ...state,
+                explanationImage: null,
+            };
+        },
         setAnswersAmountAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetAnswersAmountAction,

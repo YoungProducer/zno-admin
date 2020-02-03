@@ -23,6 +23,10 @@ interface IOwnProps {
     uploadImageType: TUploadImageType;
     open: boolean;
     onClose: () => void;
+    setTaskImage: (file: File) => void;
+    setExplanationImage: (file: File) => void;
+    deleteTaskImage: () => void;
+    deleteExplanationImage: () => void;
 }
 
 interface IStateProps {
@@ -30,23 +34,23 @@ interface IStateProps {
     explanationImage: any;
 }
 
-interface IDispatchProps {
-    setTaskImage: (image: any) => void;
-    setExplanationImage: (image: any) => void;
-}
+// interface IDispatchProps {
+//     setTaskImage: (image: any) => void;
+//     setExplanationImage: (image: any) => void;
+// }
 
-export type TImageUploadModalProps = IOwnProps & IStateProps & IDispatchProps;
+export type TImageUploadModalProps = IOwnProps & IStateProps;
 
 const mapStateToProps = (state: RootState): IStateProps => ({
     ...selectTaskBuffer(state),
 });
 
-const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    setTaskImage: (image: any) => dispatch(setTaskImageAction(image)),
-    setExplanationImage: (image: any) => dispatch(setExplanationImageAction(image)),
-});
+// const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
+//     setTaskImage: (image: any) => dispatch(setTaskImageAction(image)),
+//     setExplanationImage: (image: any) => dispatch(setExplanationImageAction(image)),
+// });
 
-export default connect<IStateProps, IDispatchProps, IOwnProps>(
+export default connect<IStateProps, {}, IOwnProps>(
     mapStateToProps,
-    mapDispatchToProps,
+    // mapDispatchToProps,
 );

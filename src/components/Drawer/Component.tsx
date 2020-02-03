@@ -33,13 +33,13 @@ const drawerWidth: number = 240;
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
         display: 'flex',
+        height: `100vh`,
     },
     appBar: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         background: '#333',
-        // ...theme.mixins.toolbar,
         width: `calc(100% - ${theme.spacing(9) + 1}px)`,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
@@ -88,7 +88,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         },
     },
     drawerPaper: {
-        // borderColor: '#333',
         border: 'none',
     },
     panel: {
@@ -110,8 +109,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        borderRight: `1px solid rgba(0,0,0,0.12)`,
-        // marginLeft: theme.spacing(9) + 1,
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
