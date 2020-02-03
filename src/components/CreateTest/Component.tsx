@@ -11,6 +11,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import TaskConfigurations from './TaskConfigurations';
 import UploadImages from './UploadImages';
 import CreateTestActions from './CreateTestActions';
+import TasksList from 'components/TasksList';
 import { TCreateTestProps } from './container';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        position: 'relative',
     },
     title: {
         marginBottom: theme.spacing(2),
@@ -35,9 +37,10 @@ const Component = () => {
             elevation={3}
             className={classes.root}
         >
+            <TasksList />
             <Typography
                 variant='h4'
-                color='secondary'
+                color='primary'
                 className={classes.title}
             >
                 Створення завдань та тесту

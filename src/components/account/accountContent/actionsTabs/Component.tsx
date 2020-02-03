@@ -48,8 +48,8 @@ const ActionsTabs = ({ user }: ActionsTabsProps) => {
                 onChange={handleChange}
                 variant="scrollable"
                 scrollButtons="auto"
-                indicatorColor="secondary"
-                textColor="secondary"
+                indicatorColor="primary"
+                textColor="primary"
                 aria-label="scrollable account actions tabs"
             >
                 { user.role === 'ADMIN' && <Tab

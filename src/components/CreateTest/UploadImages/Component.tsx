@@ -75,7 +75,7 @@ const Component = ({
 
     return (
         <div className={classes.root}>
-            <Typography variant='h4' color='secondary' align='center'>
+            <Typography variant='h4' color='primary' align='center'>
                 Завантаження зображень
             </Typography>
             <Grid
@@ -94,7 +94,7 @@ const Component = ({
                         <div className={classes.buttonWrapper}>
                             <Button
                                 className={classes.button}
-                                color='secondary'
+                                color='primary'
                                 variant='outlined'
                                 onClick={() => {
                                     setUploadImageType('task');
@@ -114,7 +114,7 @@ const Component = ({
                                     }}
                                 >
                                     <CloseIcon
-                                        color='secondary'
+                                        color='primary'
                                     />
                                 </IconButton>
                             )}
@@ -124,7 +124,7 @@ const Component = ({
                         <div className={classes.buttonWrapper}>
                             <Button
                                 className={classes.button}
-                                color='secondary'
+                                color='primary'
                                 variant='outlined'
                                 onClick={() => {
                                     setUploadImageType('explanation');
@@ -144,7 +144,7 @@ const Component = ({
                                 }}
                                 >
                                     <CloseIcon
-                                        color='secondary'
+                                        color='primary'
                                     />
                                 </IconButton>
                             )}

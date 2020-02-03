@@ -64,7 +64,7 @@ const StyledMenu = withStyles({
 const StyledMenuItem = withStyles(theme => ({
     root: {
         '&:hover': {
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.palette.primary.dark,
             color: '#fff',
         },
     },
@@ -127,7 +127,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                 <Button
                     aria-controls="edit-profile-menu"
                     aria-haspopup="true"
-                    color="secondary"
+                    color="primary"
                     variant="outlined"
                     onClick={handleClick}
                     className={classes.button}
@@ -140,7 +140,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                     mountOnEnter
                 >
                     <Button
-                        color="secondary"
+                        color="primary"
                         variant="outlined"
                         disabled={userUpdateLoading}
                         onClick={() => {
@@ -157,7 +157,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                         { userUpdateLoading &&
                             <CircularProgress
                                 className={classes.circularProgress}
-                                color="secondary"
+                                color="primary"
                                 size="30px"
                             />
                         }
@@ -170,7 +170,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                     {...(hasChanges ? { timeout: 1000 } : {})}
                 >
                     <Button
-                        color="secondary"
+                        color="primary"
                         variant="outlined"
                         onClick={() => {
                             clearFields();
@@ -182,7 +182,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                 </Grow>
                 <Button
                     className={classes.hiddenButton}
-                    color="secondary"
+                    color="primary"
                     variant={logoutLoading ? 'outlined' : 'contained'}
                     disabled={logoutLoading}
                     onClick={() => fetchLogout()}
@@ -191,7 +191,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                     { logoutLoading &&
                         <CircularProgress
                             className={classes.circularProgress}
-                            color="secondary"
+                            color="primary"
                             size="30px"
                         />
                     }
@@ -247,7 +247,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                 <DialogContent>
                     {dialogAction === 'password' && <TextField
                         className={classes.textField}
-                        color="secondary"
+                        color="primary"
                         autoFocus
                         id="current-password"
                         label="Current password"
@@ -257,7 +257,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                     />}
                     <TextField
                         className={classes.textField}
-                        color="secondary"
+                        color="primary"
                         autoFocus={dialogAction !== 'password'}
                         id={dialogAction}
                         label={dialogAction[0].toUpperCase() + dialogAction.slice(1, dialogAction.length)}
@@ -285,7 +285,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                 </DialogContent>
                 <DialogActions>
                     <Button
-                        color="secondary"
+                        color="primary"
                         onClick={() => {
                             setOpenDialog(false);
                             clearFields();
@@ -294,7 +294,7 @@ const UserActions = ({ user, userUpdateLoading, logoutLoading, fetchUpdateUser, 
                         Cancel
                     </Button>
                     <Button
-                        color="secondary"
+                        color="primary"
                         onClick={() => {
                             setOpenDialog(false);
                         }}

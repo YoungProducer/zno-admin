@@ -65,7 +65,7 @@ const Component = ({
                 className={classes.textField}
                 label='Кількість відповідей'
                 type='number'
-                color='secondary'
+                color='primary'
                 value={answersAmount}
                 onChange={handleChangeAnswersAmount}
             />
@@ -74,7 +74,7 @@ const Component = ({
                     key={index}
                     className={classes.textField}
                     label={`Відповідь №${index + 1}`}
-                    color='secondary'
+                    color='primary'
                     type='text'
                     value={ans}
                     onChange={(event) => handleChangeAnswerById(index, event as React.ChangeEvent<HTMLInputElement>)}

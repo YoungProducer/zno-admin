@@ -86,7 +86,7 @@ const Component = ({
             elevation={3}
             className={className}
         >
-            <Typography variant='h4' color='secondary' className={classes.title}>
+            <Typography variant='h4' color='primary' className={classes.title}>
                 Налаштування тесту
             </Typography>
             <div className={classes.part}>
@@ -96,7 +96,7 @@ const Component = ({
                     list={subjects}
                     label='Назва предмету'
                     variant='standard'
-                    color='secondary'
+                    color='primary'
                 />
             </div>
             <div className={classes.part}>
@@ -118,7 +118,7 @@ const Component = ({
                         list={[]}
                         label='Під-предмет'
                         variant='standard'
-                        color='secondary'
+                        color='primary'
                     />
                 </Collapse>
             </div>
@@ -126,19 +126,19 @@ const Component = ({
                 <FormControl component='fieldset'>
                     <FormLabel
                         component='legend'
-                        color='secondary'
+                        color='primary'
                     >
                         Оберіть тип тесту
                     </FormLabel>
                     <RadioGroup value={testType} onChange={handleChangeTestType}>
                         <FormControlLabel
                             value={ETestTypes.THEMES}
-                            control={<Radio color='secondary'/>}
+                            control={<Radio color='primary'/>}
                             label='Підготовка по темам'
                         />
                         <FormControlLabel
                             value={ETestTypes.EXAM}
-                            control={<Radio color='secondary' disabled={withSubSubject}/>}
+                            control={<Radio color='primary' disabled={withSubSubject}/>}
                             label='ЗНО'
                         />
                     </RadioGroup>
@@ -149,7 +149,7 @@ const Component = ({
                         callback={setThemeName}
                         list={[]}
                         label='Назва теми'
-                        color='secondary'
+                        color='primary'
                         variant='standard'
                     />
                 </Collapse>
@@ -161,19 +161,19 @@ const Component = ({
                 <FormControl component='fieldset'>
                     <FormLabel
                         component='legend'
-                        color='secondary'
+                        color='primary'
                     >
                         Оберіть тип тесту
                     </FormLabel>
                     <RadioGroup value={examType} onChange={handleChangeExamType}>
                         <FormControlLabel
                             value={EExamTypes.TRAINING}
-                            control={<Radio color='secondary'/>}
+                            control={<Radio color='primary'/>}
                             label='Тренувальні варінти ЗНО'
                         />
                         <FormControlLabel
                             value={EExamTypes.PREV_SESSIONS}
-                            control={<Radio color='secondary' disabled={withSubSubject}/>}
+                            control={<Radio color='primary' disabled={withSubSubject}/>}
                             label='Попередні сессії ЗНО'
                         />
                     </RadioGroup>
@@ -183,7 +183,7 @@ const Component = ({
                     callback={setThemeName}
                     list={[]}
                     label='Назва'
-                    color='secondary'
+                    color='primary'
                     variant='standard'
                 />
             </Collapse>

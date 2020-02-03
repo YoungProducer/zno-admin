@@ -95,7 +95,7 @@ const SignUpModal = ({
     return (
         <div className={clasess.formWrapper}>
             <Typography
-                color="secondary"
+                color="primary"
                 variant="h4"
                 component="h1"
                 className={clasess.title}
@@ -173,7 +173,7 @@ const SignUpModal = ({
                 Already have an account?
                 <NavLink to='/auth/signin'>
                     <Link
-                        color="secondary"
+                        color="primary"
                         component="p"
                         className={clasess.link}
                     >

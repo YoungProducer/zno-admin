@@ -89,7 +89,7 @@ const SignInModal = ({ signIn, loading, userEmail }: ISignIn) => {
     return (
         <div className={clasess.formWrapper}>
             <Typography
-                color="secondary"
+                color="primary"
                 variant="h4"
                 component="h1"
                 className={clasess.title}
@@ -151,7 +151,7 @@ const SignInModal = ({ signIn, loading, userEmail }: ISignIn) => {
                 Don't have an account?
                 <NavLink to='/auth/signup'>
                     <Link
-                        color="secondary"
+                        color="primary"
                         component="p"
                         className={clasess.link}
                     >

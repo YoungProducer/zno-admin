@@ -93,7 +93,7 @@ const AdminSearch = ({
             <Divider className={classes.divider}/>
             <Button
                 className={classes.button}
-                color="secondary"
+                color="primary"
                 onClick={() => toggleSearch(!search)}
             >
                 {`${!search ? 'Give the roots' : 'Close'}`}
@@ -106,7 +106,7 @@ const AdminSearch = ({
                 <div className={classes.searchWrapper}>
                     <TextField
                         className={classes.textField}
-                        color="secondary"
+                        color="primary"
                         value={textFieldsValue}
                         onChange={event => {
                             setTextFieldValue(event.target.value);
@@ -117,7 +117,7 @@ const AdminSearch = ({
                                     { (findUserByEmailLoading || typing) &&
                                         <CircularProgress
                                             size="15px"
-                                            color="secondary"
+                                            color="primary"
                                         />
                                     }
                                 </InputAdornment>
@@ -142,7 +142,7 @@ const AdminSearch = ({
                     >
                         <>
                             <Divider className={classes.divider}/>
-                            <Typography variant="h5" color="secondary">
+                            <Typography variant="h5" color="primary">
                                 Selected user:
                             </Typography>
                             <Typography variant="h5">
@@ -152,7 +152,7 @@ const AdminSearch = ({
                             <TextField
                                 className={classes.textField}
                                 select
-                                color="secondary"
+                                color="primary"
                                 value={selectedRole}
                                 onChange={(event) => setSelectedRole(event.target.value)}
                             >
@@ -166,11 +166,11 @@ const AdminSearch = ({
                                 disabled={updateUserRootsLoading}
                                 className={classes.button}
                                 variant="outlined"
-                                color="secondary"
+                                color="primary"
                                 onClick={() => fetchUpdateUserRoots({ userId: selectedUser.id, newRole: selectedRole })}
                             >
                                 Update roots
-                                { updateUserRootsLoading && <CircularProgress color="secondary" className={classes.circularProgress} size="30px" />}
+                                { updateUserRootsLoading && <CircularProgress color="primary" className={classes.circularProgress} size="30px" />}
                             </Button>
                         </>
                     </Fade>

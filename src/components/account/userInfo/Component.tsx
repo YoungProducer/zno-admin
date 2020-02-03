@@ -66,7 +66,7 @@ const UserInfo = ({ email, userName, id, role }: User) => {
                             <span>User ID: {trimmedId}</span>
                         </CopyToClipboard>
                         <Fade in={copied}>
-                            <Typograhpy component="span" color="secondary">
+                            <Typograhpy component="span" color="primary">
                                 Copied!
                             </Typograhpy>
                         </Fade>

@@ -63,24 +63,24 @@ const Component = ({
             >
                 <FormLabel
                     component='legend'
-                    color='secondary'
+                    color='primary'
                 >
                     Оберіть тип завдання
                 </FormLabel>
                 <RadioGroup value={taskType} onChange={handleChangeTaskType}>
                     <FormControlLabel
                         value={ETaskType.ONE_RIGHT}
-                        control={<Radio color='secondary'/>}
+                        control={<Radio color='primary'/>}
                         label='Одна правильна відповідь'
                     />
                     <FormControlLabel
                         value={ETaskType.RELATIONS}
-                        control={<Radio color='secondary'/>}
+                        control={<Radio color='primary'/>}
                         label='Відношення'
                     />
                     <FormControlLabel
                         value={ETaskType.TEXT_FIELDS}
-                        control={<Radio color='secondary'/>}
+                        control={<Radio color='primary'/>}
                         label='Текстові відповіді'
                     />
                 </RadioGroup>
