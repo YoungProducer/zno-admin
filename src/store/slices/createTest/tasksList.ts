@@ -25,13 +25,15 @@ export interface ITask {
 
 interface ITaskListInitialState {
     tasks: ITask[];
+    tasksAmount: number;
 }
 
 const initialState: ITaskListInitialState = {
     tasks: [],
+    tasksAmount: 0,
 };
 
-interface IAddTaskPayload extends ITask {}
+export interface IAddTaskPayload extends Omit<ITask, 'id'> {}
 
 interface IAddTaskAction {
     payload: IAddTaskPayload;
@@ -42,16 +44,18 @@ interface IDeleteTaskAction {
     payload: number;
 }
 
+let id: number = 0;
+
 const tasksListSlice = createSlice({
     initialState,
-    name: 'TaskList',
+    name: 'TasksList',
     reducers: {
         addTaskAction: (
             state: ITaskListInitialState,
             { payload }: IAddTaskAction,
         ) => ({
             ...state,
-            tasks: state.tasks.concat(payload),
+            tasks: state.tasks.concat({ ...payload, id: id++ }),
         }),
         deleteTaskAction: (
             state: ITaskListInitialState,

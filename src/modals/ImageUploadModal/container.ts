@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import {
     setTaskImageAction,
     setExplanationImageAction,
+    deleteTaskImageAction,
+    deleteExplanationImageAction,
 } from 'store/slices/createTest';
 import {
     selectTaskBuffer,
@@ -23,10 +25,6 @@ interface IOwnProps {
     uploadImageType: TUploadImageType;
     open: boolean;
     onClose: () => void;
-    setTaskImage: (file: File) => void;
-    setExplanationImage: (file: File) => void;
-    deleteTaskImage: () => void;
-    deleteExplanationImage: () => void;
 }
 
 interface IStateProps {
@@ -34,23 +32,27 @@ interface IStateProps {
     explanationImage: any;
 }
 
-// interface IDispatchProps {
-//     setTaskImage: (image: any) => void;
-//     setExplanationImage: (image: any) => void;
-// }
+interface IDispatchProps {
+    setTaskImage: (file: File) => void;
+    setExplanationImage: (file: File) => void;
+    deleteTaskImage: () => void;
+    deleteExplanationImage: () => void;
+}
 
-export type TImageUploadModalProps = IOwnProps & IStateProps;
+export type TImageUploadModalProps = IOwnProps & IStateProps & IDispatchProps;
 
 const mapStateToProps = (state: RootState): IStateProps => ({
     ...selectTaskBuffer(state),
 });
 
-// const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-//     setTaskImage: (image: any) => dispatch(setTaskImageAction(image)),
-//     setExplanationImage: (image: any) => dispatch(setExplanationImageAction(image)),
-// });
+const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
+    setTaskImage: (image: any) => dispatch(setTaskImageAction(image)),
+    setExplanationImage: (image: any) => dispatch(setExplanationImageAction(image)),
+    deleteTaskImage: () => dispatch(deleteTaskImageAction()),
+    deleteExplanationImage: () => dispatch(deleteExplanationImageAction()),
+});
 
-export default connect<IStateProps, {}, IOwnProps>(
+export default connect<IStateProps, IDispatchProps, IOwnProps>(
     mapStateToProps,
-    // mapDispatchToProps,
+    mapDispatchToProps,
 );

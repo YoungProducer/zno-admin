@@ -10,6 +10,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // Application's imports
 import TaskConfigurations from './TaskConfigurations';
 import UploadImages from './UploadImages';
+import CreateTestActions from './CreateTestActions';
 import { TCreateTestProps } from './container';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -25,50 +26,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const Component = ({
-    setTaskImage,
-    setExplanationImage,
-    deleteTaskImage,
-    deleteExplanationImage,
-}: TCreateTestProps) => {
+const Component = () => {
     // Declare and define classes.
     const classes = useStyles({});
-
-    // Store task image until the task will be added to global list.
-    const [bufferTaskImage, setBufferTaskImage] = useState<File>(null);
-    const handleSetTaskImage = (file: File) => {
-        // Set image to local state
-        setBufferTaskImage(file);
-        // Set image to global store
-        setTaskImage(file);
-    };
-    const handleDeleteTaskImage = () => {
-        // Delete image from local state
-        setBufferTaskImage(null);
-        // Delete image from global store
-        deleteTaskImage();
-    };
-    // Store explanation image until the task will be added to global list.
-    const [bufferExplanationImage, setBufferExplanationImage] = useState<File>();
-    const handleSetExplanationImage = (file: File) => {
-        // Set image to local state
-        setBufferExplanationImage(file);
-        // Set image to global store
-        setExplanationImage(file);
-    };
-    const handleDeleteExplanationImage = () => {
-        // Delete image from local storage
-        setBufferExplanationImage(null);
-        // Delete image from global store
-        deleteExplanationImage();
-    };
-
-    const [imagesList, setImagesList] = useState<File[]>([]);
-    const handleAddImageToList = (file: File) => {
-        setImagesList(imagesList.concat(file));
-    };
-
-    // const delete
 
     return (
         <Paper
@@ -84,6 +44,7 @@ const Component = ({
             </Typography>
             <TaskConfigurations />
             <UploadImages />
+            <CreateTestActions />
         </Paper>
     );
 };

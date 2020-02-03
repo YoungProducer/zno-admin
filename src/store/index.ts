@@ -20,9 +20,18 @@ const midlleware = getDefaultMiddleware({
             // This actions work with File's. To prevent error about non-serializable values needed to ignore its.
             'TaskBuffer/setTaskImageAction',
             'TaskBuffer/setExplanationImageAction',
+            'TasksList/addTaskAction',
+            'TasksList/deleteTaskAction',
+        ],
+        ignoredPaths: [
+            'createTest.taskBuffer.taskImage',
+            'createTest.taskBuffer.explanationImage',
+            'createTest.tasksList.tasks',
         ],
     }),
-    immutableCheck: true,
+    immutableCheck: ({
+        ignore: ['createTest'],
+    }),
 });
 
 const logger = createLogger({

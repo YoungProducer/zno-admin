@@ -10,15 +10,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Application's imports
-import { ITask } from 'store/slices/createTest';
+// import { ITask } from 'store/slices/createTest';
 import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
+import { ITask } from './tasksList';
 
-export interface IImage {
-    name: string;
+export interface IImage extends File {
     preview: string;
 }
 
-interface ITaskBufferInitialState extends Omit<ITask, 'id'> {
+export interface ITaskBufferInitialState extends Omit<ITask, 'id'> {
     /**
      * Related only to text answer.
      * Responsible for amount of text answers.
@@ -35,11 +35,11 @@ interface ISetTaskAnswerAction {
 }
 
 interface ISetTaskImageAction {
-    payload: any;
+    payload: File;
 }
 
 interface ISetExplanationImageAction {
-    payload: any;
+    payload: File;
 }
 
 interface ISetAnswersAmountAction {
@@ -93,14 +93,12 @@ const taskBufferSlice = createSlice({
             { payload }: ISetTaskImageAction,
         ) => ({
             ...state,
-            taskImage: {
-                name: payload.name,
-                preview: URL.createObjectURL(payload),
-            },
+            taskImage: Object.assign(payload, { preview: URL.createObjectURL(payload) }),
         }),
         deleteTaskImageAction: (
             state: ITaskBufferInitialState,
         ) => {
+            // Delete reference to this object in browser to prevent memory leak
             URL.revokeObjectURL(state.taskImage.preview);
 
             return {
@@ -113,14 +111,12 @@ const taskBufferSlice = createSlice({
             { payload }: ISetExplanationImageAction,
         ) => ({
             ...state,
-            explanationImage: {
-                name: payload.name,
-                preview: URL.createObjectURL(payload),
-            },
+            explanationImage: Object.assign(payload, { preview: URL.createObjectURL(payload) }),
         }),
         deleteExplanationImageAction: (
             state: ITaskBufferInitialState,
         ) => {
+            // Delete reference to this object in browser to prevent memory leak
             URL.revokeObjectURL(state.explanationImage.preview);
 
             return {
@@ -155,6 +151,12 @@ const taskBufferSlice = createSlice({
                 answersAmount: payload,
             };
         },
+        /**
+         * Set all properties to default
+         */
+        clearTaskBufferAction: () => ({
+            ...initialState,
+        }),
     },
 });
 
@@ -166,6 +168,7 @@ export const {
     setExplanationImageAction,
     deleteTaskImageAction,
     setAnswersAmountAction,
+    clearTaskBufferAction,
 } = taskBufferSlice.actions;
 
 export default taskBufferSlice.reducer;

@@ -68,6 +68,8 @@ const DialogActions = withStyles((theme: Theme) => ({
 const Component = ({
     setTaskImage,
     setExplanationImage,
+    deleteTaskImage,
+    deleteExplanationImage,
     taskImage,
     explanationImage,
     uploadImageType,
@@ -95,6 +97,15 @@ const Component = ({
         accept: 'image/*,.svg',
         multiple: false,
     });
+
+    const handleDeleteImage = () => {
+        if (uploadImageType === 'task') {
+            deleteTaskImage();
+        }
+        if (uploadImageType === 'explanation') {
+            deleteExplanationImage();
+        }
+    };
 
     return (
         <Dialog
@@ -140,6 +151,19 @@ const Component = ({
                         Завантажити
                     </Button>
                 </div>
+                {
+                    ((taskImage && uploadImageType === 'task') ||
+                    (explanationImage && uploadImageType === 'explanation')) &&
+                    (
+                        <Button
+                            variant='outlined'
+                            color='primary'
+                            onClick={handleDeleteImage}
+                        >
+                            Видалити
+                        </Button>
+                    )
+                }
                 <Button
                     variant='outlined'
                     color='primary'
