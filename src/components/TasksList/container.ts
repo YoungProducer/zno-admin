@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import { selectTasksList } from 'store/selectors/createTest';
+import { deleteTaskAction } from 'store/slices/createTest';
 import { ITask } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
 
@@ -30,7 +31,9 @@ interface IStateProps {
 /**
  * Props(actions) which component can dispatch to store
  */
-interface IDispatchProps {}
+interface IDispatchProps {
+    deleteTask: (id: number) => void;
+}
 
 /**
  * Define type which describe all props which component get from the parent or from the store.
@@ -38,11 +41,19 @@ interface IDispatchProps {}
 export type TTasksListProps = IOwnProps & IStateProps & IDispatchProps;
 
 /**
- * Define mapStateToPropsFunction.
- * This function will connect actions to the component.
+ * Define mapStateToProps function.
+ * This function will connect variables from redux store to the component.
  */
 const mapStateToProps = (state: RootState): IStateProps => ({
     tasksList: selectTasksList(state),
+});
+
+/**
+ * Define mapDispatchToProps function.
+ * This function will connect actions to the component.
+ */
+const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
+    deleteTask: (id: number) => dispatch(deleteTaskAction(id)),
 });
 
 /**
@@ -50,4 +61,5 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  */
 export default connect<IStateProps, IDispatchProps, IOwnProps>(
     mapStateToProps,
+    mapDispatchToProps,
 );

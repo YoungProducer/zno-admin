@@ -15,18 +15,64 @@ import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Collapse from '@material-ui/core/Collapse';
 import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { TransitionProps } from '@material-ui/core/transitions';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme, withStyles } from '@material-ui/core/styles';
 
 // Application's imports
+import TaskInfo from './TaskInfo';
 import { TTasksListProps } from './container';
+
+const ExpansionPanel = withStyles({
+    root: {
+        border: '1px solid rgba(0, 0, 0, .125)',
+        boxShadow: 'none',
+        '&:not(:last-child)': {
+            borderBottom: 0,
+        },
+        '&:before': {
+            display: 'none',
+        },
+        '&$expanded': {
+            margin: 'auto',
+        },
+    },
+    expanded: {},
+})(MuiExpansionPanel);
+
+const ExpansionPanelSummary = withStyles({
+    root: {
+        backgroundColor: 'rgba(0, 0, 0, .03)',
+        borderBottom: '1px solid rgba(0, 0, 0, .125)',
+        marginBottom: -1,
+        minHeight: 56,
+        '&$expanded': {
+            minHeight: 56,
+        },
+    },
+    content: {
+        '&$expanded': {
+            margin: '12px 0',
+        },
+    },
+    expanded: {},
+})(MuiExpansionPanelSummary);
+
+const ExpansionPanelDetails = withStyles(theme => ({
+    root: {
+        padding: theme.spacing(2),
+    },
+}))(MuiExpansionPanelDetails);
 
 // Define classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -35,8 +81,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         borderRadius: 5,
         border: `2px solid #eee`,
         width: `100%`,
-        minHeight: 80,
         padding: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     appBar: {
         position: 'relative',
@@ -46,7 +92,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         flex: 1,
     },
     innerWrapper: {
-        height: 40,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -63,11 +108,18 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 
 const Component = ({
     tasksList,
+    deleteTask,
 }: TTasksListProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
 
     const [tasksAmountString, setTasksAmountString] = useState<string>('');
+
+    const [expanded, setExpanded] = React.useState<string | false>(false);
+
+    const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, newExpanded: boolean) => {
+        setExpanded(newExpanded ? panel : false);
+    };
 
     const [openList, toggleOpenList] = useState<boolean>(false);
     const handleOpenList = () => toggleOpenList(true);
@@ -86,26 +138,30 @@ const Component = ({
     },        [tasksList]);
 
     return (
-        <Collapse
-            in={tasksList.length !== 0}
-            className={classes.root}
-        >
-            <Box className={classes.innerWrapper}>
-                <Typography
-                    variant='h6'
-                    color='primary'
-                >
-                    {tasksAmountString}
-                </Typography>
-                <Button
-                    color='primary'
-                    variant='contained'
-                    disableElevation
-                    onClick={handleOpenList}
-                >
-                    Переглянути
-                </Button>
-            </Box>
+        <>
+            <Collapse
+                in={tasksList.length !== 0}
+                className={classes.root}
+                mountOnEnter
+                unmountOnExit
+            >
+                <Box className={classes.innerWrapper}>
+                    <Typography
+                        variant='h6'
+                        color='primary'
+                    >
+                        {tasksAmountString}
+                    </Typography>
+                    <Button
+                        color='primary'
+                        variant='contained'
+                        disableElevation
+                        onClick={handleOpenList}
+                    >
+                        Переглянути
+                    </Button>
+                </Box>
+            </Collapse>
             <Dialog
                 fullScreen
                 open={openList}
@@ -123,16 +179,17 @@ const Component = ({
                 </AppBar>
                 <List>
                     {tasksList.map((task, index) => (
-                        <ListItem key={index}>
-                            <ListItemText>
-                                {task.taskImage.name}
-                            </ListItemText>
-                            <Divider />
-                        </ListItem>
+                        <TaskInfo
+                            key={index}
+                            task={task}
+                            index={index}
+                            expanded={expanded}
+                            onChange={handleChange}
+                        />
                     ))}
                 </List>
             </Dialog>
-        </Collapse>
+        </>
     );
 };
 
