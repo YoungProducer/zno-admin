@@ -8,5 +8,9 @@
 
 // Application's imports
 import Component from './Component';
+import container from './container';
 
-export default Component;
+/**
+ * Connect actions and variables from the store to the component.
+ */
+export default container(Component);

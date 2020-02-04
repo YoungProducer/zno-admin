@@ -7,7 +7,7 @@
  */
 
 // External imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
@@ -26,6 +26,7 @@ import { TransitionProps } from '@material-ui/core/transitions';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
+import { TTasksListProps } from './container';
 
 // Define classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -60,18 +61,33 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Component = () => {
+const Component = ({
+    tasksList,
+}: TTasksListProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
+
+    const [tasksAmountString, setTasksAmountString] = useState<string>('');
 
     const [openList, toggleOpenList] = useState<boolean>(false);
     const handleOpenList = () => toggleOpenList(true);
     const handleCloseList = () => toggleOpenList(false);
     const handleToggleList = () => openList ? handleCloseList() : handleOpenList();
 
+    useEffect(() => {
+        let lastWord = '';
+
+        if (tasksList.length <= 4) lastWord = 'завдання';
+        if (tasksList.length > 4 && tasksList.length <= 20) lastWord = 'завдань';
+        if (tasksList.length > 20 && tasksList.length % 10 === 1 || 2 || 3 || 4) lastWord = 'завдання';
+        else lastWord = 'завдань';
+
+        setTasksAmountString(`Створено ${tasksList.length} ${lastWord}`);
+    },        [tasksList]);
+
     return (
         <Collapse
-            in={true}
+            in={tasksList.length !== 0}
             className={classes.root}
         >
             <Box className={classes.innerWrapper}>
@@ -79,7 +95,7 @@ const Component = () => {
                     variant='h6'
                     color='primary'
                 >
-                    Створено 15 завдань
+                    {tasksAmountString}
                 </Typography>
                 <Button
                     color='primary'
@@ -106,12 +122,14 @@ const Component = () => {
                     </Toolbar>
                 </AppBar>
                 <List>
-                    <ListItem>
-                        <ListItemText>
-                            Номер 1
-                        </ListItemText>
-                    </ListItem>
-                    <Divider />
+                    {tasksList.map((task, index) => (
+                        <ListItem key={index}>
+                            <ListItemText>
+                                {task.taskImage.name}
+                            </ListItemText>
+                            <Divider />
+                        </ListItem>
+                    ))}
                 </List>
             </Dialog>
         </Collapse>
