@@ -11,16 +11,31 @@ import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
 import { IImage } from './taskBuffer';
 
 export interface ITask {
-    // Unique id to correct editing and deleting
+    /**
+     * Unique id to correct editing and deleting.
+     */
     id: number;
-    // Define type of task: single answer, relation or text answers
+    /**
+     * Define type of task: single answer, relation or text answers.
+     */
     taskType: ETaskType;
-    // Contain answer related to task type
+    /**
+     * Contain answer related to task type.
+     */
     answer: number | any[];
-    // Contain only name of file and preview string
+    /**
+     * Contain only name of file and preview string.
+     */
     taskImage: IImage;
-    // Contain only name of file and preview string
+    /**
+     * Contain only name of file and preview string.
+     */
     explanationImage: IImage;
+    /**
+     * Related only to text answer.
+     * Responsible for amount of text answers.
+     */
+    answersAmount: number;
 }
 
 interface ITaskListInitialState {

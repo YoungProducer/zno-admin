@@ -16,8 +16,12 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles, makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
+import OneRightAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelection/OneRightAnswer';
+import RelationAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelection/RelationAnswer';
+import TextAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelection/TextAnswer';
 import { ITask } from 'store/slices/createTest';
 import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
+import { TTaskInfoProps } from './container';
 
 // Define classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -98,12 +102,16 @@ const Component = ({
     expanded,
     index,
     onChange,
-}: ITaskInfoProps) => {
+    ...other
+}: TTaskInfoProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
 
+    const { taskType, answer, answersAmount } = task;
+
     return (
         <ExpansionPanel
+            component='li'
             square
             expanded={expanded === `panel${task.id}`}
             onChange={onChange(`panel${task.id}`)}
@@ -130,19 +138,48 @@ const Component = ({
                                 : 'текстова відповідь'
                             }
                         </Typography>
+                        {taskType === ETaskType.ONE_RIGHT && (
+                            <OneRightAnswer
+                                answer={answer}
+                                answersAmount={answersAmount}
+                                {...other}
+                            />
+                        )}
+                        {taskType === ETaskType.RELATIONS && (
+                            <RelationAnswer
+                                answer={answer}
+                                answersAmount={answersAmount}
+                                {...other}
+                            />
+                        )}
+                        {taskType === ETaskType.TEXT_FIELDS && (
+                            <TextAnswer
+                                answer={answer}
+                                answersAmount={answersAmount}
+                                {...other}
+                            />
+                        )}
                     </Grid>
                     <Grid item>
                         <div className={classes.imageWrapper}>
                             <Typography>
                                 Зображення завдання: {!task.taskImage && 'зображення не завантажено.'}
                             </Typography>
-                            { task.taskImage && <img src={task.taskImage.preview} className={classes.img} /> }
+                            {
+                                expanded === `panel${task.id}`
+                                && task.taskImage
+                                && <img src={task.taskImage.preview} className={classes.img} />
+                            }
                         </div>
                         <div className={classes.imageWrapper}>
                             <Typography>
                                 Зображення пояснення: {!task.explanationImage && 'зображення не завантажено.'}
                             </Typography>
-                            { task.explanationImage && <img src={task.explanationImage.preview} className={classes.img} /> }
+                            {
+                                expanded === `panel${task.id}`
+                                && task.explanationImage
+                                && <img src={task.explanationImage.preview} className={classes.img} />
+                            }
                         </div>
                     </Grid>
                 </Grid>

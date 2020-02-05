@@ -24,7 +24,7 @@ interface IStateProps {
 
 interface IDispatchProps {
     setTaskAnswer: (answer: number | any[]) => void;
-    setAnswerAmount: (amount: number) => void;
+    setAnswersAmount: (amount: number) => void;
 }
 
 export type TAnswerSelectionProps = IOwnProps & IStateProps & IDispatchProps;
@@ -37,7 +37,7 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
     setTaskAnswer: (answer: number | any[]) => dispatch(setTaskAnswerAction(answer)),
-    setAnswerAmount: (amount: number) => dispatch(setAnswersAmountAction(amount)),
+    setAnswersAmount: (amount: number) => dispatch(setAnswersAmountAction(amount)),
 });
 
 export default connect<IStateProps, IDispatchProps, IOwnProps>(
