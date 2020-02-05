@@ -42,6 +42,34 @@ export enum ETaskType {
     'TEXT_FIELDS' = '2',
 }
 
+interface ITypeSelector {
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    value: ETaskType;
+}
+
+export const TypeSelector = ({
+    value,
+    onChange,
+}: ITypeSelector) => (
+    <RadioGroup value={value} onChange={onChange}>
+        <FormControlLabel
+            value={ETaskType.ONE_RIGHT}
+            control={<Radio color='primary'/>}
+            label='Одна правильна відповідь'
+        />
+        <FormControlLabel
+            value={ETaskType.RELATIONS}
+            control={<Radio color='primary'/>}
+            label='Відношення'
+        />
+        <FormControlLabel
+            value={ETaskType.TEXT_FIELDS}
+            control={<Radio color='primary'/>}
+            label='Текстові відповіді'
+        />
+    </RadioGroup>
+);
+
 const Component = ({
     taskType,
     setTaskType,
@@ -49,8 +77,6 @@ const Component = ({
     // Declare and define classes
     const classes = useStyles({});
 
-    // Declare task type var and set it by default to '0'(One right answer)
-    // const [taskType, setTaskType] = useState<string>(ETaskType.ONE_RIGHT);
     // Handle change in radio group
     const handleChangeTaskType = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTaskType((event.target as HTMLInputElement).value as ETaskType);
@@ -67,23 +93,10 @@ const Component = ({
                 >
                     Оберіть тип завдання
                 </FormLabel>
-                <RadioGroup value={taskType} onChange={handleChangeTaskType}>
-                    <FormControlLabel
-                        value={ETaskType.ONE_RIGHT}
-                        control={<Radio color='primary'/>}
-                        label='Одна правильна відповідь'
-                    />
-                    <FormControlLabel
-                        value={ETaskType.RELATIONS}
-                        control={<Radio color='primary'/>}
-                        label='Відношення'
-                    />
-                    <FormControlLabel
-                        value={ETaskType.TEXT_FIELDS}
-                        control={<Radio color='primary'/>}
-                        label='Текстові відповіді'
-                    />
-                </RadioGroup>
+                <TypeSelector
+                    value={taskType}
+                    onChange={handleChangeTaskType}
+                />
             </FormControl>
             <div className={classes.answerWrapper}>
                 <AnswerSelection

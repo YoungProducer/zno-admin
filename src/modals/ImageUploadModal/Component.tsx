@@ -80,13 +80,11 @@ const Component = ({
     const classes = useStyles({});
 
     const onDrop = useCallback((acceptedFiles: any[]) => {
-        console.log(uploadImageType);
         if (uploadImageType === 'task') {
             const file = acceptedFiles[0];
             setTaskImage(Object.assign(file, { preview: URL.createObjectURL(file) }));
         }
         if (uploadImageType === 'explanation') {
-            console.log('explanation');
             const file = acceptedFiles[0];
             setExplanationImage(Object.assign(file, { preview: URL.createObjectURL(file) }));
         }

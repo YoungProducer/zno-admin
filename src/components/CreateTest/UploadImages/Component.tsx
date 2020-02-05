@@ -161,6 +161,12 @@ const Component = ({
                 uploadImageType={uploadImageType}
                 open={openModal}
                 onClose={handleCloseModal}
+                deleteTaskImage={deleteTaskImage}
+                deleteExplanationImage={deleteExplanationImage}
+                setTaskImage={setTaskImage}
+                setExplanationImage={setExplanationImage}
+                taskImage={taskImage}
+                explanationImage={explanationImage}
             />
         </div>
     );

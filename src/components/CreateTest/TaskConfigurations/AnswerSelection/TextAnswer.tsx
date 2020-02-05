@@ -31,7 +31,7 @@ const Component = ({
     answer,
     setTaskAnswer,
     answersAmount,
-    setAnswerAmount,
+    setAnswersAmount,
 }: TAnswerProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
@@ -51,7 +51,7 @@ const Component = ({
         // Extract value from event
         const value = Number((event.target as HTMLInputElement).value);
         // If value lower than 0 equal it to 0
-        setAnswerAmount(value < 0 ? 0 : value);
+        setAnswersAmount(value < 0 ? 0 : value);
     };
 
     return (

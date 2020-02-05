@@ -9,3 +9,5 @@
 import { RootState } from 'store/slices';
 
 export const selectTasksList = (state: RootState) => state.createTest.tasksList.tasks;
+
+export const selectTasksListEditionMode = (state: RootState) => state.createTest.tasksList.editionMode;

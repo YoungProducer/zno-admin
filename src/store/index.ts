@@ -22,6 +22,8 @@ const midlleware = getDefaultMiddleware({
             'TaskBuffer/setExplanationImageAction',
             'TasksList/addTaskAction',
             'TasksList/deleteTaskAction',
+            'TasksList/changeTaskImageAction',
+            'TasksList/changeExplanationImageAction',
         ],
         ignoredPaths: [
             'createTest.taskBuffer.taskImage',
