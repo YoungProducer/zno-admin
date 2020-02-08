@@ -5,3 +5,4 @@
 // Export all selectors
 
 export * from './createTest';
+export * from './signin';

@@ -8,6 +8,9 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import isemail from 'isemail';
 
+// Application's imports
+import { TSignInProps } from './container';
+
 const useStyles = makeStyles((theme: Theme) => createStyles({
     formWrapper: {
         background: '#fff',
@@ -52,37 +55,29 @@ interface ISignIn {
     signIn: Function;
 }
 
-const SignInModal = ({ signIn, loading, userEmail }: ISignIn) => {
+const SignInModal = ({
+    signIn,
+    loading,
+    isInvalidCredentials,
+    invalidFields,
+    invalidFieldsMessages,
+    clearSignInInvalidFields,
+    clearSignInInvalidFieldsMessages,
+    // userEmail
+}: TSignInProps) => {
     const clasess = useStyles();
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const [invalidFields, setInvalidFields] = useState<boolean>(false);
-    const [emailInvalid, setEmailInvalid] = useState<boolean>(false);
-    const [passwordInvalid, setPasswordInvalid] = useState<boolean>(false);
-
-    const [emailInvalidMessage, setEmailInvalidMessage] = useState<string>('');
-    const [passwordInvalidMessage, setPasswordInvalidMessage] = useState<string>('Password must be minimum 8 chars.');
-
-    useEffect(() => {
-        setEmail(userEmail || '');
-    },        [userEmail]);
-
-    const send = () => {
-        if (!isemail.validate(email)) {
-            setEmailInvalid(true);
-            setEmailInvalidMessage('Invalid email pattern!');
-            setInvalidFields(true);
-        }
-        if (password.length < 8) {
-            setPasswordInvalid(true);
-            setPasswordInvalidMessage('To short password');
-            setInvalidFields(true);
-        }
-
-        if (!invalidFields) {
-            signIn({ email, password });
+    /**
+     * Function which clear errors and mark all fields as non-invalid.
+     * Added condition to prevent big amount of actions calls.
+     */
+    const handleClear = () => {
+        if (isInvalidCredentials) {
+            clearSignInInvalidFields();
+            clearSignInInvalidFieldsMessages();
         }
     };
 
@@ -94,55 +89,52 @@ const SignInModal = ({ signIn, loading, userEmail }: ISignIn) => {
                 component="h1"
                 className={clasess.title}
             >
-                Sign In
+                Вхід
             </Typography>
             <TextField
                 value={email}
                 onChange={event => {
                     setEmail(event.target.value);
-                    setEmailInvalid(false);
-                    setEmailInvalidMessage('');
-                    setInvalidFields(false);
+                    handleClear();
                 }}
                 type="email"
-                label="Email"
+                label="Емеїл"
                 color="primary"
                 variant="standard"
-                error={emailInvalid}
-                helperText={emailInvalidMessage}
+                error={invalidFields.email}
+                helperText={invalidFieldsMessages.email}
                 className={clasess.textField}
             />
             <TextField
                 value={password}
                 onChange={event => {
                     setPassword(event.target.value);
-                    setPasswordInvalid(false);
-                    setPasswordInvalidMessage('Password must be minimum 8 chars.');
-                    setInvalidFields(false);
+                    handleClear();
                 }}
                 type="password"
-                label="Password"
+                label="Пароль"
                 color="primary"
                 variant="standard"
-                error={passwordInvalid}
-                helperText={passwordInvalidMessage}
+                error={invalidFields.password}
+                helperText={invalidFieldsMessages.password}
                 className={clasess.textField}
             />
             <Button
                 disabled={loading}
+                disableElevation
                 variant={loading ? 'outlined' : 'contained'}
                 className={clasess.button}
                 color="primary"
-                onClick={send}
+                onClick={() => signIn({ email, password })}
             >
-                Sign In
+                Увійти
                 {loading && <CircularProgress
                     className={clasess.circularProgress}
                     color="primary"
-                    size="30px"
+                    size="24px"
                 />}
             </Button>
-            <Typography
+            {/* <Typography
                 color="primary"
                 // variant="h4"
                 component="div"
@@ -158,7 +150,7 @@ const SignInModal = ({ signIn, loading, userEmail }: ISignIn) => {
                         Sign up!
                     </Link>
                 </NavLink>
-            </Typography>
+            </Typography> */}
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, NavLink, Redirect, HashRouter } from 'react-router-dom';
 
 import SignUpModal from '../auth/signUp';
-import SignInModal from '../auth/signIn';
+import SignInModal from '../SignIn';
 import Account from '../account';
 
 interface IRoutes {

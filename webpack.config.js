@@ -16,6 +16,7 @@ module.exports = {
       types: path.resolve(__dirname, 'src/types'),
       utils: path.resolve(__dirname, 'src/utils'),
       modals: path.resolve(__dirname, 'src/modals'),
+      api: path.resolve(__dirname, 'src/api'),
     }
   },
   output: {
