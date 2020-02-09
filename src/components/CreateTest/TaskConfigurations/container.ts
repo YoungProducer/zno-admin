@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import {
-    setTaskTypeAction,
+    setBufferTaskTypeAction,
 } from 'store/slices/createTest/taskBuffer';
 import {
     selectTaskBuffer,
@@ -34,7 +34,7 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    setTaskType: (type: ETaskType) => dispatch(setTaskTypeAction(type)),
+    setTaskType: (type: ETaskType) => dispatch(setBufferTaskTypeAction(type)),
 });
 
 export default connect<IStateProps, IDispatchProps, IOwnProps>(

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // import Routes from './components/routes';
 // import Drawer from './components/Drawer';
 
-import Routes from './routes';
+import Routes from './containers/routes';
 
 interface IApp {
     loggedIn: boolean;

@@ -22,6 +22,11 @@ const theme = createMuiTheme({
                 color: '#333',
             },
         },
+        MuiFormHelperText: {
+            root: {
+                fontSize: '0.9rem',
+            },
+        },
     },
     typography: {
         h5: {

@@ -9,10 +9,10 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import {
-    setTaskImageAction,
-    setExplanationImageAction,
-    deleteTaskImageAction,
-    deleteExplanationImageAction,
+    setBufferTaskImageAction,
+    setBufferExplanationImageAction,
+    deleteBufferTaskImageAction,
+    deleteBufferExplanationImageAction,
 } from 'store/slices/createTest';
 
 // Props which component get from parent
@@ -32,10 +32,10 @@ export type TCreateTestProps = IOwnProps & IDispatchProps;
 // Define mapDispatchToProps function
 // Connect actions related to this component
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    setTaskImage: (file: File) => dispatch(setTaskImageAction(file)),
-    setExplanationImage: (file: File) => dispatch(setExplanationImageAction(file)),
-    deleteTaskImage: () => dispatch(deleteTaskImageAction()),
-    deleteExplanationImage: () => dispatch(deleteExplanationImageAction()),
+    setTaskImage: (file: File) => dispatch(setBufferTaskImageAction(file)),
+    setExplanationImage: (file: File) => dispatch(setBufferExplanationImageAction(file)),
+    deleteTaskImage: () => dispatch(deleteBufferTaskImageAction()),
+    deleteExplanationImage: () => dispatch(deleteBufferExplanationImageAction()),
 });
 
 // Create function which connect state and actions to the component

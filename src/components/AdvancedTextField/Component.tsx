@@ -43,12 +43,14 @@ interface IAdvancedTextFieldProps extends StandardTextFieldProps {
     list: string[];
     value: string;
     callback: (value: string) => void;
+    addCallback?: () => void;
 }
 
 const Component = ({
     value,
     list,
     callback,
+    addCallback,
     ...other
 }: IAdvancedTextFieldProps) => {
     const classes = useStyles({});
@@ -86,9 +88,12 @@ const Component = ({
                         </Zoom>
                     ),
                     startAdornment: (
-                        <Zoom in={!itemExists && value.length !== 0} mountOnEnter unmountOnExit>
+                        <Zoom in={addCallback && !itemExists && value.length !== 0} mountOnEnter unmountOnExit>
                             <InputAdornment position='start'>
-                                <IconButton size='small'>
+                                <IconButton
+                                    size='small'
+                                    onClick={addCallback}
+                                >
                                     <AddIcon />
                                 </IconButton>
                             </InputAdornment>

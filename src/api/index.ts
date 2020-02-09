@@ -18,6 +18,7 @@ import { FetchUpdateUserRootsCredentials } from '../types/store/actionsCreators/
 import {
     IApi,
     ISignInCredentials,
+    ICreateSubjectCredentials,
 } from './types';
 
 class Api implements IApi {
@@ -86,6 +87,22 @@ class Api implements IApi {
             {
                 data: credentials,
             },
+            { withCredentials: true },
+        )
+
+    /**
+     * Tasks and subjects
+     */
+    getSubjectsNames = async() =>
+        await this.axiosInstance.get(
+            '/tasks/subjects/names',
+            { withCredentials: true },
+        )
+
+    createSubject = async (credentials: ICreateSubjectCredentials) =>
+        await this.axiosInstance.post(
+            '/tasks/subjects',
+            { ...credentials },
             { withCredentials: true },
         )
 }

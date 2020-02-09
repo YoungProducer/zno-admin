@@ -58,7 +58,7 @@ const taskBufferSlice = createSlice({
     initialState,
     name: 'TaskBuffer',
     reducers: {
-        setTaskTypeAction: (
+        setBufferTaskTypeAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetTaskTypeAction,
         ) => {
@@ -81,21 +81,21 @@ const taskBufferSlice = createSlice({
                 answersAmount: 1,
             };
         },
-        setTaskAnswerAction: (
+        setBufferTaskAnswerAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetTaskAnswerAction,
         ) => ({
             ...state,
             answer: payload,
         }),
-        setTaskImageAction: (
+        setBufferTaskImageAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetTaskImageAction,
         ) => ({
             ...state,
             taskImage: Object.assign(payload, { preview: URL.createObjectURL(payload) }),
         }),
-        deleteTaskImageAction: (
+        deleteBufferTaskImageAction: (
             state: ITaskBufferInitialState,
         ) => {
             // Delete reference to this object in browser to prevent memory leak
@@ -106,14 +106,14 @@ const taskBufferSlice = createSlice({
                 taskImage: null,
             };
         },
-        setExplanationImageAction: (
+        setBufferExplanationImageAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetExplanationImageAction,
         ) => ({
             ...state,
             explanationImage: Object.assign(payload, { preview: URL.createObjectURL(payload) }),
         }),
-        deleteExplanationImageAction: (
+        deleteBufferExplanationImageAction: (
             state: ITaskBufferInitialState,
         ) => {
             // Delete reference to this object in browser to prevent memory leak
@@ -124,7 +124,7 @@ const taskBufferSlice = createSlice({
                 explanationImage: null,
             };
         },
-        setAnswersAmountAction: (
+        setBufferAnswersAmountAction: (
             state: ITaskBufferInitialState,
             { payload }: ISetAnswersAmountAction,
         ) => {
@@ -161,13 +161,13 @@ const taskBufferSlice = createSlice({
 });
 
 export const {
-    setTaskTypeAction,
-    setTaskAnswerAction,
-    setTaskImageAction,
-    deleteExplanationImageAction,
-    setExplanationImageAction,
-    deleteTaskImageAction,
-    setAnswersAmountAction,
+    setBufferTaskTypeAction,
+    setBufferTaskAnswerAction,
+    setBufferTaskImageAction,
+    deleteBufferExplanationImageAction,
+    setBufferExplanationImageAction,
+    deleteBufferTaskImageAction,
+    setBufferAnswersAmountAction,
     clearTaskBufferAction,
 } = taskBufferSlice.actions;
 

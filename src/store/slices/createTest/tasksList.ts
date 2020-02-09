@@ -250,7 +250,7 @@ const tasksListSlice = createSlice({
                         taskType: payload.type,
                         answer: payload.type === ETaskType.ONE_RIGHT
                             ? -1
-                                : ETaskType.RELATIONS
+                                : payload.type === ETaskType.RELATIONS
                                 ? [-1, -1, -1, -1]
                             : [''],
                     })

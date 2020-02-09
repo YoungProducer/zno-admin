@@ -73,7 +73,7 @@ const defaultInvalidFieldsMessages: ISignInInvalidFieldsMessages = {
 
 const initialState: ISignInInitialState = {
     loading: false,
-    loggedIn: false,
+    loggedIn: true,
     invalidFields: {
         email: false,
         password: false,

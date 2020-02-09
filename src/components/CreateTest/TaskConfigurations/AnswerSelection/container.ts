@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import { selectTaskBuffer } from 'store/selectors/createTest';
-import { setTaskAnswerAction, setAnswersAmountAction } from 'store/slices/createTest';
+import { setBufferTaskAnswerAction, setBufferAnswersAmountAction } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
 import { ETaskType } from '../Component';
 
@@ -36,8 +36,8 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    setTaskAnswer: (answer: number | any[]) => dispatch(setTaskAnswerAction(answer)),
-    setAnswersAmount: (amount: number) => dispatch(setAnswersAmountAction(amount)),
+    setTaskAnswer: (answer: number | any[]) => dispatch(setBufferTaskAnswerAction(answer)),
+    setAnswersAmount: (amount: number) => dispatch(setBufferAnswersAmountAction(amount)),
 });
 
 export default connect<IStateProps, IDispatchProps, IOwnProps>(

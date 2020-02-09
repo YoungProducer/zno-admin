@@ -18,8 +18,8 @@ const midlleware = getDefaultMiddleware({
     serializableCheck: ({
         ignoredActions: [
             // This actions work with File's. To prevent error about non-serializable values needed to ignore its.
-            'TaskBuffer/setTaskImageAction',
-            'TaskBuffer/setExplanationImageAction',
+            'TaskBuffer/setBufferTaskImageAction',
+            'TaskBuffer/setBufferExplanationImageAction',
             'TasksList/addTaskAction',
             'TasksList/deleteTaskAction',
             'TasksList/changeTaskImageAction',

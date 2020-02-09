@@ -3,7 +3,7 @@
 
 // External imports
 import React from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
@@ -12,6 +12,7 @@ import Drawer from 'components/Drawer';
 import CreateTest from 'components/CreateTest';
 import SubjectConfigurationsPanel from 'components/panels/SubjectConfigurationsPanel';
 import SignIn from 'components/SignIn';
+import { TRoutesProps } from 'containers/routes';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     panel: {
@@ -21,14 +22,36 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const Component = () => {
+const Component = ({ loggedIn }: TRoutesProps) => {
     const classes = useStyles({});
 
     return(
         <HashRouter>
             <Switch>
+                <Route exact path='/'>
+                    { loggedIn
+                        ? <Redirect
+                            to={{
+                                pathname: '/dashboard',
+                                state: { from: '/' },
+                            }}
+                        />
+                        : <Redirect
+                            to={{
+                                pathname: '/auth/signin',
+                                state: { from: '/' },
+                            }}
+                        />
+                    }
+                </Route>
                 <Route exact path='/auth/signin'>
-                    <SignIn />
+                    { loggedIn
+                        ? <Redirect to={{
+                            pathname: '/dashboard',
+                            state: { from: '/auth/signin' },
+                        }}/>
+                        : <SignIn />
+                    }
                 </Route>
                 <PrivateRoute exact path='/dashboard'>
                     <Drawer content={

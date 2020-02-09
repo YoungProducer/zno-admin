@@ -4,7 +4,7 @@
 // Modal component to upload images.
 
 // External imports
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -127,13 +127,13 @@ const Component = ({
                 </DialogContentText>
                 {uploadImageType === 'task' && taskImage && (
                     <img
-                        src={taskImage.preview}
+                        src={taskImage}
                         className={classes.img}
                     />
                 )}
                 {uploadImageType === 'explanation' && explanationImage && (
                     <img
-                        src={explanationImage.preview}
+                        src={explanationImage}
                         className={classes.img}
                     />
                 )}

@@ -13,10 +13,10 @@ import {
     selectImagesNames,
 } from 'store/selectors/createTest';
 import {
-    setTaskImageAction,
-    setExplanationImageAction,
-    deleteTaskImageAction,
-    deleteExplanationImageAction,
+    setBufferTaskImageAction,
+    setBufferExplanationImageAction,
+    deleteBufferTaskImageAction,
+    deleteBufferExplanationImageAction,
 } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
 
@@ -52,10 +52,10 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 // Define mapDispatchToProps.
 // Connect action related to this component
 const mapDispatchToProps = (dispatch: any): IDispatchToProps => ({
-    setTaskImage: (file: File) => dispatch(setTaskImageAction(file)),
-    setExplanationImage: (file: File) => dispatch(setExplanationImageAction(file)),
-    deleteTaskImage: () => dispatch(deleteTaskImageAction()),
-    deleteExplanationImage: () => dispatch(deleteExplanationImageAction()),
+    setTaskImage: (file: File) => dispatch(setBufferTaskImageAction(file)),
+    setExplanationImage: (file: File) => dispatch(setBufferExplanationImageAction(file)),
+    deleteTaskImage: () => dispatch(deleteBufferTaskImageAction()),
+    deleteExplanationImage: () => dispatch(deleteBufferExplanationImageAction()),
 });
 
 // Function to connect state and actions to component

@@ -7,14 +7,10 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import CheckBox from '@material-ui/core/Checkbox';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import Collapse from '@material-ui/core/Collapse';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -22,6 +18,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
 import AdvancedTextField from 'components/AdvancedTextField';
+import { TSubjectConfigurationsPanelProps } from './container';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     paper: {
@@ -36,10 +33,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const subjects = [
-    'Математика',
-    'Англійська мова',
-];
+// const subjects = [
+//     'Математика',
+//     'Англійська мова',
+// ];
 
 export enum ETestTypes {
     'THEMES' = '0',
@@ -51,14 +48,17 @@ export enum EExamTypes {
     'PREV_SESSIONS' = '1',
 }
 
-interface ISubjectConfigurationsPanelProps {
-    className: string;
-}
-
 const Component = ({
     className,
-}: ISubjectConfigurationsPanelProps) => {
+    subjects,
+    fetchCreateSubject,
+    fetchGetSubjectsNames,
+}: TSubjectConfigurationsPanelProps) => {
     const classes = useStyles({});
+
+    useEffect(() => {
+        fetchGetSubjectsNames();
+    },        []);
 
     const [subjectName, setSubjectName] = useState<string>('');
 
@@ -94,6 +94,7 @@ const Component = ({
                     value={subjectName}
                     callback={setSubjectName}
                     list={subjects}
+                    addCallback={() => fetchCreateSubject({ name: subjectName })}
                     label='Назва предмету'
                     variant='standard'
                     color='primary'
@@ -103,6 +104,7 @@ const Component = ({
                 <FormControlLabel
                     control={
                         <CheckBox
+                            color='primary'
                             checked={withSubSubject}
                             onChange={event => toggleWithSubSubject(event.target.checked)}
                         />

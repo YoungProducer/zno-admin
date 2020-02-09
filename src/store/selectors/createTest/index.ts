@@ -6,3 +6,4 @@
 
 export * from './taskBuffer';
 export * from './tasksList';
+export * from './subjectConfigurations';

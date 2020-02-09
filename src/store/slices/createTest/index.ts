@@ -13,12 +13,15 @@ import { combineReducers } from '@reduxjs/toolkit';
 // Application's imports
 import taskBuffer from './taskBuffer';
 import tasksList from './tasksList';
+import subjectConfigurations from './subjectConfigurations';
 
 // Export actions, interfaces, types, etc.
 export * from './taskBuffer';
 export * from './tasksList';
+export * from './subjectConfigurations';
 
 export default combineReducers({
     taskBuffer,
     tasksList,
+    subjectConfigurations,
 });

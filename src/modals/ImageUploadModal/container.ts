@@ -8,16 +8,6 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import {
-    setTaskImageAction,
-    setExplanationImageAction,
-    deleteTaskImageAction,
-    deleteExplanationImageAction,
-} from 'store/slices/createTest';
-import {
-    selectTaskBuffer,
-} from 'store/selectors/createTest';
-import { RootState } from 'store/slices';
 
 export type TUploadImageType = 'task' | 'explanation';
 
