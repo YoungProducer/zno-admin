@@ -23,4 +23,5 @@ export interface IApi {
     signIn: (cretentials: ISignInCredentials) => Promise<AxiosResponse>;
     createSubject: (credentials: ICreateSubjectCredentials) => Promise<AxiosResponse>;
     getSubjectsNames: () => Promise<AxiosResponse>;
+    createTest: (credentials: any[]) => Promise<AxiosResponse>;
 }

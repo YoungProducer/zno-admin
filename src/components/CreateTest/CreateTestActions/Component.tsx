@@ -32,8 +32,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const Component = ({
     taskBuffer,
+    tasksList,
     addTask,
     clearTaskBuffer,
+    fetchCreateTest,
 }: TCreateTestActionProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
@@ -41,6 +43,16 @@ const Component = ({
     const handleAddTask = () => {
         addTask(taskBuffer);
         clearTaskBuffer();
+    };
+
+    const handleCreateTest = () => {
+        const data = new FormData();
+
+        tasksList.forEach(task => {
+            data.append({ ...task });
+        });
+
+        fetchCreateTest(data);
     };
 
     return (
@@ -57,6 +69,7 @@ const Component = ({
                 variant='contained'
                 color='primary'
                 disableElevation
+                onClick={handleCreateTest}
             >
                 Створити тест
             </Button>

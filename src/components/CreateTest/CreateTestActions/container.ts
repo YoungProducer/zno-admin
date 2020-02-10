@@ -10,9 +10,10 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import { selectTaskBuffer } from 'store/selectors/createTest';
+import { fetchCreateTestAction } from 'store/actionsCreators/createTest';
+import { selectTaskBuffer, selectTasksList } from 'store/selectors/createTest';
 import { addTaskAction, clearTaskBufferAction } from 'store/slices/createTest';
-import { ITaskBufferInitialState, IAddTaskPayload } from 'store/slices/createTest';
+import { ITaskBufferInitialState, IAddTaskPayload, ITask } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
 
 // Props which component get from parent
@@ -21,12 +22,14 @@ interface IOwnProps {}
 // Props which component get from redux store
 interface IStateProps {
     taskBuffer: ITaskBufferInitialState;
+    tasksList: ITask[];
 }
 
 // Props(actions) connected to the component
 interface IDispatchProps {
     addTask: (payload: IAddTaskPayload) => void;
     clearTaskBuffer: () => void;
+    fetchCreateTest: (credentials: any[]) => void;
 }
 
 // Define type of props for 'CreateTestActions' component which describe all props pushed to the component.
@@ -38,6 +41,7 @@ export type TCreateTestActionProps = IOwnProps & IStateProps & IDispatchProps;
  */
 const mapStateTopProps = (state: RootState): IStateProps => ({
     taskBuffer: selectTaskBuffer(state),
+    tasksList: selectTasksList(state),
 });
 
 /**
@@ -47,6 +51,8 @@ const mapStateTopProps = (state: RootState): IStateProps => ({
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
     addTask: (payload: IAddTaskPayload) => dispatch(addTaskAction(payload)),
     clearTaskBuffer: () => dispatch(clearTaskBufferAction()),
+    fetchCreateTest: (credentials: any) =>
+        dispatch(fetchCreateTestAction(credentials)),
 });
 
 /**
