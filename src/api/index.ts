@@ -106,10 +106,10 @@ class Api implements IApi {
             { withCredentials: true },
         )
 
-    createTest = async (credentials: any[]) =>
+    createTest = async (credentials: FormData) =>
         await this.axiosInstance.post(
             '/tasks/create',
-            { ...credentials },
+            credentials,
             { withCredentials: true },
         )
 }

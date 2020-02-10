@@ -10,22 +10,63 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Application's imports
 import { ILoadingAction } from '../types';
+import { ETestTypes, EExamTypes } from 'components/panels/SubjectConfigurationsPanel/Component';
+
+/**
+ * SetSubjectNameAction
+ */
+interface ISetSubjectNameAction {
+    payload: string;
+}
+
+/**
+ * SetSubSubjectNameAction
+ */
+interface ISetSubSubjectNameAction {
+    payload: string;
+}
+
+/**
+ * SetTestTypeAction
+ */
+interface ISetTestTypeAction {
+    payload: ETestTypes;
+}
+
+/**
+ * SetExamTypeAction
+ */
+interface ISetExamTypeAction {
+    payload: EExamTypes;
+}
+
+/**
+ * SetThemeNameAction
+ */
+interface ISetThemeNameAction {
+    payload: string;
+}
 
 /**
  * SetSubjectsAction
  */
-export interface ISetSubjectsAction {
+interface ISetSubjectsAction {
     payload: string[];
 }
 
 /**
  * SetCreateSubjectErrorMesageAction
  */
-export interface ISetCreateSubjectErrorMesageAction {
+interface ISetCreateSubjectErrorMesageAction {
     payload: string;
 }
 
 export interface ISubjectConfigurationsInitialState {
+    subjectName: string;
+    subSubjectName: string;
+    testType: ETestTypes;
+    examType: EExamTypes;
+    themeName: string;
     subjects: string[];
     loadingSubjects: boolean;
     loadingCreateSubject: boolean;
@@ -33,6 +74,11 @@ export interface ISubjectConfigurationsInitialState {
 }
 
 const initialState: ISubjectConfigurationsInitialState = {
+    subjectName: '',
+    subSubjectName: '',
+    testType: ETestTypes.THEMES,
+    examType: EExamTypes.TRAINING,
+    themeName: '',
     subjects: [],
     loadingSubjects: false,
     loadingCreateSubject: false,
@@ -43,6 +89,41 @@ const subjectConfigurationsSlice = createSlice({
     initialState,
     name: 'SubjectConfigurations',
     reducers: {
+        setSubjectNameAction: (
+            state: ISubjectConfigurationsInitialState,
+            { payload }: ISetSubjectNameAction,
+        ) => ({
+            ...state,
+            subjectName: payload,
+        }),
+        setSubSubjectNameAction: (
+            state: ISubjectConfigurationsInitialState,
+            { payload }: ISetSubSubjectNameAction,
+        ) => ({
+            ...state,
+            subSubjectName: payload,
+        }),
+        setTestTypeAction: (
+            state: ISubjectConfigurationsInitialState,
+            { payload }: ISetTestTypeAction,
+        ) => ({
+            ...state,
+            testType: payload,
+        }),
+        setExamTypeAction: (
+            state: ISubjectConfigurationsInitialState,
+            { payload }: ISetExamTypeAction,
+        ) => ({
+            ...state,
+            examType: payload,
+        }),
+        setThemeNameAction: (
+            state: ISubjectConfigurationsInitialState,
+            { payload }: ISetThemeNameAction,
+        ) => ({
+            ...state,
+            themeName: payload,
+        }),
         setSubjectsActions: (
             state: ISubjectConfigurationsInitialState,
             { payload }: ISetSubjectsAction,
@@ -75,6 +156,11 @@ const subjectConfigurationsSlice = createSlice({
 });
 
 export const {
+    setSubjectNameAction,
+    setSubSubjectNameAction,
+    setTestTypeAction,
+    setExamTypeAction,
+    setThemeNameAction,
     setSubjectsActions,
     loadingSubjectsAction,
     loadingCreateSubjectsAction,

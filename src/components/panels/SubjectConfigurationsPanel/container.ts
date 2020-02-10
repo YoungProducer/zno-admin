@@ -10,10 +10,32 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import { fetchCreateSubject, fetchGetSubjectsNames } from 'store/actionsCreators/createTest';
-import { selectSubjects } from 'store/selectors/createTest';
+import {
+    fetchCreateSubject,
+    fetchGetSubjectsNames,
+} from 'store/actionsCreators/createTest';
+import {
+    setSubjectNameAction,
+    setSubSubjectNameAction,
+    setTestTypeAction,
+    setExamTypeAction,
+    setThemeNameAction,
+} from 'store/slices/createTest';
+import {
+    selectSubjects,
+    selectSubjectConfigurationsMainFields,
+} from 'store/selectors/createTest';
 import { RootState } from 'store/slices';
 import { ICreateSubjectCredentials } from 'api/types';
+import { ETestTypes, EExamTypes } from './Component';
+
+export interface IMainFields {
+    subjectName: string;
+    subSubjectName: string;
+    testType: ETestTypes;
+    examType: EExamTypes;
+    themeName: string;
+}
 
 /**
  * Props which component get from the parent.
@@ -27,6 +49,7 @@ interface IOwnProps {
  */
 interface IStateProps {
     subjects: string[];
+    mainFields: IMainFields;
 }
 
 /**
@@ -35,6 +58,11 @@ interface IStateProps {
 interface IDispatchProps {
     fetchCreateSubject: (credentials: ICreateSubjectCredentials) => void;
     fetchGetSubjectsNames: () => void;
+    setSubjectName: (name: string) => void;
+    setSubSubjectName: (name: string) => void;
+    setTestType: (testType: ETestTypes) => void;
+    setExamType: (examType: EExamTypes) => void;
+    setThemeName: (name: string) => void;
 }
 
 /**
@@ -48,6 +76,7 @@ export type TSubjectConfigurationsPanelProps = IOwnProps & IStateProps & IDispat
  */
 const mapStateToProps = (state: RootState): IStateProps => ({
     subjects: selectSubjects(state),
+    mainFields: selectSubjectConfigurationsMainFields(state),
 });
 
 /**
@@ -60,6 +89,21 @@ const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
 
     fetchGetSubjectsNames: () =>
         dispatch(fetchGetSubjectsNames()),
+
+    setSubjectName: (name: string) =>
+        dispatch(setSubjectNameAction(name)),
+
+    setSubSubjectName: (name: string) =>
+        dispatch(setSubSubjectNameAction(name)),
+
+    setTestType: (testType: ETestTypes) =>
+        dispatch(setTestTypeAction(testType)),
+
+    setExamType: (examType: EExamTypes) =>
+        dispatch(setExamTypeAction(examType)),
+
+    setThemeName: (name: string) =>
+        dispatch(setThemeNameAction(name)),
 });
 
 /**

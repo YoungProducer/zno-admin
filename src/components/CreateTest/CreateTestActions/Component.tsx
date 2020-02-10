@@ -13,6 +13,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
 import { TCreateTestActionProps } from './container';
+import { IImage } from 'store/slices/createTest';
 
 // Define and describe classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 const Component = ({
     taskBuffer,
     tasksList,
+    mainFields,
     addTask,
     clearTaskBuffer,
     fetchCreateTest,
@@ -46,13 +48,7 @@ const Component = ({
     };
 
     const handleCreateTest = () => {
-        const data = new FormData();
-
-        tasksList.forEach(task => {
-            data.append({ ...task });
-        });
-
-        fetchCreateTest(data);
+        fetchCreateTest({ tasksList, mainFields });
     };
 
     return (

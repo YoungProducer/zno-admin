@@ -51,31 +51,32 @@ export enum EExamTypes {
 const Component = ({
     className,
     subjects,
+    mainFields,
+    setSubjectName,
+    setSubSubjectName,
+    setTestType,
+    setExamType,
+    setThemeName,
     fetchCreateSubject,
     fetchGetSubjectsNames,
 }: TSubjectConfigurationsPanelProps) => {
     const classes = useStyles({});
 
+    const { subjectName, subSubjectName, testType, examType, themeName } = mainFields;
+
+    const [withSubSubject, toggleWithSubSubject] = useState<boolean>(false);
+
+    const handleChangeTestType = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTestType((event.target as HTMLInputElement).value as ETestTypes);
+    };
+
+    const handleChangeExamType = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setExamType((event.target as HTMLInputElement).value as EExamTypes);
+    };
+
     useEffect(() => {
         fetchGetSubjectsNames();
     },        []);
-
-    const [subjectName, setSubjectName] = useState<string>('');
-
-    const [withSubSubject, toggleWithSubSubject] = useState<boolean>(false);
-    const [subSubjectName, setSubSubjectName] = useState<string>('');
-
-    const [testType, setTestType] = useState<string>(ETestTypes.THEMES);
-    const handleChangeTestType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTestType((event.target as HTMLInputElement).value);
-    };
-
-    const [examType, setExamType] = useState<string>(EExamTypes.TRAINING);
-    const handleChangeExamType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setExamType((event.target as HTMLInputElement).value);
-    };
-
-    const [themeName, setThemeName] = useState<string>('');
 
     useEffect(() => {
         setTestType(ETestTypes.THEMES);

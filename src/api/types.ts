@@ -8,6 +8,8 @@
 
 // Externals imports
 import { AxiosResponse, AxiosInstance } from 'axios';
+import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
+import { ITask } from 'store/slices/createTest';
 
 export interface ISignInCredentials {
     email: string;
@@ -23,5 +25,5 @@ export interface IApi {
     signIn: (cretentials: ISignInCredentials) => Promise<AxiosResponse>;
     createSubject: (credentials: ICreateSubjectCredentials) => Promise<AxiosResponse>;
     getSubjectsNames: () => Promise<AxiosResponse>;
-    createTest: (credentials: any[]) => Promise<AxiosResponse>;
+    createTest: (credentials: FormData) => Promise<AxiosResponse>;
 }
