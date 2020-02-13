@@ -6,7 +6,7 @@ module.exports = {
   entry: "./src/index.tsx",
   devtool: "source-map",
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".test.ts", ".test.tsx"],
     alias: {
       components: path.resolve(__dirname, 'src/components'),
       containers: path.resolve(__dirname, 'src/containers'),

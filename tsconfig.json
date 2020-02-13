@@ -11,13 +11,16 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "target": "ESNext",
     "paths": {
       "*": ["src/*", "node_modules/*"],
     },
-    "typeRoots" : ["./src/typings"]
+    "typeRoots" : ["./src/typings", "./node_modules/@types"]
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts",
+    "src/**/*.test.ts",
+    "src/**/*.tsx",
+    "src/**/*.test.tsx",
+    "configs/**/*.ts"
   ],
 }

@@ -9,7 +9,7 @@
 import { Dispatch } from '@reduxjs/toolkit';
 
 // Application's imports
-import api from 'api';
+import api from 'api/index';
 import {
     loadingCreateTestAction,
     setCreateSubjectErrorMessageAction,
@@ -22,7 +22,7 @@ export interface ICreateTestCredentials {
     tasksList: ITask[];
 }
 
-const createFormData = ({ tasksList, mainFields }: ICreateTestCredentials) => {
+export const createFormData = ({ tasksList, mainFields }: ICreateTestCredentials) => {
     const data = new FormData();
 
     tasksList
@@ -53,6 +53,8 @@ export const fetchCreateTestAction = (credentials: ICreateTestCredentials) => as
     dispatch(loadingCreateTestAction(true));
 
     const data = createFormData(credentials);
+
+    console.log(1);
 
     return api.createTest(data)
         .then(response => {

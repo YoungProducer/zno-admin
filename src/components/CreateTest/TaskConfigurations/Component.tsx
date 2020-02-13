@@ -15,6 +15,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // Application's imports
 import AnswerSelection from './AnswerSelection';
 import { TTaskConfigurationProps } from './container';
+import { ETaskType } from 'store/slices/createTest';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -35,12 +36,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-export enum ETaskType {
-    'DEFAULT' = '',
-    'ONE_RIGHT' = '0',
-    'RELATIONS' = '1',
-    'TEXT_FIELDS' = '2',
-}
+// export enum ETaskType {
+//     ONE_RIGHT = '0',
+//     RELATIONS = '1',
+//     TEXT_FIELDS = '2',
+// }
+
+// export type ETaskType = 'one-right' | 'relations' | 'text-fields';
 
 interface ITypeSelector {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

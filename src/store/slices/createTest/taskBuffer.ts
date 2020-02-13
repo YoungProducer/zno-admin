@@ -11,8 +11,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Application's imports
 // import { ITask } from 'store/slices/createTest';
-import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
+// import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
 import { ITask } from './tasksList';
+
+export enum ETaskType {
+    'ONE_RIGHT' = '0',
+    'RELATIONS' = '1',
+    'TEXT_FIELDS' = '2',
+}
 
 export interface IImage extends File {
     preview: string;

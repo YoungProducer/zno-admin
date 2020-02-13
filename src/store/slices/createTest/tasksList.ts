@@ -7,8 +7,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Application's imports
-import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
-import { IImage } from './taskBuffer';
+import { IImage, ETaskType } from './taskBuffer';
 
 export interface ITask {
     /**

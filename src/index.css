@@ -1,4 +1,4 @@
-@import './styles/fonts.css';
+@import '../public/styles/fonts.css';
 
 * {
     margin: 0;

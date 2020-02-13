@@ -9,12 +9,11 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import {
-    setBufferTaskTypeAction,
+    setBufferTaskTypeAction, ETaskType,
 } from 'store/slices/createTest/taskBuffer';
 import {
     selectTaskBuffer,
 } from 'store/selectors/createTest';
-import { ETaskType } from './Component';
 import { RootState } from 'store/slices';
 
 interface IOwnProps {}
