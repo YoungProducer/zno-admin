@@ -80,6 +80,9 @@ const Component = ({
 
     useEffect(() => {
         setTestType(ETestTypes.THEMES);
+        if (!withSubSubject) {
+            setSubSubjectName('');
+        }
     },        [withSubSubject]);
 
     return (
