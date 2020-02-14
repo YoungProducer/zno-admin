@@ -10,7 +10,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Application's imports
 import { ILoadingAction } from '../types';
-import { ETestTypes, EExamTypes } from 'components/panels/SubjectConfigurationsPanel/Component';
+
+export enum ETestTypes {
+    'THEMES' = '0',
+    'EXAM' = '1',
+}
+
+export enum EExamTypes {
+    'TRAINING' = '0',
+    'PREV_SESSIONS' = '1',
+}
 
 /**
  * SetSubjectNameAction

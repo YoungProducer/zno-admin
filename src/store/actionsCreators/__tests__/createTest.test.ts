@@ -10,41 +10,35 @@ import MockAdapter from 'axios-mock-adapter';
 
 // Application's imports
 import api from 'api';
-import store from 'store/index';
-import { loadingCreateTestAction, ITask, ETaskType } from 'store/slices/createTest/index';
+import store from '@store/index';
+import { loadingCreateTestAction, ITask, ETaskType, EExamTypes, ETestTypes } from 'store/slices/createTest/index';
 import {
     fetchCreateTestAction,
-    createFormData,
     ICreateTestCredentials,
 } from 'store/actionsCreators/createTest/createTest';
-import { EExamTypes, ETestTypes } from 'components/panels/SubjectConfigurationsPanel/Component';
+// import { EExamTypes, ETestTypes } from 'components/panels/SubjectConfigurationsPanel/Component';
 
-// tslint:disable-next-line: function-name
-// function FormDataMock() {
-//     this.append = jest.fn();
-// }
-// (global as any).FormData = FormDataMock;
-
-jest.doMock('store/actionsCreators/createTest/createTest', () => ({
-    fetchCreateTestAction,
-    createFormData: jest.fn().mockReturnValue({
-        taskImage0: {},
-        additionalData: JSON.stringify([
-            {
-                type: ETaskType.ONE_RIGHT,
-                answer: 1,
-                id: 0,
-            },
-        ]),
-        testConfiguration: JSON.stringify({
-            subjectName: 'Математика',
-            subSubjectName: 'Геометрія',
-            examType: EExamTypes.TRAINING,
-            testType: ETestTypes.THEMES,
-            themeName: 'Площини',
+jest.mock('utils/createTest', () => {
+    return {
+        createFormData: jest.fn().mockReturnValue({
+            taskImage0: {},
+            additionalData: JSON.stringify([
+                {
+                    type: ETaskType.ONE_RIGHT,
+                    answer: 1,
+                    id: 0,
+                },
+            ]),
+            testConfiguration: JSON.stringify({
+                subjectName: 'Математика',
+                subSubjectName: 'Геометрія',
+                examType: EExamTypes.TRAINING,
+                testType: ETestTypes.THEMES,
+                themeName: 'Площини',
+            }),
         }),
-    }),
-}));
+    };
+});
 
 describe('Create test', () => {
     const createTestCredentials: ICreateTestCredentials = {

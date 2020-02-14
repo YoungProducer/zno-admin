@@ -19,6 +19,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // Application's imports
 import AdvancedTextField from 'components/AdvancedTextField';
 import { TSubjectConfigurationsPanelProps } from './container';
+import { ETestTypes, EExamTypes } from 'store/slices/createTest';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     paper: {
@@ -38,15 +39,15 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 //     'Англійська мова',
 // ];
 
-export enum ETestTypes {
-    'THEMES' = '0',
-    'EXAM' = '1',
-}
+// export enum ETestTypes {
+//     'THEMES' = '0',
+//     'EXAM' = '1',
+// }
 
-export enum EExamTypes {
-    'TRAINING' = '0',
-    'PREV_SESSIONS' = '1',
-}
+// export enum EExamTypes {
+//     'TRAINING' = '0',
+//     'PREV_SESSIONS' = '1',
+// }
 
 const Component = ({
     className,

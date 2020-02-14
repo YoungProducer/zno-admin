@@ -10,6 +10,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 
 // Application's imports
 import api from 'api/index';
+import { createFormData } from 'utils/createTest';
 import {
     loadingCreateTestAction,
     setCreateSubjectErrorMessageAction,
@@ -21,33 +22,6 @@ export interface ICreateTestCredentials {
     mainFields: IMainFields;
     tasksList: ITask[];
 }
-
-export const createFormData = ({ tasksList, mainFields }: ICreateTestCredentials) => {
-    const data = new FormData();
-
-    tasksList
-        .map(task => ({ image: task.taskImage, id: task.id }))
-        .forEach(({ image, id }) => data.append(`taskImage${id}`, image, image.name));
-
-    tasksList
-        .map(task => ({ image: task.explanationImage, id: task.id }))
-        .forEach(({ image, id }) => {
-            if (image !== null) {
-                data.append(`explanationImage${id}`, image, image.name);
-            }
-        });
-
-    const additionalData = tasksList.map(task => ({
-        type: task.taskType,
-        answer: task.answer,
-        id: task.id,
-    }));
-
-    data.append('additionalData', JSON.stringify(additionalData));
-    data.append('testConfiguration', JSON.stringify(mainFields));
-
-    return data;
-};
 
 export const fetchCreateTestAction = (credentials: ICreateTestCredentials) => async (dispatch: Dispatch<any>) => {
     dispatch(loadingCreateTestAction(true));
