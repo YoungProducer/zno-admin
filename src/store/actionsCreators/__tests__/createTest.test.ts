@@ -7,16 +7,19 @@
 
 // External imports
 import MockAdapter from 'axios-mock-adapter';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 // Application's imports
 import api from 'api';
-import store from '@store/index';
-import { loadingCreateTestAction, ITask, ETaskType, EExamTypes, ETestTypes } from 'store/slices/createTest/index';
+import store from 'store/__mocks__/mockedState';
+// import store from 'store';
+import { ETaskType, EExamTypes, ETestTypes } from 'store/slices/createTest/index';
 import {
     fetchCreateTestAction,
     ICreateTestCredentials,
 } from 'store/actionsCreators/createTest/createTest';
-// import { EExamTypes, ETestTypes } from 'components/panels/SubjectConfigurationsPanel/Component';
+import { RootState } from 'store/slices';
 
 jest.mock('utils/createTest', () => {
     return {
@@ -41,6 +44,15 @@ jest.mock('utils/createTest', () => {
 });
 
 describe('Create test', () => {
+    /**
+     * Init mock adapter.
+     */
+    const axiosMock = new MockAdapter(api.axiosInstance);
+
+    const mockStore = configureMockStore(
+        [thunk],
+    );
+
     const createTestCredentials: ICreateTestCredentials = {
         mainFields: {
             subjectName: 'Математика',
@@ -71,33 +83,56 @@ describe('Create test', () => {
         ],
     };
 
-    test('Create form data', () => {
-        // store.dispatch(loadingCreateTestAction(true));
-        const expected = {
-            taskImage0: {},
-            additionalData: JSON.stringify([
-                {
-                    type: ETaskType.ONE_RIGHT,
-                    answer: 1,
-                    id: 0,
+    afterEach(() => {
+        axiosMock.reset();
+        store.clearActions();
+    });
+
+    test('Create form data success', () => {
+        axiosMock
+            .onPost('/tasks/create')
+            .replyOnce(200, 'Success');
+
+        const expectedActions = [{
+            type: 'CreateTest/loadingCreateTestAction',
+            payload: true,
+        }, {
+            type: 'CreateTest/loadingCreateTestAction',
+            payload: false,
+        }, {
+            type: 'Notifier/enqueueSnackbarAction',
+            payload: {
+                message: 'Тест успішно створено',
+                options: {
+                    key: 'SuccessCreateTest',
+                    variant: 'success',
                 },
-            ]),
-            testConfiguration: JSON.stringify({
-                subjectName: 'Математика',
-                subSubjectName: 'Геометрія',
-                examType: EExamTypes.TRAINING,
-                testType: ETestTypes.THEMES,
-                themeName: 'Площини',
-            }),
-        };
+            },
+        }];
 
-        store.dispatch(fetchCreateTestAction(createTestCredentials) as any);
+        return store.dispatch(fetchCreateTestAction(createTestCredentials) as any).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
 
-        console.log(store.getState());
+    test('Create form data with error', () => {
+        axiosMock
+            .onPost('/tasks/create')
+            .reply(400, { error: { message: 'Error' } });
 
-        // expect(store.getState().)
-        // expect(FormData.append).toHaveBeenCalled();
-        // expect(1 + 2).toBe(3);
-        // expect(createFormData(createTestCredentials)).toEqual(expected);
+        const expectedActions = [{
+            type: 'CreateTest/loadingCreateTestAction',
+            payload: true,
+        }, {
+            type: 'SubjectConfigurations/setCreateSubjectErrorMessageAction',
+            payload: 'Request failed with status code 400',
+        }, {
+            type: 'CreateTest/loadingCreateTestAction',
+            payload: false,
+        }];
+
+        return store.dispatch(fetchCreateTestAction(createTestCredentials) as any).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
     });
 });

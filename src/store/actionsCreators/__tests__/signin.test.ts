@@ -3,7 +3,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 // Application's imports
-import api from 'api/index';
+import api from 'api';
 
 const mock = new MockAdapter(api.axiosInstance);
 

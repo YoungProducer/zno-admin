@@ -19,6 +19,7 @@ import {
     changeExplanationImageAction,
     activateEditionModeAction,
     deactivateEditionModeAction,
+    ETaskType,
 } from 'store/slices/createTest';
 import {
     deleteTaskImageAction,
@@ -29,7 +30,6 @@ import {
 } from 'store/selectors/createTest';
 import { ITask } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
-import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
 
 /**
  * Props which component get from parent component.

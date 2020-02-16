@@ -8,6 +8,7 @@
 
 // External imports
 import { connect } from 'react-redux';
+import { WithSnackbarProps } from 'notistack';
 
 // Application's imports
 import { fetchCreateTestAction, ICreateTestCredentials } from 'store/actionsCreators/createTest';
@@ -39,7 +40,10 @@ interface IDispatchProps {
 }
 
 // Define type of props for 'CreateTestActions' component which describe all props pushed to the component.
-export type TCreateTestActionProps = IOwnProps & IStateProps & IDispatchProps;
+export type TCreateTestActionProps =
+    IOwnProps
+    & IStateProps
+    & IDispatchProps;
 
 /**
  * Define mapStateToProps function.

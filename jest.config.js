@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
 
-  testEnvironment: 'jsdom',
+  testEnvironment: 'node',
 
   setupFiles: ['<rootDir>/configs/enzyme.config.ts'],
 
@@ -13,7 +13,8 @@ module.exports = {
 
   globals: {
     "ts-jest": {
-      "tsConfig": "<rootDir>/jest.tsconfig.json"
+      "tsConfig": "<rootDir>/jest.tsconfig.json",
+      diagnostics: true,
     }
   },
 
@@ -21,17 +22,18 @@ module.exports = {
 
   snapshotSerializers: ["enzyme-to-json/serializer"],
 
+  verbose: true,
+
   moduleNameMapper: {
     '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/__mocks__/fileMock.ts',
-    // '^components/(.*)$': '<rootDir>/src/components/$1',
-    // '^container/(.*)$': '<rootDir>/src/container/$1',
-    // '^routes/(.*)$': '<rootDir>/src/routes/$1',
-    // '^store/(.*)$': '<rootDir>/src/store/$1',
-    // '^public/(.*)$': '<rootDir>/public/$1',
-    // '^types/(.*)$': '<rootDir>/src/types/$1',
-    // '^utils/(.*)$': '<rootDir>/src/utils/$1',
-    // '^modals/(.*)$': '<rootDir>/src/modals/$1',
-    // '^api/(.*)$': '<rootDir>/src/api/$1'
-    '@/(.*)$': '<rootDir>/src/$1'
+    '^components(.*)$': '<rootDir>/src/components$1',
+    '^container(.*)$': '<rootDir>/src/container$1',
+    '^routes(.*)$': '<rootDir>/src/routes$1',
+    '^store(.*)$': '<rootDir>/src/store$1',
+    '^public(.*)$': '<rootDir>/public$1',
+    '^types(.*)$': '<rootDir>/src/types$1',
+    '^utils(.*)$': '<rootDir>/src/utils$1',
+    '^modals(.*)$': '<rootDir>/src/modals$1',
+    '^api(.*)$': '<rootDir>/src/api$1'
   }
 };

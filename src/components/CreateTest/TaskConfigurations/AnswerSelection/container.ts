@@ -9,9 +9,8 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import { selectTaskBuffer } from 'store/selectors/createTest';
-import { setBufferTaskAnswerAction, setBufferAnswersAmountAction } from 'store/slices/createTest';
+import { setBufferTaskAnswerAction, setBufferAnswersAmountAction, ETaskType } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
-import { ETaskType } from '../Component';
 
 interface IOwnProps {
     taskType: ETaskType;

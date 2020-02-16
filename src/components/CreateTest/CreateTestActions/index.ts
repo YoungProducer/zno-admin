@@ -6,9 +6,12 @@
  *  Connect actions and state to the component.
  */
 
+// External imports
+import { withSnackbar } from 'notistack';
+
 // Application's imports
 import Component from './Component';
 import container from './container';
 
 // Connect variables from redux store and action to the component.
-export default container(Component);
+export default withSnackbar(container(Component));

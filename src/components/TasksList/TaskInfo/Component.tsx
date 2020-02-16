@@ -24,8 +24,7 @@ import RelationAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelec
 import TextAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelection/TextAnswer';
 import ImageUploadModal, { TUploadImageType } from 'modals/ImageUploadModal';
 import { TypeSelector } from 'components/CreateTest/TaskConfigurations/Component';
-import { ITask } from 'store/slices/createTest';
-import { ETaskType } from 'components/CreateTest/TaskConfigurations/Component';
+import { ITask, ETaskType } from 'store/slices/createTest';
 import { TTaskInfoProps } from './container';
 
 // Define classes as hook

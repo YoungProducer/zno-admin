@@ -9,13 +9,16 @@
 import { Dispatch } from '@reduxjs/toolkit';
 
 // Application's imports
-import api from 'api/index';
+import api from 'api';
 import { createFormData } from 'utils/createTest';
 import {
     loadingCreateTestAction,
     setCreateSubjectErrorMessageAction,
     ITask,
 } from 'store/slices/createTest';
+import {
+    enqueueSnackbarAction,
+} from 'store/slices/notifier';
 import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
 
 export interface ICreateTestCredentials {
@@ -26,11 +29,9 @@ export interface ICreateTestCredentials {
 export const fetchCreateTestAction = (credentials: ICreateTestCredentials) => async (dispatch: Dispatch<any>) => {
     dispatch(loadingCreateTestAction(true));
 
-    const data = createFormData(credentials);
+    const data = await createFormData(credentials);
 
-    console.log(1);
-
-    return api.createTest(data)
+    return await api.createTest(data)
         .then(response => {
             if (response.status !== 200) {
                 dispatch(loadingCreateTestAction(false));
@@ -38,12 +39,19 @@ export const fetchCreateTestAction = (credentials: ICreateTestCredentials) => as
             }
 
             dispatch(loadingCreateTestAction(false));
+            dispatch(enqueueSnackbarAction({
+                message: 'Тест успішно створено',
+                options: {
+                    key: 'SuccessCreateTest',
+                    variant: 'success',
+                },
+            }));
 
             return response.data;
         })
         .then(data => console.log(data))
         .catch(error => {
-            dispatch(loadingCreateTestAction(false));
             dispatch(setCreateSubjectErrorMessageAction(error.message));
+            dispatch(loadingCreateTestAction(false));
         });
 };

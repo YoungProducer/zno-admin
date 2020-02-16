@@ -20,6 +20,8 @@ import {
     setTestTypeAction,
     setExamTypeAction,
     setThemeNameAction,
+    ETestTypes,
+    EExamTypes,
 } from 'store/slices/createTest';
 import {
     selectSubjects,
@@ -27,7 +29,6 @@ import {
 } from 'store/selectors/createTest';
 import { RootState } from 'store/slices';
 import { ICreateSubjectCredentials } from 'api/types';
-import { ETestTypes, EExamTypes } from './Component';
 
 export interface IMainFields {
     subjectName: string;

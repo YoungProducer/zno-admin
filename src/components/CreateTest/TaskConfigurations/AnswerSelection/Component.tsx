@@ -11,7 +11,7 @@ import OneRightAnswer from './OneRightAnswer';
 import RelationAnswer from './RelationAnswer';
 import TextAnswer from './TextAnswer';
 import { TAnswerSelectionProps } from './container';
-import { ETaskType } from '../Component';
+import { ETaskType } from 'store/slices/createTest';
 
 const Component = ({
     taskType,

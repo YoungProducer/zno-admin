@@ -12,8 +12,8 @@ import { shallow, mount, render } from 'enzyme';
 // Application's imports
 import Component from '../Component';
 import { TCreateTestActionProps } from '../container';
-import { EExamTypes, ETestTypes } from '../../../panels/SubjectConfigurationsPanel/Component';
-import { ETaskType } from '../../../../store/slices/createTest/taskBuffer';
+import { ETaskType } from 'store/slices/createTest/taskBuffer';
+import { ETestTypes, EExamTypes } from 'store/slices/createTest';
 
 describe('Create test component', () => {
     const props: TCreateTestActionProps = {

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-// import Routes from './components/routes';
-// import Drawer from './components/Drawer';
-
-import Routes from './containers/routes';
+import Routes from 'containers/routes';
+import Notifier from 'components/Notifier';
 
 interface IApp {
     loggedIn: boolean;
@@ -16,17 +14,11 @@ const App = ({
     emailAfterSignUp,
     fetchMe,
 }: IApp) => {
-    // useEffect(() => {
-    //     fetchMe({});
-    // },        [fetchMe]);
 
     return(
         <>
-            {/* <Drawer /> */}
-            <Routes
-                // loggedIn={loggedIn}
-                // emailAfterSignUp={emailAfterSignUp}
-            />
+            <Notifier />
+            <Routes />
         </>
     );
 };

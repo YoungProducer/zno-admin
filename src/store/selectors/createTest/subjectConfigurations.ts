@@ -10,8 +10,8 @@ import { createSelector } from '@reduxjs/toolkit';
 
 // Application's imports
 import { RootState } from 'store/slices';
-import { ETestTypes, EExamTypes } from 'components/panels/SubjectConfigurationsPanel/Component';
 import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
+import { ETestTypes, EExamTypes } from 'store/slices/createTest';
 
 export const selectSubjects = (state: RootState): string[] =>
     state.createTest.subjectConfigurations.subjects;

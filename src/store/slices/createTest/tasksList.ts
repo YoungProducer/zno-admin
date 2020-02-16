@@ -35,16 +35,25 @@ export interface ITask {
      * Responsible for amount of text answers.
      */
     answersAmount: number;
+    /**
+     * If 'True' its mean that some field have wrong data.
+     */
+    error?: boolean;
 }
 
-interface ITaskListInitialState {
+export interface ITaskListInitialState {
     tasks: ITask[];
     editionMode: boolean;
+    /**
+     * Id of new task.
+     */
+    id: number;
 }
 
 const initialState: ITaskListInitialState = {
     tasks: [],
     editionMode: false,
+    id: 0,
 };
 
 /**
@@ -70,6 +79,16 @@ interface IDeleteTaskAction {
 interface IDeleteImageAction {
     // Unique task id.
     payload: number;
+}
+
+/**
+ * SetErrorTasks
+ */
+interface ISetErrorTasksAction {
+    /**
+     * Array of tasks' id.
+     */
+    payload: number[];
 }
 
 /**
@@ -178,7 +197,8 @@ const tasksListSlice = createSlice({
             { payload }: IAddTaskAction,
         ) => ({
             ...state,
-            tasks: state.tasks.concat({ ...payload, id: id++ }),
+            id: state.id + 1,
+            tasks: state.tasks.concat({ ...payload, id: state.id }),
         }),
         /**
          * Delete task by id.
@@ -189,6 +209,24 @@ const tasksListSlice = createSlice({
         ) => ({
             ...state,
             tasks: state.tasks.filter(task => task.id !== payload),
+        }),
+        /**
+         * Notice tasks which have wrong fields.
+         */
+        setErrorTasksAction: (
+            state: ITaskListInitialState,
+            { payload }: ISetErrorTasksAction,
+        ) => ({
+            ...state,
+            tasks: state.tasks.map(task => {
+                if (payload.some(id => id === task.id)) {
+                    return {
+                        ...task,
+                        error: true,
+                    };
+                }
+                return { ...task };
+            }),
         }),
         /**
          * Delete task image by task id.
@@ -354,6 +392,7 @@ export const {
     deactivateEditionModeAction,
     addTaskAction,
     deleteTaskAction,
+    setErrorTasksAction,
     deleteTaskImageAction,
     deleteExplanationImageAction,
     changeTaskTypeAction,

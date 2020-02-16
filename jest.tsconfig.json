@@ -13,7 +13,7 @@
       "typeRoots": ["node_modules/@types", "src/typings"],
       "baseUrl": ".",
       "paths": {
-        "@/": ["src/*", "node_modules/*"]
+        "*": ["src/*", "node_modules/*"]
       }
     },
     "exclude": ["node_modules", "out", ""]
