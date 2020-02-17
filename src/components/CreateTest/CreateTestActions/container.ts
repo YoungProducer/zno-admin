@@ -16,14 +16,18 @@ import {
     selectTasksList,
     selectSubjectConfigurationsMainFields,
     selectIsHaveErrors,
+    selectIsHaveErrorFields,
 } from 'store/selectors/createTest';
 import {
     addTaskAction,
     clearTaskBufferAction,
     checkTasksFieldsAction,
+    toggleOpenTasksListAction,
+    checkEmptyFieldsAction,
 } from 'store/slices/createTest';
 import {
     enqueueSnackbarAction,
+    closeSnackbarAction,
     IEnqueueSnackbarPreparePayload,
 } from 'store/slices/notifier';
 import { ITaskBufferInitialState, IAddTaskPayload, ITask } from 'store/slices/createTest';
@@ -39,6 +43,7 @@ interface IStateProps {
     tasksList: ITask[];
     mainFields: IMainFields;
     haveErrors: boolean;
+    haveErrorFields: boolean;
 }
 
 // Props(actions) connected to the component
@@ -47,7 +52,10 @@ interface IDispatchProps {
     clearTaskBuffer: () => void;
     fetchCreateTest: (credentials: ICreateTestCredentials) => void;
     checkTasksFields: () => void;
+    checkEmptyFields: () => void;
     enqueueSnackbar: (payload: IEnqueueSnackbarPreparePayload) => void;
+    toggleOpenTasksList: (payload: boolean) => void;
+    closeSnackbar: (payload?: string | number) => void;
 }
 
 // Define type of props for 'CreateTestActions' component which describe all props pushed to the component.
@@ -65,6 +73,7 @@ const mapStateTopProps = (state: RootState): IStateProps => ({
     tasksList: selectTasksList(state),
     mainFields: selectSubjectConfigurationsMainFields(state),
     haveErrors: selectIsHaveErrors(state),
+    haveErrorFields: selectIsHaveErrorFields(state),
 });
 
 /**
@@ -73,12 +82,24 @@ const mapStateTopProps = (state: RootState): IStateProps => ({
  */
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
     addTask: (payload: IAddTaskPayload) => dispatch(addTaskAction(payload)),
+
     clearTaskBuffer: () => dispatch(clearTaskBufferAction()),
+
     fetchCreateTest: (credentials: ICreateTestCredentials) =>
         dispatch(fetchCreateTestAction(credentials)),
+
     checkTasksFields: () => dispatch(checkTasksFieldsAction()),
+
+    checkEmptyFields: () => dispatch(checkEmptyFieldsAction()),
+
     enqueueSnackbar: (payload: IEnqueueSnackbarPreparePayload) =>
         dispatch(enqueueSnackbarAction(payload)),
+
+    closeSnackbar: (payload?: string | number) =>
+        dispatch(closeSnackbarAction(payload)),
+
+    toggleOpenTasksList: (payload: boolean) =>
+        dispatch(toggleOpenTasksListAction(payload)),
 });
 
 /**

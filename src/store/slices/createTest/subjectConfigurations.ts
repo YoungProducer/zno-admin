@@ -11,6 +11,12 @@ import { createSlice } from '@reduxjs/toolkit';
 // Application's imports
 import { ILoadingAction } from '../types';
 
+export interface IErrorFields {
+    subjectName: boolean;
+    subSubjectName: boolean;
+    themeName: boolean;
+}
+
 export enum ETestTypes {
     'THEMES' = '0',
     'EXAM' = '1',
@@ -19,6 +25,13 @@ export enum ETestTypes {
 export enum EExamTypes {
     'TRAINING' = '0',
     'PREV_SESSIONS' = '1',
+}
+
+/**
+ * ToggleWithSubSubjectAction
+ */
+interface IToggleWithSubSubjectAction {
+    payload: boolean;
 }
 
 /**
@@ -77,9 +90,11 @@ export interface ISubjectConfigurationsInitialState {
     examType: EExamTypes;
     themeName: string;
     subjects: string[];
+    withSubSubject: boolean;
     loadingSubjects: boolean;
     loadingCreateSubject: boolean;
     craeteSubjectErrorMessage: string;
+    errorFields: IErrorFields;
 }
 
 const initialState: ISubjectConfigurationsInitialState = {
@@ -89,21 +104,54 @@ const initialState: ISubjectConfigurationsInitialState = {
     examType: EExamTypes.TRAINING,
     themeName: '',
     subjects: [],
+    withSubSubject: false,
     loadingSubjects: false,
     loadingCreateSubject: false,
     craeteSubjectErrorMessage: '',
+    errorFields: {
+        subjectName: false,
+        subSubjectName: false,
+        themeName: false,
+    },
 };
 
 const subjectConfigurationsSlice = createSlice({
     initialState,
     name: 'SubjectConfigurations',
     reducers: {
+        /**
+         * Change withSubSubject property
+         */
+        toggleWithSubSubjectAction: (
+            state: ISubjectConfigurationsInitialState,
+            { payload }: IToggleWithSubSubjectAction,
+        ) => ({
+            ...state,
+            withSubSubject: payload,
+        }),
+        /**
+         * Check which fields are empty
+         */
+        checkEmptyFieldsAction: (
+            state: ISubjectConfigurationsInitialState,
+        ) => ({
+            ...state,
+            errorFields: {
+                subjectName: state.subjectName === '',
+                subSubjectName: state.subSubjectName === '' && state.withSubSubject,
+                themeName: state.themeName === '',
+            },
+        }),
         setSubjectNameAction: (
             state: ISubjectConfigurationsInitialState,
             { payload }: ISetSubjectNameAction,
         ) => ({
             ...state,
             subjectName: payload,
+            errorFields: {
+                ...state.errorFields,
+                subjectName: false,
+            },
         }),
         setSubSubjectNameAction: (
             state: ISubjectConfigurationsInitialState,
@@ -111,6 +159,10 @@ const subjectConfigurationsSlice = createSlice({
         ) => ({
             ...state,
             subSubjectName: payload,
+            errorFields: {
+                ...state.errorFields,
+                subSubjectName: false,
+            },
         }),
         setTestTypeAction: (
             state: ISubjectConfigurationsInitialState,
@@ -132,6 +184,10 @@ const subjectConfigurationsSlice = createSlice({
         ) => ({
             ...state,
             themeName: payload,
+            errorFields: {
+                ...state.errorFields,
+                themeName: false,
+            },
         }),
         setSubjectsActions: (
             state: ISubjectConfigurationsInitialState,
@@ -150,10 +206,10 @@ const subjectConfigurationsSlice = createSlice({
         loadingCreateSubjectsAction: (
             state: ISubjectConfigurationsInitialState,
             { payload }: ILoadingAction,
-            ) => ({
-                ...state,
-                loadingCreateSubject: payload,
-            }),
+        ) => ({
+            ...state,
+            loadingCreateSubject: payload,
+        }),
         setCreateSubjectErrorMessageAction: (
             state: ISubjectConfigurationsInitialState,
             { payload }: ISetCreateSubjectErrorMesageAction,
@@ -165,6 +221,8 @@ const subjectConfigurationsSlice = createSlice({
 });
 
 export const {
+    toggleWithSubSubjectAction,
+    checkEmptyFieldsAction,
     setSubjectNameAction,
     setSubSubjectNameAction,
     setTestTypeAction,

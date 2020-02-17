@@ -35,14 +35,7 @@ describe('CreateFormData function', () => {
             ],
         };
 
-        createFormData(data)
-            .then((done: any) => {})
-            .catch((error: any) => {
-                expect(error).toEqual({
-                    message: 'У деяких завдань відсутнє зображення.',
-                    invalidTasks: [0],
-                });
-            });
+        expect(createFormData(data)).rejects.toThrow();
     });
 
     // test('If all data filled right resolve formdata', () => {

@@ -48,13 +48,26 @@ export interface ITaskListInitialState {
      * Id of new task.
      */
     id: number;
+    /**
+     * Related to tasks list component.
+     * Hide or close it.
+     */
+    open: boolean;
 }
 
 const initialState: ITaskListInitialState = {
     tasks: [],
     editionMode: false,
     id: 0,
+    open: false,
 };
+
+/**
+ * ToggleOpenTasksListAction
+ */
+interface IToggleOpenTasksListAction {
+    payload: boolean;
+}
 
 /**
  * AddTaskAction
@@ -174,6 +187,16 @@ const tasksListSlice = createSlice({
     initialState,
     name: 'TasksList',
     reducers: {
+        /**
+         * Open or close tasks list
+         */
+        toggleOpenTasksListAction: (
+            state: ITaskListInitialState,
+            { payload }: IToggleOpenTasksListAction,
+        ) => ({
+            ...state,
+            open: payload,
+        }),
         /**
          * Activate edition mode.
          */
@@ -405,6 +428,7 @@ const tasksListSlice = createSlice({
 });
 
 export const {
+    toggleOpenTasksListAction,
     activateEditionModeAction,
     deactivateEditionModeAction,
     addTaskAction,

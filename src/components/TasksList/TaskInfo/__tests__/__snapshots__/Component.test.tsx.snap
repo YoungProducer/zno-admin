@@ -11,7 +11,10 @@ exports[`TaskInfo component Is matches snapshot 1`] = `
       aria-controls="panel0d-content"
       id="panel0d-header"
     >
-      <WithStyles(ForwardRef(Typography))>
+      <WithStyles(ForwardRef(Typography))
+        color="initial"
+        data-testid="task-info-panel-summary-text"
+      >
         Завдання №1
       </WithStyles(ForwardRef(Typography))>
     </WithStyles(WithStyles(ForwardRef(ExpansionPanelSummary)))>

@@ -7,6 +7,7 @@
 
 // Application's imports
 import {
+    toggleOpenTasksListAction,
     activateEditionModeAction,
     deactivateEditionModeAction,
     addTaskAction,
@@ -18,11 +19,34 @@ import {
 import tasksList, { ITaskListInitialState } from '../createTest/tasksList';
 
 describe('TasksList slice', () => {
+    test('toggleOpenTasksListAction', () => {
+        // Define initial state
+        const initialState: ITaskListInitialState = {
+            tasks: [],
+            editionMode: false,
+            open: false,
+            id: 0,
+        };
+
+        // Get first result when action dispatches with value 'true'
+        const result1 = tasksList(initialState, toggleOpenTasksListAction(true));
+
+        // Check is value of open property equals 'true'
+        expect(result1.open).toBe(true);
+
+        // Get second result when actions dispatches with value 'false'
+        const result2 = tasksList(result1, toggleOpenTasksListAction(false));
+
+        // Check is value of property 'open' equals 'false'
+        expect(result2.open).toBe(false);
+    });
+
     test('activateEditionModeAction', () => {
         const initialState: ITaskListInitialState = {
             tasks: [],
             editionMode: false,
             id: 0,
+            open: false,
         };
 
         const result = tasksList(initialState, activateEditionModeAction());
@@ -35,6 +59,7 @@ describe('TasksList slice', () => {
             tasks: [],
             editionMode: true,
             id: 0,
+            open: false,
         };
 
         const result = tasksList(initialState, deactivateEditionModeAction());
@@ -48,6 +73,7 @@ describe('TasksList slice', () => {
             tasks: [],
             editionMode: false,
             id: 0,
+            open: false,
         };
 
         // Define expected state
@@ -62,6 +88,7 @@ describe('TasksList slice', () => {
             }],
             editionMode: false,
             id: 1,
+            open: false,
         };
 
         // Get result of action
@@ -96,6 +123,7 @@ describe('TasksList slice', () => {
             }],
             editionMode: false,
             id: 1,
+            open: false,
         };
 
         // Define expected state
@@ -103,6 +131,7 @@ describe('TasksList slice', () => {
             tasks: [],
             editionMode: false,
             id: 1,
+            open: false,
         };
 
         // Get result of dispatched aciton
@@ -121,6 +150,7 @@ describe('TasksList slice', () => {
             tasks: [],
             editionMode: false,
             id: 0,
+            open: false,
         };
 
         // Get result of dispatched action
@@ -133,7 +163,7 @@ describe('TasksList slice', () => {
         }));
 
         // Check is id of first task of the first version of the store equals to 0
-        expect(result.tasks[0].id).toEqual(0);
+        expect(result.tasks[0].id).toBe(0);
 
         const result1 = tasksList(result, deleteTaskAction(0));
 
@@ -175,6 +205,7 @@ describe('TasksList slice', () => {
             }],
             editionMode: false,
             id: 2,
+            open: false,
         };
 
         // Define expected state
@@ -197,6 +228,7 @@ describe('TasksList slice', () => {
             }],
             editionMode: false,
             id: 2,
+            open: false,
         };
 
         // Get result of dispatched action
@@ -229,6 +261,7 @@ describe('TasksList slice', () => {
             }],
             editionMode: false,
             id: 2,
+            open: false,
         };
 
         // Define expected state
@@ -252,6 +285,7 @@ describe('TasksList slice', () => {
             }],
             editionMode: false,
             id: 2,
+            open: false,
         };
 
         // Get result of dispatched action

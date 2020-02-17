@@ -16,7 +16,14 @@ import MuiExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { red } from '@material-ui/core/colors';
-import { withStyles, makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import {
+    withStyles,
+    makeStyles,
+    createStyles,
+    Theme,
+    ThemeProvider,
+    createMuiTheme,
+} from '@material-ui/core/styles';
 
 // Application's imports
 import OneRightAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelection/OneRightAnswer';
@@ -26,6 +33,15 @@ import ImageUploadModal, { TUploadImageType } from 'modals/ImageUploadModal';
 import { TypeSelector } from 'components/CreateTest/TaskConfigurations/Component';
 import { ITask, ETaskType } from 'store/slices/createTest';
 import { TTaskInfoProps } from './container';
+
+const expPanelTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: red[300],
+            contrastText: '#fff',
+        },
+    },
+});
 
 // Define classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -149,7 +165,7 @@ const Component = ({
         changeTaskType((event.target as HTMLInputElement).value as ETaskType);
     };
 
-    const { taskType, answer, answersAmount } = task;
+    const { taskType, answer, answersAmount, error } = task;
 
     const handleClickEditButton = () => {
         if (editionMode) {
@@ -171,7 +187,12 @@ const Component = ({
                     aria-controls={`panel${task.id}d-content`}
                     id={`panel${task.id}d-header`}
                 >
-                    <Typography>{`Завдання №${index + 1}`}</Typography>
+                    <Typography
+                        data-testid="task-info-panel-summary-text"
+                        color={error ? 'error' : 'initial'}
+                    >
+                        {`Завдання №${index + 1}`}
+                    </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid

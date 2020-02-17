@@ -15,7 +15,9 @@ export const selectTasksList = (state: RootState) => state.createTest.tasksList.
 
 export const selectTasksListEditionMode = (state: RootState) => state.createTest.tasksList.editionMode;
 
+export const selectTasksListOpen = (state: RootState) => state.createTest.tasksList.open;
+
 export const selectIsHaveErrors = createSelector(
     selectTasksList,
-    (tasks) => tasks.some(task => task.error),
+    (tasks) => tasks.some(task => task.taskImage === null) || tasks.length === 0,
 );

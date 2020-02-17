@@ -20,6 +20,13 @@ describe('Create test component', () => {
         addTask: jest.fn(),
         clearTaskBuffer: jest.fn(),
         fetchCreateTest: jest.fn(),
+        checkTasksFields: jest.fn(),
+        enqueueSnackbar: jest.fn(),
+        toggleOpenTasksList: jest.fn(),
+        closeSnackbar: jest.fn(),
+        checkEmptyFields: jest.fn(),
+        haveErrorFields: false,
+        haveErrors: false,
         mainFields: {
             subjectName: 'foo',
             subSubjectName: '',

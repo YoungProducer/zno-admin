@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
             },
         },
     },
+    button: {
+        color: '#fff',
+    },
 }));
 
 const Component = ({
@@ -36,11 +39,15 @@ const Component = ({
     tasksList,
     mainFields,
     haveErrors,
+    haveErrorFields,
     addTask,
     clearTaskBuffer,
     fetchCreateTest,
     checkTasksFields,
+    checkEmptyFields,
     enqueueSnackbar,
+    closeSnackbar,
+    toggleOpenTasksList,
 }: TCreateTestActionProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
@@ -51,23 +58,31 @@ const Component = ({
     };
 
     const handleCreateTest = () => {
-        console.log(1);
         checkTasksFields();
-        if (!haveErrors) {
-            // fetchCreateTest({ tasksList, mainFields });
+        checkEmptyFields();
+        if (!haveErrors && !haveErrorFields) {
+            fetchCreateTest({ tasksList, mainFields });
         } else {
             enqueueSnackbar({
                 message: 'Деякі завдання заповненні неправильно.',
                 options: {
-                    key: 'error',
                     variant: 'error',
+                    persist: true,
+                    action: (key) => (
+                        <Button
+                            className={classes.button}
+                            onClick={() => {
+                                toggleOpenTasksList(true);
+                                closeSnackbar(key);
+                            }}
+                        >
+                            Переглянути
+                        </Button>
+                    ),
                 },
             });
         }
     };
-
-    useEffect(() => {
-    },        [haveErrors, tasksList, mainFields]);
 
     return (
         <div className={classes.root}>

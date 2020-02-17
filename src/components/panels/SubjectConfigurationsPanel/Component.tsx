@@ -34,25 +34,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-// const subjects = [
-//     'Математика',
-//     'Англійська мова',
-// ];
-
-// export enum ETestTypes {
-//     'THEMES' = '0',
-//     'EXAM' = '1',
-// }
-
-// export enum EExamTypes {
-//     'TRAINING' = '0',
-//     'PREV_SESSIONS' = '1',
-// }
-
 const Component = ({
     className,
     subjects,
+    withSubSubject,
     mainFields,
+    errorFields,
+    toggleWithSubSubject,
     setSubjectName,
     setSubSubjectName,
     setTestType,
@@ -65,7 +53,7 @@ const Component = ({
 
     const { subjectName, subSubjectName, testType, examType, themeName } = mainFields;
 
-    const [withSubSubject, toggleWithSubSubject] = useState<boolean>(false);
+    // const [withSubSubject, toggleWithSubSubject] = useState<boolean>(false);
 
     const handleChangeTestType = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTestType((event.target as HTMLInputElement).value as ETestTypes);
@@ -103,6 +91,8 @@ const Component = ({
                     label='Назва предмету'
                     variant='standard'
                     color='primary'
+                    error={errorFields.subjectName}
+                    helperText={errorFields.subjectName ? 'Поле не заповнено.' : null}
                 />
             </div>
             <div className={classes.part}>
@@ -126,6 +116,8 @@ const Component = ({
                         label='Під-предмет'
                         variant='standard'
                         color='primary'
+                        error={errorFields.subSubjectName}
+                        helperText={errorFields.subSubjectName ? 'Поле не заповнено.' : null}
                     />
                 </Collapse>
             </div>
@@ -158,6 +150,8 @@ const Component = ({
                         label='Назва теми'
                         color='primary'
                         variant='standard'
+                        error={errorFields.themeName}
+                        helperText={errorFields.themeName ? 'Поле не заповнено' : null}
                     />
                 </Collapse>
             </div>

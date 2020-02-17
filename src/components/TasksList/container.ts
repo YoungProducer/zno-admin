@@ -11,8 +11,8 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import { selectTasksList } from 'store/selectors/createTest';
-import { deleteTaskAction } from 'store/slices/createTest';
+import { selectTasksList, selectTasksListOpen } from 'store/selectors/createTest';
+import { deleteTaskAction, toggleOpenTasksListAction } from 'store/slices/createTest';
 import { ITask } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
 
@@ -26,6 +26,7 @@ interface IOwnProps {}
  */
 interface IStateProps {
     tasksList: ITask[];
+    open: boolean;
 }
 
 /**
@@ -33,6 +34,7 @@ interface IStateProps {
  */
 interface IDispatchProps {
     deleteTask: (id: number) => void;
+    toggleOpenTasksList: (payload: boolean) => void;
 }
 
 /**
@@ -46,6 +48,7 @@ export type TTasksListProps = IOwnProps & IStateProps & IDispatchProps;
  */
 const mapStateToProps = (state: RootState): IStateProps => ({
     tasksList: selectTasksList(state),
+    open: selectTasksListOpen(state),
 });
 
 /**
@@ -53,7 +56,11 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  * This function will connect actions to the component.
  */
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    deleteTask: (id: number) => dispatch(deleteTaskAction(id)),
+    deleteTask: (id: number) =>
+        dispatch(deleteTaskAction(id)),
+
+    toggleOpenTasksList: (payload: boolean) =>
+        dispatch(toggleOpenTasksListAction(payload)),
 });
 
 /**

@@ -15,6 +15,7 @@ import {
     fetchGetSubjectsNames,
 } from 'store/actionsCreators/createTest';
 import {
+    toggleWithSubSubjectAction,
     setSubjectNameAction,
     setSubSubjectNameAction,
     setTestTypeAction,
@@ -22,10 +23,13 @@ import {
     setThemeNameAction,
     ETestTypes,
     EExamTypes,
+    IErrorFields,
 } from 'store/slices/createTest';
 import {
     selectSubjects,
     selectSubjectConfigurationsMainFields,
+    selectErrorFields,
+    selectWithSubSubject,
 } from 'store/selectors/createTest';
 import { RootState } from 'store/slices';
 import { ICreateSubjectCredentials } from 'api/types';
@@ -51,6 +55,8 @@ interface IOwnProps {
 interface IStateProps {
     subjects: string[];
     mainFields: IMainFields;
+    errorFields: IErrorFields;
+    withSubSubject: boolean;
 }
 
 /**
@@ -59,6 +65,7 @@ interface IStateProps {
 interface IDispatchProps {
     fetchCreateSubject: (credentials: ICreateSubjectCredentials) => void;
     fetchGetSubjectsNames: () => void;
+    toggleWithSubSubject: (payload: boolean) => void;
     setSubjectName: (name: string) => void;
     setSubSubjectName: (name: string) => void;
     setTestType: (testType: ETestTypes) => void;
@@ -78,6 +85,8 @@ export type TSubjectConfigurationsPanelProps = IOwnProps & IStateProps & IDispat
 const mapStateToProps = (state: RootState): IStateProps => ({
     subjects: selectSubjects(state),
     mainFields: selectSubjectConfigurationsMainFields(state),
+    errorFields: selectErrorFields(state),
+    withSubSubject: selectWithSubSubject(state),
 });
 
 /**
@@ -90,6 +99,9 @@ const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
 
     fetchGetSubjectsNames: () =>
         dispatch(fetchGetSubjectsNames()),
+
+    toggleWithSubSubject: (payload: boolean) =>
+        dispatch(toggleWithSubSubjectAction(payload)),
 
     setSubjectName: (name: string) =>
         dispatch(setSubjectNameAction(name)),

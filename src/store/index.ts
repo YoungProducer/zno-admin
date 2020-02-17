@@ -17,13 +17,24 @@ const midlleware = getDefaultMiddleware({
     thunk: true,
     serializableCheck: ({
         ignoredActions: [
-            // This actions work with File's. To prevent error about non-serializable values needed to ignore its.
+            /**
+             * This actions work with File's.
+             * To prevent error about non-serializable values need to ignore its.
+             */
             'TaskBuffer/setBufferTaskImageAction',
             'TaskBuffer/setBufferExplanationImageAction',
             'TasksList/addTaskAction',
             'TasksList/deleteTaskAction',
             'TasksList/changeTaskImageAction',
             'TasksList/changeExplanationImageAction',
+            /**
+             * This actions in some cases can work with react component.
+             * To prevent errors its must be added to ignoredActions.
+             */
+            'Notifier/closeSnackbarAction',
+            'Notifier/enqueueSnackbarAction',
+            'Notifier/removeSnackbarAction',
+            'TasksList/toggleOpenTasksListAction',
         ],
         ignoredPaths: [
             'createTest.taskBuffer.taskImage',

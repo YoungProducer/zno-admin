@@ -16,6 +16,9 @@ import { ETestTypes, EExamTypes } from 'store/slices/createTest';
 export const selectSubjects = (state: RootState): string[] =>
     state.createTest.subjectConfigurations.subjects;
 
+export const selectWithSubSubject = (state: RootState): boolean =>
+    state.createTest.subjectConfigurations.withSubSubject;
+
 export const selectSubjectsLoading = (state: RootState): boolean =>
     state.createTest.subjectConfigurations.loadingSubjects;
 
@@ -39,6 +42,17 @@ export const selectExamType = (state: RootState): EExamTypes =>
 
 export const selectThemeName = (state: RootState): string =>
     state.createTest.subjectConfigurations.themeName;
+
+export const selectErrorFields = (state: RootState) =>
+    state.createTest.subjectConfigurations.errorFields;
+
+export const selectIsHaveErrorFields = createSelector(
+    selectErrorFields,
+    (errorFields) =>
+        errorFields.subjectName
+        || errorFields.subSubjectName
+        || errorFields.themeName,
+);
 
 export const selectSubjectConfigurationsMainFields = createSelector(
     [

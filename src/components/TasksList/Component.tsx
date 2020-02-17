@@ -67,7 +67,9 @@ const Transition = React.forwardRef<unknown, TransitionProps>(function Transitio
 
 const Component = ({
     tasksList,
+    open,
     deleteTask,
+    toggleOpenTasksList,
 }: TTasksListProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
@@ -80,10 +82,10 @@ const Component = ({
         setExpanded(newExpanded ? panel : false);
     };
 
-    const [openList, toggleOpenList] = useState<boolean>(false);
-    const handleOpenList = () => toggleOpenList(true);
-    const handleCloseList = () => toggleOpenList(false);
-    const handleToggleList = () => openList ? handleCloseList() : handleOpenList();
+    // const [openList, toggleOpenList] = useState<boolean>(false);
+    const handleOpenList = () => toggleOpenTasksList(true);
+    const handleCloseList = () => toggleOpenTasksList(false);
+    const handleToggleList = () => handleOpenList ? handleCloseList() : handleOpenList();
 
     useEffect(() => {
         let lastWord = '';
@@ -123,7 +125,7 @@ const Component = ({
             </Collapse>
             <Dialog
                 fullScreen
-                open={openList}
+                open={open}
                 TransitionComponent={Transition}
             >
                 <AppBar className={classes.appBar}>

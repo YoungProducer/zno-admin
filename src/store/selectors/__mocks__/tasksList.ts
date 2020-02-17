@@ -5,13 +5,6 @@
  * Create mocked store for tasksList selectors.
  */
 
-/**
- * Created by: Oleksandr Bezrukov
- * Creation date: 15 February 2020
- *
- * Create mocked store for test suites.
- */
-
 // External imports
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -19,7 +12,6 @@ import thunk from 'redux-thunk';
 // Application's imports
 import { RootState } from 'store/slices';
 import { EExamTypes, ETestTypes, ETaskType } from 'store/slices/createTest';
-import rootReducer from 'store/slices';
 
 // Define middlewares
 const middlewares = [thunk];
@@ -62,6 +54,12 @@ const store = mockStore({
             subjects: [],
             loadingSubjects: false,
             loadingCreateSubject: false,
+            withSubSubject: false,
+            errorFields: {
+                subjectName: false,
+                subSubjectName: false,
+                themeName: false,
+            },
         },
         taskBuffer: {
             answer: 0,
@@ -72,6 +70,7 @@ const store = mockStore({
         },
         tasksList: {
             editionMode: false,
+            open: false,
             tasks: [{
                 answer: 0,
                 answersAmount: 1,
