@@ -8,7 +8,6 @@
 
 // External imports
 import { connect } from 'react-redux';
-import { WithSnackbarProps } from 'notistack';
 
 // Application's imports
 import { fetchCreateTestAction, ICreateTestCredentials } from 'store/actionsCreators/createTest';
@@ -16,8 +15,17 @@ import {
     selectTaskBuffer,
     selectTasksList,
     selectSubjectConfigurationsMainFields,
+    selectIsHaveErrors,
 } from 'store/selectors/createTest';
-import { addTaskAction, clearTaskBufferAction } from 'store/slices/createTest';
+import {
+    addTaskAction,
+    clearTaskBufferAction,
+    checkTasksFieldsAction,
+} from 'store/slices/createTest';
+import {
+    enqueueSnackbarAction,
+    IEnqueueSnackbarPreparePayload,
+} from 'store/slices/notifier';
 import { ITaskBufferInitialState, IAddTaskPayload, ITask } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
 import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
@@ -30,6 +38,7 @@ interface IStateProps {
     taskBuffer: ITaskBufferInitialState;
     tasksList: ITask[];
     mainFields: IMainFields;
+    haveErrors: boolean;
 }
 
 // Props(actions) connected to the component
@@ -37,6 +46,8 @@ interface IDispatchProps {
     addTask: (payload: IAddTaskPayload) => void;
     clearTaskBuffer: () => void;
     fetchCreateTest: (credentials: ICreateTestCredentials) => void;
+    checkTasksFields: () => void;
+    enqueueSnackbar: (payload: IEnqueueSnackbarPreparePayload) => void;
 }
 
 // Define type of props for 'CreateTestActions' component which describe all props pushed to the component.
@@ -53,6 +64,7 @@ const mapStateTopProps = (state: RootState): IStateProps => ({
     taskBuffer: selectTaskBuffer(state),
     tasksList: selectTasksList(state),
     mainFields: selectSubjectConfigurationsMainFields(state),
+    haveErrors: selectIsHaveErrors(state),
 });
 
 /**
@@ -64,6 +76,9 @@ const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
     clearTaskBuffer: () => dispatch(clearTaskBufferAction()),
     fetchCreateTest: (credentials: ICreateTestCredentials) =>
         dispatch(fetchCreateTestAction(credentials)),
+    checkTasksFields: () => dispatch(checkTasksFieldsAction()),
+    enqueueSnackbar: (payload: IEnqueueSnackbarPreparePayload) =>
+        dispatch(enqueueSnackbarAction(payload)),
 });
 
 /**

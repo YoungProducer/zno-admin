@@ -31,8 +31,11 @@ export const fetchCreateTestAction = (credentials: ICreateTestCredentials) => as
 
     const data = await createFormData(credentials);
 
+    console.log(1);
+
     return await api.createTest(data)
         .then(response => {
+            console.log(123);
             if (response.status !== 200) {
                 dispatch(loadingCreateTestAction(false));
                 throw Error(response.statusText);

@@ -92,6 +92,11 @@ interface ISetErrorTasksAction {
 }
 
 /**
+ * CheckTasksFieldsActions
+ */
+interface ICheckTasksFieldsAction {}
+
+/**
  * ChangeTaskAnswerAction
  */
 export interface IChangeTaskAnswerPayload {
@@ -209,6 +214,18 @@ const tasksListSlice = createSlice({
         ) => ({
             ...state,
             tasks: state.tasks.filter(task => task.id !== payload),
+        }),
+        /**
+         * Check if all fields filled right.
+         */
+        checkTasksFieldsAction: (
+            state: ITaskListInitialState,
+        ) => ({
+            ...state,
+            tasks: state.tasks.map(task =>
+                task.taskImage === null
+                ? { ...task, error: true }
+                : { ...task }),
         }),
         /**
          * Notice tasks which have wrong fields.
@@ -395,6 +412,7 @@ export const {
     setErrorTasksAction,
     deleteTaskImageAction,
     deleteExplanationImageAction,
+    checkTasksFieldsAction,
     changeTaskTypeAction,
     changeTaskAnswerAction,
     changeTaskImageAction,

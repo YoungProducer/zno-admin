@@ -7,7 +7,7 @@
  */
 
 // External imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
@@ -35,9 +35,12 @@ const Component = ({
     taskBuffer,
     tasksList,
     mainFields,
+    haveErrors,
     addTask,
     clearTaskBuffer,
     fetchCreateTest,
+    checkTasksFields,
+    enqueueSnackbar,
 }: TCreateTestActionProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
@@ -48,8 +51,23 @@ const Component = ({
     };
 
     const handleCreateTest = () => {
-        fetchCreateTest({ tasksList, mainFields });
+        console.log(1);
+        checkTasksFields();
+        if (!haveErrors) {
+            // fetchCreateTest({ tasksList, mainFields });
+        } else {
+            enqueueSnackbar({
+                message: 'Деякі завдання заповненні неправильно.',
+                options: {
+                    key: 'error',
+                    variant: 'error',
+                },
+            });
+        }
     };
+
+    useEffect(() => {
+    },        [haveErrors, tasksList, mainFields]);
 
     return (
         <div className={classes.root}>

@@ -1,5 +1,12 @@
 /**
  * Created by: Oleksandr Bezrukov
+ * Creation date: 17 February
+ *
+ * Create mocked store for tasksList selectors.
+ */
+
+/**
+ * Created by: Oleksandr Bezrukov
  * Creation date: 15 February 2020
  *
  * Create mocked store for test suites.
@@ -65,7 +72,15 @@ const store = mockStore({
         },
         tasksList: {
             editionMode: false,
-            tasks: [],
+            tasks: [{
+                answer: 0,
+                answersAmount: 1,
+                explanationImage: null,
+                taskImage: null,
+                taskType: ETaskType.ONE_RIGHT,
+                id: 0,
+                error: true,
+            }],
             id: 0,
         },
     },

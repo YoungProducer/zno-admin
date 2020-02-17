@@ -12,6 +12,7 @@ import {
     addTaskAction,
     deleteTaskAction,
     setErrorTasksAction,
+    checkTasksFieldsAction,
     ETaskType,
 } from '../createTest';
 import tasksList, { ITaskListInitialState } from '../createTest/tasksList';
@@ -205,6 +206,58 @@ describe('TasksList slice', () => {
         expect(result.tasks).toHaveLength(2);
 
         // Check is result equals expected state
+        expect(result).toEqual(expectedState);
+    });
+
+    test('checkTasksFieldsAction', () => {
+        // Define initial state
+        const initialState: ITaskListInitialState = {
+            tasks: [{
+                answer: 0,
+                answersAmount: 1,
+                id: 0,
+                taskType: ETaskType.ONE_RIGHT,
+                taskImage: null,
+                explanationImage: null,
+            }, {
+                answer: 0,
+                answersAmount: 1,
+                id: 1,
+                taskType: ETaskType.ONE_RIGHT,
+                taskImage: null,
+                explanationImage: null,
+            }],
+            editionMode: false,
+            id: 2,
+        };
+
+        // Define expected state
+        const expectedState: ITaskListInitialState = {
+            tasks: [{
+                answer: 0,
+                answersAmount: 1,
+                id: 0,
+                taskType: ETaskType.ONE_RIGHT,
+                taskImage: null,
+                explanationImage: null,
+                error: true,
+            }, {
+                answer: 0,
+                answersAmount: 1,
+                id: 1,
+                taskType: ETaskType.ONE_RIGHT,
+                taskImage: null,
+                explanationImage: null,
+                error: true,
+            }],
+            editionMode: false,
+            id: 2,
+        };
+
+        // Get result of dispatched action
+        const result = tasksList(initialState, checkTasksFieldsAction());
+
+        // Check is all tasks have error
         expect(result).toEqual(expectedState);
     });
 });

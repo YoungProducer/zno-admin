@@ -45,39 +45,39 @@ describe('CreateFormData function', () => {
             });
     });
 
-    test('If all data filled right resolve formdata', () => {
-        const data: ICreateTestCredentials = {
-            mainFields: {
-                subjectName: '',
-                subSubjectName: '',
-                testType: ETestTypes.THEMES,
-                examType: EExamTypes.TRAINING,
-                themeName: '',
-            },
-            tasksList: [
-                {
-                    id: 0,
-                    answer: 0,
-                    answersAmount: 1,
-                    taskType: ETaskType.ONE_RIGHT,
-                    taskImage: {
-                        lastModified: 1231,
-                        name: 'foo',
-                        preview: 'blob://',
-                        size: 312312,
-                        type: 'bar',
-                        text: jest.fn(),
-                        slice: jest.fn(),
-                        stream: jest.fn(),
-                        arrayBuffer: jest.fn(),
-                    },
-                    explanationImage: null,
-                },
-            ],
-        };
+    // test('If all data filled right resolve formdata', () => {
+    //     const data: ICreateTestCredentials = {
+    //         mainFields: {
+    //             subjectName: '',
+    //             subSubjectName: '',
+    //             testType: ETestTypes.THEMES,
+    //             examType: EExamTypes.TRAINING,
+    //             themeName: '',
+    //         },
+    //         tasksList: [
+    //             {
+    //                 id: 0,
+    //                 answer: 0,
+    //                 answersAmount: 1,
+    //                 taskType: ETaskType.ONE_RIGHT,
+    //                 taskImage: {
+    //                     lastModified: 1231,
+    //                     name: 'foo',
+    //                     preview: 'blob://',
+    //                     size: 312312,
+    //                     type: 'bar',
+    //                     text: jest.fn(),
+    //                     slice: jest.fn(),
+    //                     stream: jest.fn(),
+    //                     arrayBuffer: jest.fn(),
+    //                 },
+    //                 explanationImage: null,
+    //             },
+    //         ],
+    //     };
 
-        createFormData(data)
-            .then(done => {
-            })
-    });
+    //     createFormData(data)
+    //         .then(done => {
+    //         })
+    // });
 });
