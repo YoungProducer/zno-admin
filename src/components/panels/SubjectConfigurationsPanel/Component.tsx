@@ -48,6 +48,7 @@ const Component = ({
     setThemeName,
     fetchCreateSubject,
     fetchGetSubjectsNames,
+    closeSnackbar,
 }: TSubjectConfigurationsPanelProps) => {
     const classes = useStyles({});
 
@@ -86,6 +87,11 @@ const Component = ({
                 <AdvancedTextField
                     value={subjectName}
                     callback={setSubjectName}
+                    additionalCallback={() => {
+                        if (errorFields.subjectName) {
+                            closeSnackbar('create-test-error');
+                        }
+                    }}
                     list={subjects}
                     addCallback={() => fetchCreateSubject({ name: subjectName })}
                     label='Назва предмету'
@@ -112,6 +118,11 @@ const Component = ({
                     <AdvancedTextField
                         value={subSubjectName}
                         callback={setSubSubjectName}
+                        additionalCallback={() => {
+                            if (errorFields.subSubjectName) {
+                                closeSnackbar('create-test-error');
+                            }
+                        }}
                         list={[]}
                         label='Під-предмет'
                         variant='standard'
@@ -146,6 +157,11 @@ const Component = ({
                     <AdvancedTextField
                         value={themeName}
                         callback={setThemeName}
+                        additionalCallback={() => {
+                            if (errorFields.subjectName) {
+                                closeSnackbar('create-test-error');
+                            }
+                        }}
                         list={[]}
                         label='Назва теми'
                         color='primary'

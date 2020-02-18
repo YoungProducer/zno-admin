@@ -217,4 +217,50 @@ describe('Notifier slice', () => {
 
         expect(result).toEqual(expectedState);
     });
+
+    test(`If each notifier have no the same key as pushed into the function don't change notifications`, () => {
+        // Define initial state
+        const initialState: INotifierInitialState = {
+            notifications: [{
+                key: 'zoo',
+                message: 'foo',
+                options: {
+                    key: 'zoo',
+                },
+            }],
+        };
+
+        // Define expected state
+        const expectedState: INotifierInitialState = {
+            notifications: [{
+                key: 'zoo',
+                message: 'foo',
+                options: {
+                    key: 'zoo',
+                },
+            }],
+        };
+
+        // Get result of executed action
+        const result = notifier(initialState, closeSnackbarAction('bar'));
+
+        // Check is notifications array in result has length 1
+        expect(result.notifications).toHaveLength(1);
+
+        // Check is result equals to expected state
+        expect(result).toEqual(expectedState);
+    });
+
+    test('Close snackbar by key if notifications array is empty', () => {
+        // Define initial state
+        const initialState: INotifierInitialState = {
+            notifications: [],
+        };
+
+        // Get result of executed action
+        const result = notifier(initialState, closeSnackbarAction('random-key'));
+
+        // Check is notifications array of result has length 0
+        expect(result.notifications).toHaveLength(0);
+    });
 });

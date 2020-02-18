@@ -31,6 +31,7 @@ import {
     selectErrorFields,
     selectWithSubSubject,
 } from 'store/selectors/createTest';
+import { closeSnackbarAction } from 'store/slices/notifier';
 import { RootState } from 'store/slices';
 import { ICreateSubjectCredentials } from 'api/types';
 
@@ -71,6 +72,7 @@ interface IDispatchProps {
     setTestType: (testType: ETestTypes) => void;
     setExamType: (examType: EExamTypes) => void;
     setThemeName: (name: string) => void;
+    closeSnackbar: (payload?: string | number) => void;
 }
 
 /**
@@ -117,6 +119,9 @@ const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
 
     setThemeName: (name: string) =>
         dispatch(setThemeNameAction(name)),
+
+    closeSnackbar: (payload?: string | number) =>
+        dispatch(closeSnackbarAction(payload)),
 });
 
 /**

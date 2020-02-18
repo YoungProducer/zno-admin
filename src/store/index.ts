@@ -35,6 +35,9 @@ const midlleware = getDefaultMiddleware({
             'Notifier/enqueueSnackbarAction',
             'Notifier/removeSnackbarAction',
             'TasksList/toggleOpenTasksListAction',
+            'SubjectConfigurations/setSubjectNameAction',
+            'SubjectConfigurations/setSubSubjectNameAction',
+            'SubjectConfigurations/setThemeNameAction',
         ],
         ignoredPaths: [
             'createTest.taskBuffer.taskImage',

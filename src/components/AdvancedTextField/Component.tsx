@@ -40,9 +40,28 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 interface IAdvancedTextFieldProps extends StandardTextFieldProps {
+    /**
+     * List which will display under the text field.
+     */
     list: string[];
+    /**
+     * Current value of the text field.
+     */
     value: string;
+    /**
+     * Used in onChange prop.
+     * Push event.target.value to this function and call it.
+     */
     callback: (value: string) => void;
+    /**
+     * Used in onChange prop.
+     * Just call this function parallel with 'callback'.
+     */
+    additionalCallback?: () => void;
+    /**
+     * Function which handle 'startAdornment' onClick.
+     * If function is not defined 'startAdornment' won't displayed.
+     */
     addCallback?: () => void;
 }
 
@@ -50,6 +69,7 @@ const Component = ({
     value,
     list,
     callback,
+    additionalCallback,
     addCallback,
     ...other
 }: IAdvancedTextFieldProps) => {
@@ -71,7 +91,13 @@ const Component = ({
         <div className={classes.root}>
             <TextField
                 value={value}
-                onChange={event => callback(event.target.value)}
+                onChange={event => {
+                    callback(event.target.value);
+                    // Check is component have 'additionalCallback' property
+                    if (additionalCallback) {
+                        additionalCallback();
+                    }
+                }}
                 InputProps={{
                     onFocus: handleSetFocused,
                     onBlur: handleSetUnFocused,

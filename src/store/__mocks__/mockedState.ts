@@ -55,6 +55,12 @@ const store = mockStore({
             subjects: [],
             loadingSubjects: false,
             loadingCreateSubject: false,
+            withSubSubject: false,
+            errorFields: {
+                subjectName: false,
+                subSubjectName: false,
+                themeName: false,
+            },
         },
         taskBuffer: {
             answer: 0,
@@ -65,6 +71,7 @@ const store = mockStore({
         },
         tasksList: {
             editionMode: false,
+            open: false,
             tasks: [],
             id: 0,
         },

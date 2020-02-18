@@ -14,6 +14,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // Application's imports
 import { TCreateTestActionProps } from './container';
 import { IImage } from 'store/slices/createTest';
+import SnackbarMessage from './SnackbarMessage';
 
 // Define and describe classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -66,19 +67,24 @@ const Component = ({
             enqueueSnackbar({
                 message: 'Деякі завдання заповненні неправильно.',
                 options: {
+                    content: (key, message) => (
+                        <SnackbarMessage message={message}/>
+                    ),
+                    key: 'create-test-error',
                     variant: 'error',
                     persist: true,
-                    action: (key) => (
-                        <Button
-                            className={classes.button}
-                            onClick={() => {
-                                toggleOpenTasksList(true);
-                                closeSnackbar(key);
-                            }}
-                        >
-                            Переглянути
-                        </Button>
-                    ),
+                    preventDuplicate: true,
+                //     action: (key) => (
+                //         <Button
+                //             className={classes.button}
+                //             onClick={() => {
+                //                 toggleOpenTasksList(true);
+                //                 closeSnackbar(key);
+                //             }}
+                //         >
+                //             Переглянути
+                //         </Button>
+                //     ),
                 },
             });
         }
