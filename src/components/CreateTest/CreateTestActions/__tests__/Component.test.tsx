@@ -16,12 +16,14 @@ import { ETaskType } from 'store/slices/createTest/taskBuffer';
 import { ETestTypes, EExamTypes } from 'store/slices/createTest';
 
 describe('Create test component', () => {
+    const enqueueSnackbar = jest.fn();
+
     const props: TCreateTestActionProps = {
+        enqueueSnackbar,
         addTask: jest.fn(),
         clearTaskBuffer: jest.fn(),
         fetchCreateTest: jest.fn(),
         checkTasksFields: jest.fn(),
-        enqueueSnackbar: jest.fn(),
         toggleOpenTasksList: jest.fn(),
         closeSnackbar: jest.fn(),
         checkEmptyFields: jest.fn(),
@@ -45,7 +47,7 @@ describe('Create test component', () => {
     };
 
     test('to match snapshot', () => {
-        const root = render(<Component {...props}/>);
+        const root = shallow(<Component {...props}/>);
 
         expect(root).toMatchSnapshot();
     });

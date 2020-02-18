@@ -2,29 +2,24 @@
 
 exports[`Create test component to match snapshot 1`] = `
 <div
-  class="makeStyles-root-1"
+  className="makeStyles-root-1"
 >
-  <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-disableElevation"
-    tabindex="0"
-    type="button"
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    disableElevation={true}
+    onClick={[Function]}
+    variant="contained"
   >
-    <span
-      class="MuiButton-label"
-    >
-      Додати завдання
-    </span>
-  </button>
-  <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-disableElevation"
-    tabindex="0"
-    type="button"
+    Додати завдання
+  </WithStyles(ForwardRef(Button))>
+  <WithStyles(ForwardRef(Button))
+    color="primary"
+    data-testid="create-test"
+    disableElevation={true}
+    onClick={[Function]}
+    variant="contained"
   >
-    <span
-      class="MuiButton-label"
-    >
-      Створити тест
-    </span>
-  </button>
+    Створити тест
+  </WithStyles(ForwardRef(Button))>
 </div>
 `;

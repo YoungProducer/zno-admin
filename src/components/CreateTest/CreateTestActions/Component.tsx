@@ -65,10 +65,15 @@ const Component = ({
             fetchCreateTest({ tasksList, mainFields });
         } else {
             enqueueSnackbar({
-                message: 'Деякі завдання заповненні неправильно.',
+                message: haveErrors && !haveErrorFields ? 'Відсутні деякі данні.' : 'Завдання заповнені неправильно.',
                 options: {
                     content: (key, message) => (
-                        <SnackbarMessage message={message}/>
+                        <SnackbarMessage
+                            message={message}
+                            key={key}
+                            closeSnackbar={closeSnackbar}
+                            toggleOpenTasksList={() => toggleOpenTasksList(true)}
+                        />
                     ),
                     key: 'create-test-error',
                     variant: 'error',
@@ -104,6 +109,7 @@ const Component = ({
                 variant='contained'
                 color='primary'
                 disableElevation
+                data-testid='create-test'
                 onClick={handleCreateTest}
             >
                 Створити тест
