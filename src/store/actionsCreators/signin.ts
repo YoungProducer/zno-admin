@@ -69,7 +69,6 @@ export const fetchSignInAction = (credentials: ISignInCredentials) =>
                     dispatch(setLoggedIn(true));
                 })
                 .catch(error => {
-                    console.log(error.response);
                     const errorData = error.response.data.error.data;
 
                     if (Object.keys(error.response.data).some(key => key === 'error')) {

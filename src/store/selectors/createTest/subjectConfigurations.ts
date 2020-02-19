@@ -48,10 +48,11 @@ export const selectErrorFields = (state: RootState) =>
 
 export const selectIsHaveErrorFields = createSelector(
     selectErrorFields,
-    (errorFields) =>
-        errorFields.subjectName
+    (errorFields) => {
+        return errorFields.subjectName
         || errorFields.subSubjectName
-        || errorFields.themeName,
+        || errorFields.themeName;
+    },
 );
 
 export const selectSubjectConfigurationsMainFields = createSelector(

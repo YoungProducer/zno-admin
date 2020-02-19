@@ -34,7 +34,6 @@ export const fetchGetSubjectsNames = () => async (dispatch: Dispatch<any>) => {
         .then((subjectsNames: string[]) => dispatch(setSubjectsActions(subjectsNames)))
         .catch(error => {
             dispatch(loadingSubjectsAction(false));
-            console.log(error);
         });
 };
 

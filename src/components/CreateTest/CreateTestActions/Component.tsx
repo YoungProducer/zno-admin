@@ -59,40 +59,41 @@ const Component = ({
     };
 
     const handleCreateTest = () => {
-        checkTasksFields();
-        checkEmptyFields();
-        if (!haveErrors && !haveErrorFields) {
-            fetchCreateTest({ tasksList, mainFields });
-        } else {
-            enqueueSnackbar({
-                message: haveErrors && !haveErrorFields ? 'Відсутні деякі данні.' : 'Завдання заповнені неправильно.',
-                options: {
-                    content: (key, message) => (
-                        <SnackbarMessage
-                            message={message}
-                            key={key}
-                            closeSnackbar={closeSnackbar}
-                            toggleOpenTasksList={() => toggleOpenTasksList(true)}
-                        />
-                    ),
-                    key: 'create-test-error',
-                    variant: 'error',
-                    persist: true,
-                    preventDuplicate: true,
-                //     action: (key) => (
-                //         <Button
-                //             className={classes.button}
-                //             onClick={() => {
-                //                 toggleOpenTasksList(true);
-                //                 closeSnackbar(key);
-                //             }}
-                //         >
-                //             Переглянути
-                //         </Button>
-                //     ),
-                },
-            });
-        }
+        // checkTasksFields();
+        // checkEmptyFields();
+        // console.log({ haveErrors, haveErrorFields });
+        // if (!haveErrors && !haveErrorFields) {
+        fetchCreateTest({ tasksList, mainFields });
+        // } else {
+        //     enqueueSnackbar({
+        //         message: haveErrors && !haveErrorFields ? 'Відсутні деякі данні.' : 'Завдання заповнені неправильно.',
+        //         options: {
+        //             content: (key, message) => (
+        //                 <SnackbarMessage
+        //                     message={message}
+        //                     key={key}
+        //                     closeSnackbar={closeSnackbar}
+        //                     toggleOpenTasksList={() => toggleOpenTasksList(true)}
+        //                 />
+        //             ),
+        //             key: 'create-test-error',
+        //             variant: 'error',
+        //             persist: true,
+        //             preventDuplicate: true,
+        //         //     action: (key) => (
+        //         //         <Button
+        //         //             className={classes.button}
+        //         //             onClick={() => {
+        //         //                 toggleOpenTasksList(true);
+        //         //                 closeSnackbar(key);
+        //         //             }}
+        //         //         >
+        //         //             Переглянути
+        //         //         </Button>
+        //         //     ),
+        //         },
+        //     });
+        // }
     };
 
     return (

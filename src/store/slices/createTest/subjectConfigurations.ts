@@ -28,6 +28,13 @@ export enum EExamTypes {
 }
 
 /**
+ * SetErrorFieldsAction
+ */
+interface ISetErrorFieldsAction {
+    payload: IErrorFields;
+}
+
+/**
  * ToggleWithSubSubjectAction
  */
 interface IToggleWithSubSubjectAction {
@@ -217,6 +224,17 @@ const subjectConfigurationsSlice = createSlice({
             ...state,
             craeteSubjectErrorMessage: payload,
         }),
+        setErrorFieldsAction: (
+            state: ISubjectConfigurationsInitialState,
+            { payload }: ISetErrorFieldsAction,
+        ) => ({
+            ...state,
+            errorFields: {
+                ...state.errorFields,
+                ...payload,
+                subSubjectName: state.withSubSubject && payload.subSubjectName,
+            },
+        }),
     },
 });
 
@@ -232,6 +250,7 @@ export const {
     loadingSubjectsAction,
     loadingCreateSubjectsAction,
     setCreateSubjectErrorMessageAction,
+    setErrorFieldsAction,
 } = subjectConfigurationsSlice.actions;
 
 export default subjectConfigurationsSlice.reducer;

@@ -58,7 +58,7 @@ export interface ITaskListInitialState {
 const initialState: ITaskListInitialState = {
     tasks: [],
     editionMode: false,
-    id: 0,
+    id: 1,
     open: false,
 };
 

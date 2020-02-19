@@ -20,6 +20,8 @@ import { RootState } from 'store/slices';
 interface IOwnProps {
     message: React.ReactNode;
     key: string | number;
+    haveErrors: boolean;
+    haveErrorFields: boolean;
     closeSnackbar: (key: string | number) => void;
     toggleOpenTasksList: () => void;
 }
@@ -28,8 +30,8 @@ interface IOwnProps {
  * Props which component get from the redux store.
  */
 interface IStateProps {
-    haveErrors: boolean;
-    haveErrorFields: boolean;
+    // haveErrors: boolean;
+    // haveErrorFields: boolean;
 }
 
 /**
@@ -47,8 +49,8 @@ export type TSnackbarMessageProps = IOwnProps & IStateProps & IDispatchProps;
  * This function will connect variables from redux store to the component.
  */
 const mapStateToProps = (state: RootState): IStateProps => ({
-    haveErrors: selectIsHaveErrors(state),
-    haveErrorFields: selectIsHaveErrorFields(state),
+    // haveErrors: selectIsHaveErrors(state),
+    // haveErrorFields: selectIsHaveErrorFields(state),
 });
 
 /**
