@@ -13,7 +13,7 @@ import { RootState } from 'store/slices';
 import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
 import { ETestTypes, EExamTypes } from 'store/slices/createTest';
 
-export const selectSubjects = (state: RootState): string[] =>
+export const selectSubjects = (state: RootState) =>
     state.createTest.subjectConfigurations.subjects;
 
 export const selectWithSubSubject = (state: RootState): boolean =>

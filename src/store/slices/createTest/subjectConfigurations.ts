@@ -79,8 +79,13 @@ interface ISetThemeNameAction {
 /**
  * SetSubjectsAction
  */
+export interface ISubject {
+    id: string;
+    name: string;
+}
+
 interface ISetSubjectsAction {
-    payload: string[];
+    payload: ISubject[];
 }
 
 /**
@@ -96,7 +101,7 @@ export interface ISubjectConfigurationsInitialState {
     testType: ETestTypes;
     examType: EExamTypes;
     themeName: string;
-    subjects: string[];
+    subjects: ISubject[];
     withSubSubject: boolean;
     loadingSubjects: boolean;
     loadingCreateSubject: boolean;

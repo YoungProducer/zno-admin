@@ -95,9 +95,18 @@ class Api implements IApi {
      */
     getSubjectsNames = async() =>
         await this.axiosInstance.get(
-            '/tasks/subjects/names',
+            '/api/subject',
             { withCredentials: true },
         )
+
+    getSubSubjects = async () =>
+        await this.axiosInstance.get(
+            '/api/subject?subSubjects=true',
+            { withCredentials: true },
+        )
+
+    getSubjectsData = async (): Promise<AxiosResponse<any>[]> =>
+        await axios.all([await this.getSubjectsNames(), await this.getSubSubjects()])
 
     createSubject = async (credentials: ICreateSubjectCredentials) =>
         await this.axiosInstance.post(
@@ -108,7 +117,7 @@ class Api implements IApi {
 
     createTest = async (credentials: FormData) =>
         await this.axiosInstance.post(
-            '/tasks/create',
+            '/api/test-suite',
             credentials,
             { withCredentials: true },
         )

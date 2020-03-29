@@ -92,7 +92,7 @@ const Component = ({
                             closeSnackbar('create-test-error');
                         }
                     }}
-                    list={subjects}
+                    list={subjects.map(subject => subject.name)}
                     addCallback={() => fetchCreateSubject({ name: subjectName })}
                     label='Назва предмету'
                     variant='standard'

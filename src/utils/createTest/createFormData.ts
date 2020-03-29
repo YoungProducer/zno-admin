@@ -7,6 +7,7 @@
 
 // Application's imports
 import { ICreateTestCredentials } from 'store/actionsCreators/createTest';
+import { ETestTypes, EExamTypes, ETaskType } from 'store/slices/createTest';
 
 export const createFormData = ({ tasksList, mainFields }: ICreateTestCredentials): Promise<FormData> =>
     new Promise((resolve, reject) => {
@@ -50,19 +51,46 @@ export const createFormData = ({ tasksList, mainFields }: ICreateTestCredentials
                         };
                     },      {});
 
-            if (Object.values(invalidFields).some(value => value === true) || invalidTasks.length !== 0 || tasksList.length === 0) {
-                console.log('reject');
-                reject({ invalidTasks, invalidFields });
-            }
+            // if (Object.values(invalidFields).some(value => value === true) || invalidTasks.length !== 0 || tasksList.length === 0) {
+            //     console.log('reject');
+            //     reject({ invalidTasks, invalidFields });
+            // }
 
             const additionalData = tasksList.map(task => ({
-                type: task.taskType,
-                answer: task.answer,
+                type: task.taskType === ETaskType.ONE_RIGHT
+                    ? 'SINGLE'
+                        : task.taskType === ETaskType.RELATIONS
+                        ? 'RELATIONS'
+                    : 'TEXT',
+                answer: Array.isArray(task.answer)
+                    ? task.answer.map(answer => typeof answer === 'number' ? answer.toString() : answer)
+                    : task.answer.toString(),
                 id: task.id,
             }));
 
-            data.append('additionalData', JSON.stringify(additionalData));
-            data.append('testConfiguration', JSON.stringify(mainFields));
+            if (mainFields.subjectName) {
+                data.append('subjectName', mainFields.subjectName);
+            }
+
+            if (mainFields.subSubjectName) {
+                data.append('subSubjectName', mainFields.subSubjectName);
+            }
+
+            if (mainFields.testType === ETestTypes.THEMES) {
+                data.append('theme', mainFields.themeName);
+            }
+
+            if (mainFields.testType === ETestTypes.EXAM) {
+                if (mainFields.examType === EExamTypes.TRAINING) {
+                    data.append('training', mainFields.themeName);
+                }
+                if (mainFields.examType === EExamTypes.PREV_SESSIONS) {
+                    data.append('session', mainFields.themeName);
+                }
+            }
+
+            data.append('answers', JSON.stringify(additionalData));
+            // data.append('testConfiguration', JSON.stringify(mainFields));
             resolve(data);
         } catch (err) {
             reject(err);

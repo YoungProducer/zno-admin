@@ -31,7 +31,7 @@ export const fetchGetSubjectsNames = () => async (dispatch: Dispatch<any>) => {
 
             return response.data;
         })
-        .then((subjectsNames: string[]) => dispatch(setSubjectsActions(subjectsNames)))
+        .then((subjectsNames) => dispatch(setSubjectsActions(subjectsNames)))
         .catch(error => {
             dispatch(loadingSubjectsAction(false));
         });

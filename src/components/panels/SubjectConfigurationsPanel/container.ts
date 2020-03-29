@@ -24,6 +24,7 @@ import {
     ETestTypes,
     EExamTypes,
     IErrorFields,
+    ISubject,
 } from 'store/slices/createTest';
 import {
     selectSubjects,
@@ -54,7 +55,7 @@ interface IOwnProps {
  * Props which component get from the redux-store.
  */
 interface IStateProps {
-    subjects: string[];
+    subjects: ISubject[];
     mainFields: IMainFields;
     errorFields: IErrorFields;
     withSubSubject: boolean;
