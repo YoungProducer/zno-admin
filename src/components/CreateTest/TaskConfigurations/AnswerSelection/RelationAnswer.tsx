@@ -48,8 +48,8 @@ const Component = ({
 
     const handleChangeAnswers = (value: string, hindex: number, vindex: number) => {
         setTaskAnswer({
-            elIndex: vindex,
-            answer: answer[vindex] === value
+            elIndex: hindex,
+            answer: answer[hindex] === value
                 ? ''
                 : value,
         });

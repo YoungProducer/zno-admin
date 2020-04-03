@@ -32,7 +32,7 @@ export namespace TaskSlice {
 }
 
 const initialState: TaskSlice.State = {
-    answer: [],
+    answer: [''],
     type: 'SINGLE',
     answersAmount: 1,
 };
@@ -77,7 +77,7 @@ const task = createSlice({
             answersAmount: payload,
             answer: payload > state.answersAmount
                 ? state.answer.concat([''])
-                : state.answer.slice(payload),
+                : state.answer.slice(0, payload),
         }),
     },
 });

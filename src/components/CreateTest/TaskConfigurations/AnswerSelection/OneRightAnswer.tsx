@@ -33,7 +33,7 @@ const Component = ({
     const handleSetAnswer = (value: string, index: number) => {
         setTaskAnswer({
             elIndex: 0,
-            answer: value === answer[index]
+            answer: value === answer[0]
                 ? ''
                 : value,
         });
@@ -50,7 +50,7 @@ const Component = ({
                             {el}
                         </Typography>
                         <Cell
-                            selected={answer[index] === value}
+                            selected={answer[0] === value}
                             callback={() => handleSetAnswer(value, index)}
                         />
                     </Grid>

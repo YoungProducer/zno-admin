@@ -37,7 +37,7 @@ const Component = () => {
             elevation={3}
             className={classes.root}
         >
-            <TasksList />
+            {/* <TasksList /> */}
             <Typography
                 variant='h4'
                 color='primary'
@@ -46,8 +46,8 @@ const Component = () => {
                 Створення завдань та тесту
             </Typography>
             <TaskConfigurations />
-            <UploadImages />
-            <CreateTestActions />
+            {/* <UploadImages />
+            <CreateTestActions /> */}
         </Paper>
     );
 };
