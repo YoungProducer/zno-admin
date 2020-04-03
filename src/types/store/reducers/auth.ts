@@ -1,4 +1,4 @@
-export interface AuthInitialState {
+export interface AuthState {
     loggedIn: boolean;
     signedUp: boolean;
 }

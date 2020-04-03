@@ -30,7 +30,7 @@ import {
     closeSnackbarAction,
     IEnqueueSnackbarPreparePayload,
 } from 'store/slices/notifier';
-import { ITaskBufferInitialState, IAddTaskPayload, ITask } from 'store/slices/createTest';
+import { ITaskBufferState, IAddTaskPayload, ITask } from 'store/slices/createTest';
 import { RootState } from 'store/slices';
 import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
 
@@ -39,7 +39,7 @@ interface IOwnProps {}
 
 // Props which component get from redux store
 interface IStateProps {
-    taskBuffer: ITaskBufferInitialState;
+    taskBuffer: ITaskBufferState;
     tasksList: ITask[];
     mainFields: IMainFields;
     haveErrors: boolean;

@@ -54,11 +54,11 @@ export interface INotification {
     key: string | number;
 }
 
-export interface INotifierInitialState {
+export interface INotifierState {
     notifications: INotification[];
 }
 
-const initialState: INotifierInitialState = {
+const initialState: INotifierState = {
     notifications: [],
 };
 
@@ -68,7 +68,7 @@ const notifierSlice = createSlice({
     reducers: {
         enqueueSnackbarAction: {
             reducer: (
-                state: INotifierInitialState,
+                state: INotifierState,
                 { payload }: IEnqueueSnackbarAction,
             ) => ({
                 ...state,
@@ -97,7 +97,7 @@ const notifierSlice = createSlice({
         },
         closeSnackbarAction: {
             reducer: (
-                state: INotifierInitialState,
+                state: INotifierState,
                 { payload }: ICloseSnackbarAction,
             ) => ({
                 ...state,
@@ -119,7 +119,7 @@ const notifierSlice = createSlice({
             }),
         },
         removeSnackbarAction: (
-            state: INotifierInitialState,
+            state: INotifierState,
             { payload }: IRemoveSnackbarAction,
         ) => ({
             ...state,

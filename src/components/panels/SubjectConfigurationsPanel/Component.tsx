@@ -5,6 +5,7 @@
 
 // External imports
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CheckBox from '@material-ui/core/Checkbox';

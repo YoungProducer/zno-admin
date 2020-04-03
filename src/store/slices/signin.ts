@@ -58,7 +58,7 @@ interface ISetInvalidFieldsMessagesAction {
     payload: ISetInvalidFieldsMessagesPayload;
 }
 
-export interface ISignInInitialState {
+export interface ISignInState {
     user?: IUser;
     invalidFields: ISignInInvalidFields;
     invalidFieldsMessages: ISignInInvalidFieldsMessages;
@@ -71,7 +71,7 @@ const defaultInvalidFieldsMessages: ISignInInvalidFieldsMessages = {
     password: 'Мінімум 8 символів.',
 };
 
-const initialState: ISignInInitialState = {
+const initialState: ISignInState = {
     loading: false,
     loggedIn: true,
     invalidFields: {
@@ -86,27 +86,27 @@ const signInSlice = createSlice({
     name: 'SignIn',
     reducers: {
         setLoggedIn: (
-            state: ISignInInitialState,
+            state: ISignInState,
             { payload }: ISetLoggedInAction,
         ) => ({
             ...state,
             loggedIn: payload,
         }),
         setUserDataAction: (
-            state: ISignInInitialState,
+            state: ISignInState,
             { payload }: ISetUserDataAction,
         ) => ({
             ...state,
             user: payload,
         }),
         deleteUserDataAction: (
-            state: ISignInInitialState,
+            state: ISignInState,
         ) => ({
             ...state,
             user: null,
         }),
         setSignInInvalidFieldsAction: (
-            state: ISignInInitialState,
+            state: ISignInState,
             { payload }: ISetInvalidFieldsAction,
             ) => {
             const { invalidFields } = state;
@@ -130,7 +130,7 @@ const signInSlice = createSlice({
             };
         },
         clearSignInInvalidFieldsAction: (
-            state: ISignInInitialState,
+            state: ISignInState,
         ) => {
             const { invalidFields } = state;
 
@@ -148,7 +148,7 @@ const signInSlice = createSlice({
             };
         },
         setSignInInvalidFieldsMessagesAction: (
-            state: ISignInInitialState,
+            state: ISignInState,
             { payload }: ISetInvalidFieldsMessagesAction,
         ) => {
             const { invalidFieldsMessages } = state;
@@ -173,13 +173,13 @@ const signInSlice = createSlice({
             };
         },
         clearSignInInvalidFieldsMessagesAction: (
-            state: ISignInInitialState,
+            state: ISignInState,
         ) => ({
             ...state,
             invalidFieldsMessages: defaultInvalidFieldsMessages,
         }),
         loadingSignInAction: (
-            state: ISignInInitialState,
+            state: ISignInState,
             { payload }: ILoadingAction,
         ) => ({
             ...state,

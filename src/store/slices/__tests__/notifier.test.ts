@@ -14,7 +14,7 @@ import {
     enqueueSnackbarAction,
     closeSnackbarAction,
     removeSnackbarAction,
-    INotifierInitialState,
+    INotifierState,
 } from 'store/slices/notifier';
 import store from 'store/__mocks__/mockedState';
 // import store from 'store';
@@ -23,12 +23,12 @@ import notifier from 'store/slices/notifier';
 describe('Notifier slice', () => {
     test('Enqueue snackbar', () => {
         // Define initial state
-        const initialState: INotifierInitialState = {
+        const initialState: INotifierState = {
             notifications: [],
         };
 
         // Define expected state
-        const expectedState: INotifierInitialState = {
+        const expectedState: INotifierState = {
             notifications: [
                 {
                     key: 'bar',
@@ -57,12 +57,12 @@ describe('Notifier slice', () => {
 
     test('Enqueue snackbar without key parametr', () => {
         // Define initial state
-        const initialState: INotifierInitialState = {
+        const initialState: INotifierState = {
             notifications: [],
         };
 
         // Define expected state
-        const expectedState: INotifierInitialState = {
+        const expectedState: INotifierState = {
             notifications: [
                 {
                     key: 'bar',
@@ -89,7 +89,7 @@ describe('Notifier slice', () => {
 
     test('Close snackbar by key', () => {
         // Define initial state
-        const initialState: INotifierInitialState = {
+        const initialState: INotifierState = {
             notifications: [
                 {
                     key: 'bar',
@@ -109,7 +109,7 @@ describe('Notifier slice', () => {
         };
 
         // Define expected state
-        const expectedState: INotifierInitialState = {
+        const expectedState: INotifierState = {
             notifications: [{
                 key: 'bar',
                 message: 'foo',
@@ -137,7 +137,7 @@ describe('Notifier slice', () => {
     });
 
     test('Close all snack bars', () => {
-        const initialState: INotifierInitialState = {
+        const initialState: INotifierState = {
             notifications: [
                 {
                     key: 'bar',
@@ -156,7 +156,7 @@ describe('Notifier slice', () => {
             ],
         };
 
-        const expectedState: INotifierInitialState = {
+        const expectedState: INotifierState = {
             notifications: [{
                 key: 'bar',
                 message: 'foo',
@@ -182,7 +182,7 @@ describe('Notifier slice', () => {
     });
 
     test('Remove snackbar by key', () => {
-        const initialState: INotifierInitialState = {
+        const initialState: INotifierState = {
             notifications: [
                 {
                     key: 'bar',
@@ -201,7 +201,7 @@ describe('Notifier slice', () => {
             ],
         };
 
-        const expectedState: INotifierInitialState = {
+        const expectedState: INotifierState = {
             notifications: [{
                 key: 'zoo',
                 message: 'foo',
@@ -220,7 +220,7 @@ describe('Notifier slice', () => {
 
     test(`If each notifier have no the same key as pushed into the function don't change notifications`, () => {
         // Define initial state
-        const initialState: INotifierInitialState = {
+        const initialState: INotifierState = {
             notifications: [{
                 key: 'zoo',
                 message: 'foo',
@@ -231,7 +231,7 @@ describe('Notifier slice', () => {
         };
 
         // Define expected state
-        const expectedState: INotifierInitialState = {
+        const expectedState: INotifierState = {
             notifications: [{
                 key: 'zoo',
                 message: 'foo',
@@ -253,7 +253,7 @@ describe('Notifier slice', () => {
 
     test('Close snackbar by key if notifications array is empty', () => {
         // Define initial state
-        const initialState: INotifierInitialState = {
+        const initialState: INotifierState = {
             notifications: [],
         };
 

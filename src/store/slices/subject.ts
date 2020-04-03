@@ -17,13 +17,13 @@ export interface ISetSubjectsAction {
 
 export type TAddSubjectPayload = Subject.Data;
 
-export interface ISubjectInitialState {
+export interface ISubjectState {
     loading: boolean;
     subjects: Subject.Data[];
     subSubjects: Subject.Data[];
 }
 
-const initialState: ISubjectInitialState = {
+const initialState: ISubjectState = {
     loading: false,
     subjects: [],
     subSubjects: [],
@@ -34,28 +34,28 @@ const subject = createSlice({
     name: 'Subject',
     reducers: {
         toggleSubjectLoadingAction: (
-            state: ISubjectInitialState,
+            state: ISubjectState,
             { payload }: PayloadAction<boolean>,
         ) => ({
             ...state,
             loading: payload,
         }),
         setSubjectsAction: (
-            state: ISubjectInitialState,
+            state: ISubjectState,
             { payload }: ISetSubjectsAction,
         ) => ({
             ...state,
             subjects: payload,
         }),
         setSubSubjectsAction: (
-            state: ISubjectInitialState,
+            state: ISubjectState,
             { payload }: ISetSubjectsAction,
         ) => ({
             ...state,
             subSubjects: payload,
         }),
         addSubjectAction: (
-            state: ISubjectInitialState,
+            state: ISubjectState,
             { payload }: PayloadAction<TAddSubjectPayload>,
         ) => {
             const newSubjects = state.subjects.concat(payload);
@@ -66,7 +66,7 @@ const subject = createSlice({
             };
         },
         addSubSubjectAction: (
-            state: ISubjectInitialState,
+            state: ISubjectState,
             { payload }: PayloadAction<TAddSubjectPayload>,
         ) => {
             const newSubSubjects = state.subSubjects.concat(payload);

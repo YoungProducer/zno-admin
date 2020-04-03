@@ -11,7 +11,7 @@
 import subject, {
     addSubjectAction,
     addSubSubjectAction,
-    ISubjectInitialState,
+    ISubjectState,
 } from '../subject';
 
 describe('Subject slice', () => {
@@ -19,7 +19,7 @@ describe('Subject slice', () => {
         /** Define inital state */
         const initialState = {
             subjects: [],
-        } as ISubjectInitialState;
+        } as ISubjectState;
 
         /** Dispatch action */
         const result = subject(initialState, addSubjectAction({
@@ -35,7 +35,7 @@ describe('Subject slice', () => {
         /** Define inital state */
         const initialState = {
             subSubjects: [],
-        } as ISubjectInitialState;
+        } as ISubjectState;
 
         /** Dispatch action */
         const result = subject(initialState, addSubSubjectAction({
