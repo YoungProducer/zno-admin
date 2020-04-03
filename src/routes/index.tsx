@@ -3,7 +3,7 @@
 
 // External imports
 import React from 'react';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
@@ -13,6 +13,7 @@ import CreateTest from 'components/CreateTest';
 import SubjectConfigurationsPanel from 'components/panels/SubjectConfigurationsPanel';
 import SignIn from 'components/SignIn';
 import { TRoutesProps } from 'containers/routes';
+import history from './history';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     panel: {
@@ -26,7 +27,7 @@ const Component = ({ loggedIn }: TRoutesProps) => {
     const classes = useStyles({});
 
     return(
-        <HashRouter>
+        <Router history={history}>
             <Switch>
                 <Route exact path='/'>
                     { loggedIn
@@ -74,7 +75,7 @@ const Component = ({ loggedIn }: TRoutesProps) => {
                     }/>
                 </PrivateRoute>
             </Switch>
-        </HashRouter>
+        </Router>
     );
 };
 
