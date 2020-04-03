@@ -47,7 +47,7 @@ export interface IApi {
     signIn: (payload: Auth.SignInPayload) => Promise<AxiosResponse<Auth.SignInResponseData>>;
 
     /** Subject */
-    subjectsData: () => Promise<AxiosResponse<Subject.Data>>;
-    subSubjectsData: () => Promise<AxiosResponse<Subject.Data>>;
+    subjectsData: () => Promise<AxiosResponse<Subject.Data[]>>;
+    subSubjectsData: () => Promise<AxiosResponse<Subject.Data[]>>;
     createSubject: (payload: Subject.CreatePayload) => Promise<AxiosResponse<Subject.Data>>;
 }
