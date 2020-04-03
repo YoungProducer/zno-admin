@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./scripts/start.js",
     "build": "rm -rf ./build && node ./scripts/build.js",
-    "test": "jest --watchAll --updateSnapshot --detectOpenHandles"
+    "test": "jest --watchAll --updateSnapshot --detectOpenHandles",
+    "test:changed": "jest --onlyChanged"
   },
   "license": "MIT",
   "devDependencies": {
