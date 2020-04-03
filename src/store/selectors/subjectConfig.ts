@@ -25,3 +25,9 @@ export const selectExamType = (state: RootState) =>
 
 export const selectWithSubSubject = (state: RootState) =>
     state.subjectConfig.withSubSubject;
+
+export const selectSubjectConfigErrorFields = (state: RootState) =>
+    state.subjectConfig.errorFields;
+
+export const selectSubjectConfigFieldsMessages = (state: RootState) =>
+    state.subjectConfig.fieldsMessages;

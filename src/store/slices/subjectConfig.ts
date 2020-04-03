@@ -11,22 +11,52 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type TTestType = 'THEME' | 'EXAM';
 export type TExamType = 'SESSION' | 'TRAINING';
 
-export interface ISubjectConfigState {
-    subjectName: string;
-    subSubjectName: string;
-    themeName: string;
-    withSubSubject: boolean;
-    testType: TTestType;
-    examType: TExamType;
+export namespace SubjectConfig {
+    export interface ErrorFields {
+        subjectName: boolean;
+        subSubjectName: boolean;
+        themeName: boolean;
+    }
+
+    export interface FieldsMessages {
+        subjectName: string;
+        subSubjectName: string;
+        themeName: string;
+    }
+
+    export interface State {
+        subjectName: string;
+        subSubjectName: string;
+        themeName: string;
+        withSubSubject: boolean;
+        testType: TTestType;
+        examType: TExamType;
+        errorFields: ErrorFields;
+        fieldsMessages: FieldsMessages;
+    }
 }
 
-const initialState: ISubjectConfigState = {
+const defaultErrorFields: SubjectConfig.ErrorFields = {
+    subjectName: false,
+    subSubjectName: false,
+    themeName: false,
+};
+
+const defaultFieldsMessages: SubjectConfig.FieldsMessages = {
+    subjectName: '',
+    subSubjectName: '',
+    themeName: '',
+};
+
+const initialState: SubjectConfig.State = {
     subjectName: '',
     subSubjectName: '',
     themeName: '',
     withSubSubject: false,
     testType: 'EXAM',
     examType: 'TRAINING',
+    errorFields: defaultErrorFields,
+    fieldsMessages: defaultFieldsMessages,
 };
 
 const subjectConfig = createSlice({
@@ -34,47 +64,85 @@ const subjectConfig = createSlice({
     name: 'SubjectConfig',
     reducers: {
         setSubjectNameAction: (
-            state: ISubjectConfigState,
+            state: SubjectConfig.State,
             { payload }: PayloadAction<string>,
         ) => ({
             ...state,
             subjectName: payload,
         }),
         setSubSubjectNameAction: (
-            state: ISubjectConfigState,
+            state: SubjectConfig.State,
             { payload }: PayloadAction<string>,
         ) => ({
             ...state,
             subSubjectName: state.withSubSubject ? payload : state.subSubjectName,
         }),
         setThemeNameAction: (
-            state: ISubjectConfigState,
+            state: SubjectConfig.State,
             { payload }: PayloadAction<string>,
         ) => ({
             ...state,
             themeName: payload,
         }),
         setTestTypeAction: (
-            state: ISubjectConfigState,
+            state: SubjectConfig.State,
             { payload }: PayloadAction<TTestType>,
         ) => ({
             ...state,
             testType: payload,
         }),
         setExamTypeAction: (
-            state: ISubjectConfigState,
+            state: SubjectConfig.State,
             { payload }: PayloadAction<TExamType>,
         ) => ({
             ...state,
             examType: payload,
         }),
         toggleWithSubSubjectAction: (
-            state: ISubjectConfigState,
+            state: SubjectConfig.State,
             { payload }: PayloadAction<boolean>,
         ) => ({
             ...state,
             withSubSubject: payload,
         }),
+        setSubjectConfigErrorFields: {
+            reducer: (
+                state: SubjectConfig.State,
+                { payload }: PayloadAction<string[]>,
+            ) => {
+                const errorFields = Object.keys(state.errorFields).reduce((acc, curr) => {
+                    const match = payload.some(field => field === curr);
+
+                    return {
+                        ...acc,
+                        [curr]: match,
+                    };
+                }, {} as SubjectConfig.ErrorFields);
+
+                return {
+                    ...state,
+                    errorFields,
+                };
+            },
+            prepare: (payload?: string[]) => ({
+                payload: payload || [],
+            }),
+        },
+        setSubjectConfigFieldsMessages: {
+            reducer: (
+                state: SubjectConfig.State,
+                { payload }: PayloadAction<Partial<SubjectConfig.FieldsMessages>>,
+            ) => ({
+                ...state,
+                fieldsMessages: {
+                    ...state.fieldsMessages,
+                    ...payload,
+                },
+            }),
+            prepare: (messages?: Partial<SubjectConfig.FieldsMessages>) => ({
+                payload: messages || defaultFieldsMessages,
+            }),
+        },
     },
 });
 
@@ -85,6 +153,8 @@ export const {
     setTestTypeAction,
     setThemeNameAction,
     toggleWithSubSubjectAction,
+    setSubjectConfigErrorFields,
+    setSubjectConfigFieldsMessages,
 } = subjectConfig.actions;
 
 export default subjectConfig.reducer;

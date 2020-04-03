@@ -9,6 +9,7 @@
         "ter-arrow-parens": false,
         "variable-name": false,
         "prefer-const": false,
-        "no-increment-decrement": false
+        "no-increment-decrement": false,
+        "align": false
     }
 }
