@@ -20,13 +20,13 @@ export type TAddSubjectPayload = Subject.Data;
 export interface ISubjectInitialState {
     loading: boolean;
     subjects: Subject.Data[];
-    subSubejcts: Subject.Data[];
+    subSubjects: Subject.Data[];
 }
 
 const initialState: ISubjectInitialState = {
     loading: false,
     subjects: [],
-    subSubejcts: [],
+    subSubjects: [],
 };
 
 const subject = createSlice({
@@ -52,7 +52,7 @@ const subject = createSlice({
             { payload }: ISetSubjectsAction,
         ) => ({
             ...state,
-            subSubejcts: payload,
+            subSubjects: payload,
         }),
         addSubjectAction: (
             state: ISubjectInitialState,
@@ -69,11 +69,11 @@ const subject = createSlice({
             state: ISubjectInitialState,
             { payload }: PayloadAction<TAddSubjectPayload>,
         ) => {
-            const newSubSubjects = state.subSubejcts.concat(payload);
+            const newSubSubjects = state.subSubjects.concat(payload);
 
             return {
                 ...state,
-                subSubejcts: newSubSubjects,
+                subSubjects: newSubSubjects,
             };
         },
     },

@@ -34,7 +34,7 @@ describe('Subject slice', () => {
     test('addSubSubjectAction', () => {
         /** Define inital state */
         const initialState = {
-            subSubejcts: [],
+            subSubjects: [],
         } as ISubjectInitialState;
 
         /** Dispatch action */
@@ -44,6 +44,6 @@ describe('Subject slice', () => {
         }));
 
         /** Assert result has right value */
-        expect(result.subSubejcts).toEqual([{ id: 'foo', name: 'bar' }]);
+        expect(result.subSubjects).toEqual([{ id: 'foo', name: 'bar' }]);
     });
 });
