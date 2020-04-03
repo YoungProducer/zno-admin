@@ -41,10 +41,10 @@ const Component = ({
         const value = (event.target as HTMLInputElement).value;
         // If index of answers in mapped array equals to index from parametr replace it to value from event.
         // In other case return previous value.
-        if (Array.isArray(answer)) {
-            const newAnswer = answer.map((ans, idx) => idx === index ? value : answer);
-            setTaskAnswer(newAnswer);
-        }
+        setTaskAnswer({
+            elIndex: index,
+            answer: value,
+        });
     };
 
     const handleChangeAnswersAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
