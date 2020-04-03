@@ -8,35 +8,49 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import { selectTaskBuffer } from 'store/selectors/createTest';
-import { setBufferTaskAnswerAction, setBufferAnswersAmountAction, ETaskType } from 'store/slices/createTest';
+import {
+    selectTaskAnswer,
+    selectTaskAnswersAmount,
+} from 'store/selectors/task';
+import {
+    setAnswerAction,
+    setAnswersAmountAction,
+    TaskSlice,
+} from 'store/slices/task';
 import { RootState } from 'store/slices';
 
 interface IOwnProps {
-    taskType: ETaskType;
+    taskType: TaskSlice.TaskType;
 }
 
 interface IStateProps {
-    answer: number | any[];
+    answer: string[];
     answersAmount: number;
 }
 
 interface IDispatchProps {
-    setTaskAnswer: (answer: number | any[]) => void;
+    setTaskAnswer: (payload: TaskSlice.SetAnswerPayload) => void;
     setAnswersAmount: (amount: number) => void;
 }
 
-export type TAnswerSelectionProps = IOwnProps & IStateProps & IDispatchProps;
+export type TAnswerSelectionProps =
+    IOwnProps
+    & IStateProps
+    & IDispatchProps;
 
 export type TAnswerProps = IStateProps & IDispatchProps;
 
 const mapStateToProps = (state: RootState): IStateProps => ({
-    ...selectTaskBuffer(state),
+    answer: selectTaskAnswer(state),
+    answersAmount: selectTaskAnswersAmount(state),
 });
 
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    setTaskAnswer: (answer: number | any[]) => dispatch(setBufferTaskAnswerAction(answer)),
-    setAnswersAmount: (amount: number) => dispatch(setBufferAnswersAmountAction(amount)),
+    setTaskAnswer: (payload: TaskSlice.SetAnswerPayload) =>
+        dispatch(setAnswerAction(payload)),
+
+    setAnswersAmount: (amount: number) =>
+        dispatch(setAnswersAmountAction(amount)),
 });
 
 export default connect<IStateProps, IDispatchProps, IOwnProps>(
