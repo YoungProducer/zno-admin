@@ -13,7 +13,10 @@ import MockAdapter from 'axios-mock-adapter';
 /** Application's imports */
 import api from 'api';
 import history from 'routes/history';
-import { fetchSubjectsData } from '../subject';
+import {
+    fetchSubjectsData,
+    createSubject,
+} from '../subject';
 import { RootState } from 'store/slices';
 
 describe('Subject async actions', () => {
@@ -76,6 +79,68 @@ describe('Subject async actions', () => {
             .then(() => {
                 /** Assert array of dispatched actions equals to expected actions */
                 expect(store.getActions()).toEqual(expectedAcitions);
+            });
+    });
+
+    test('createSubject success(subject)', () => {
+        axiosMock
+            .onPost('/api/subject')
+            .reply(200, {
+                id: 'foo',
+                name: 'bar',
+                subSubject: false,
+            });
+
+        const expectedActions = [{
+            type: 'Subject/toggleSubjectLoadingAction',
+            payload: true,
+        }, {
+            type: 'Subject/toggleSubjectLoadingAction',
+            payload: false,
+        }, {
+            type: 'Subject/addSubjectAction',
+            payload: {
+                id: 'foo',
+                name: 'bar',
+                subSubject: false,
+            },
+        }];
+
+        return store.dispatch(createSubject({ name: 'foo' }) as any)
+            .then(() => {
+                /** Assert array of dispatched actions equals to expected actions */
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
+    test('createSubject success(subSubject)', () => {
+        axiosMock
+            .onPost('/api/subject')
+            .reply(200, {
+                id: 'foo',
+                name: 'bar',
+                subSubject: true,
+            });
+
+        const expectedActions = [{
+            type: 'Subject/toggleSubjectLoadingAction',
+            payload: true,
+        }, {
+            type: 'Subject/toggleSubjectLoadingAction',
+            payload: false,
+        }, {
+            type: 'Subject/addSubSubjectAction',
+            payload: {
+                id: 'foo',
+                name: 'bar',
+                subSubject: true,
+            },
+        }];
+
+        return store.dispatch(createSubject({ name: 'foo' }) as any)
+            .then(() => {
+                /** Assert array of dispatched actions equals to expected actions */
+                expect(store.getActions()).toEqual(expectedActions);
             });
     });
 });

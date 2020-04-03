@@ -46,3 +46,29 @@ export const fetchSubjectsData = () =>
             })
             .catch((error: AxiosError) => { console.error(error); });
     };
+
+export const createSubject = (payload: Subject.CreatePayload) =>
+    async (
+        dispatch: Dispatch<any>,
+        _: () => RootState,
+        extra: ThunkExtraArgument,
+    ) => {
+        dispatch(toggleSubjectLoadingAction(true));
+
+        const { api } = extra;
+
+        return api.createSubject(payload)
+            .then(response => {
+                dispatch(toggleSubjectLoadingAction(false));
+
+                return response.data;
+            })
+            .then(subject => {
+                if (subject.subSubject) {
+                    dispatch(addSubSubjectAction(subject));
+                } else {
+                    dispatch(addSubjectAction(subject));
+                }
+            })
+            .catch((error: AxiosError) => console.error(error));
+    };

@@ -34,9 +34,10 @@ export namespace Subject {
         name: string;
         /** Icon image for desktop client */
         icon?: string;
+        subSubject?: boolean;
     }
 
-    export interface CreatePayload extends Omit<Data, 'id' | 'icon'> {
+    export interface CreatePayload extends Pick<Data, 'name'> {
         subSubject?: boolean;
     }
 }
