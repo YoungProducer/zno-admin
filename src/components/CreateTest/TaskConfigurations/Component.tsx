@@ -4,7 +4,7 @@
 // Component to configure task select it type and choose right answers.
 
 // External imports
-import React, { useState } from 'react';
+import React from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,7 +15,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // Application's imports
 import AnswerSelection from './AnswerSelection';
 import { TTaskConfigurationProps } from './container';
-import { ETaskType } from 'store/slices/createTest';
+import { TaskSlice } from 'store/slices/task';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -36,17 +36,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-// export enum ETaskType {
-//     ONE_RIGHT = '0',
-//     RELATIONS = '1',
-//     TEXT_FIELDS = '2',
-// }
-
-// export type ETaskType = 'one-right' | 'relations' | 'text-fields';
-
 interface ITypeSelector {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    value: ETaskType;
+    value: TaskSlice.TaskType;
 }
 
 export const TypeSelector = ({
@@ -55,17 +47,17 @@ export const TypeSelector = ({
 }: ITypeSelector) => (
     <RadioGroup value={value} onChange={onChange}>
         <FormControlLabel
-            value={ETaskType.ONE_RIGHT}
+            value={'SINGLE'}
             control={<Radio color='primary'/>}
             label='Одна правильна відповідь'
         />
         <FormControlLabel
-            value={ETaskType.RELATIONS}
+            value={'RELATIONS'}
             control={<Radio color='primary'/>}
             label='Відношення'
         />
         <FormControlLabel
-            value={ETaskType.TEXT_FIELDS}
+            value={'TEXT'}
             control={<Radio color='primary'/>}
             label='Текстові відповіді'
         />
@@ -81,7 +73,7 @@ const Component = ({
 
     // Handle change in radio group
     const handleChangeTaskType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskType((event.target as HTMLInputElement).value as ETaskType);
+        setTaskType((event.target as HTMLInputElement).value as TaskSlice.TaskType);
     };
 
     return (
@@ -102,7 +94,7 @@ const Component = ({
             </FormControl>
             <div className={classes.answerWrapper}>
                 <AnswerSelection
-                    taskType={taskType as ETaskType}
+                    taskType={taskType as TaskSlice.TaskType}
                 />
             </div>
         </div>
