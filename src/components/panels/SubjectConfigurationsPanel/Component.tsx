@@ -20,7 +20,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // Application's imports
 import AdvancedTextField from 'components/AdvancedTextField';
 import { TSubjectConfigurationsPanelProps } from './container';
-import { ETestTypes, EExamTypes } from 'store/slices/createTest';
+import { TTestType, TExamType } from 'store/slices/subjectConfig';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     paper: {
@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const Component = ({
     className,
-    subjects,
+    subjectsNames,
+    subSubjectsNames,
     withSubSubject,
     mainFields,
     errorFields,
@@ -47,30 +48,28 @@ const Component = ({
     setTestType,
     setExamType,
     setThemeName,
-    fetchCreateSubject,
-    fetchGetSubjectsNames,
+    createSubject,
+    fetchSubjectsData,
     closeSnackbar,
 }: TSubjectConfigurationsPanelProps) => {
     const classes = useStyles({});
 
     const { subjectName, subSubjectName, testType, examType, themeName } = mainFields;
 
-    // const [withSubSubject, toggleWithSubSubject] = useState<boolean>(false);
-
     const handleChangeTestType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTestType((event.target as HTMLInputElement).value as ETestTypes);
+        setTestType((event.target as HTMLInputElement).value as TTestType);
     };
 
     const handleChangeExamType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setExamType((event.target as HTMLInputElement).value as EExamTypes);
+        setExamType((event.target as HTMLInputElement).value as TExamType);
     };
 
     useEffect(() => {
-        fetchGetSubjectsNames();
+        fetchSubjectsData();
     },        []);
 
     useEffect(() => {
-        setTestType(ETestTypes.THEMES);
+        setTestType('THEME');
         if (!withSubSubject) {
             setSubSubjectName('');
         }
@@ -93,8 +92,8 @@ const Component = ({
                             closeSnackbar('create-test-error');
                         }
                     }}
-                    list={subjects.map(subject => subject.name)}
-                    addCallback={() => fetchCreateSubject({ name: subjectName })}
+                    list={subjectsNames}
+                    addCallback={() => createSubject({ name: subjectName })}
                     label='Назва предмету'
                     variant='standard'
                     color='primary'
@@ -124,7 +123,8 @@ const Component = ({
                                 closeSnackbar('create-test-error');
                             }
                         }}
-                        list={[]}
+                        list={subSubjectsNames}
+                        addCallback={() => createSubject({ name: subSubjectName, subSubject: true })}
                         label='Під-предмет'
                         variant='standard'
                         color='primary'
@@ -143,18 +143,18 @@ const Component = ({
                     </FormLabel>
                     <RadioGroup value={testType} onChange={handleChangeTestType}>
                         <FormControlLabel
-                            value={ETestTypes.THEMES}
+                            value={'THEME'}
                             control={<Radio color='primary'/>}
                             label='Підготовка по темам'
                         />
                         <FormControlLabel
-                            value={ETestTypes.EXAM}
+                            value={'EXAM'}
                             control={<Radio color='primary' disabled={withSubSubject}/>}
                             label='ЗНО'
                         />
                     </RadioGroup>
                 </FormControl>
-                <Collapse in={testType === ETestTypes.THEMES}>
+                <Collapse in={testType === 'THEME'}>
                     <AdvancedTextField
                         value={themeName}
                         callback={setThemeName}
@@ -173,7 +173,7 @@ const Component = ({
                 </Collapse>
             </div>
             <Collapse
-                in={testType === ETestTypes.EXAM}
+                in={testType === 'EXAM'}
                 className={classes.part}
             >
                 <FormControl component='fieldset'>
@@ -185,12 +185,12 @@ const Component = ({
                     </FormLabel>
                     <RadioGroup value={examType} onChange={handleChangeExamType}>
                         <FormControlLabel
-                            value={EExamTypes.TRAINING}
+                            value={'TRAINING'}
                             control={<Radio color='primary'/>}
                             label='Тренувальні варінти ЗНО'
                         />
                         <FormControlLabel
-                            value={EExamTypes.PREV_SESSIONS}
+                            value={'SESSION'}
                             control={<Radio color='primary' disabled={withSubSubject}/>}
                             label='Попередні сессії ЗНО'
                         />

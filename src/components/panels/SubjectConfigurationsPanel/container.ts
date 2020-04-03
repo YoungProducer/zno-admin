@@ -68,7 +68,7 @@ interface IStateProps {
  * Props(actions) or async actions which component can dispatch.
  */
 interface IDispatchProps {
-    fetchCreateSubject: (payload: Subject.CreatePayload) => void;
+    createSubject: (payload: Subject.CreatePayload) => void;
     fetchSubjectsData: () => void;
     toggleWithSubSubject: (payload: boolean) => void;
     setSubjectName: (name: string) => void;
@@ -104,7 +104,7 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  * This funciton create functions which dispatch some actions to the store.
  */
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    fetchCreateSubject: (payload: Subject.CreatePayload) =>
+    createSubject: (payload: Subject.CreatePayload) =>
         dispatch(createSubjectAction(payload)),
 
     fetchSubjectsData: () =>
