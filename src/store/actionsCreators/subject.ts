@@ -24,7 +24,7 @@ import {
 } from 'store/slices/subject';
 
 export const fetchSubjectsData = () =>
-    async (dispatch: Dispatch, _: () => RootState, extra: ThunkExtraArgument) => {
+    async (dispatch: Dispatch<any>, _: () => RootState, extra: ThunkExtraArgument) => {
         dispatch(toggleSubjectLoadingAction(true));
 
         const { api } = extra;

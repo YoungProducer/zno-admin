@@ -19,7 +19,6 @@ class Api implements IApi {
     instance!: AxiosInstance;
 
     constructor() {
-        console.log(process.env);
         const apiEndpoint = process.env.API_ENDPOINT || 'http://localhost:4000';
 
         this.instance = axios.create({
@@ -34,13 +33,13 @@ class Api implements IApi {
             payload,
         )
 
-    subjectsData = async (): Promise<AxiosResponse<Subject.Data>> =>
+    subjectsData = async (): Promise<AxiosResponse<Subject.Data[]>> =>
         await this.instance.get(
             '/api/subject',
             { withCredentials: true },
         )
 
-    subSubjectsData = async (): Promise<AxiosResponse<Subject.Data>> =>
+    subSubjectsData = async (): Promise<AxiosResponse<Subject.Data[]>> =>
         await this.instance.get(
             '/api/subject?subSubject=true',
             { withCredentials: true },
