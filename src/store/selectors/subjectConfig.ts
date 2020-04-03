@@ -5,6 +5,9 @@
  * Selectors for subjectConfig slice.
  */
 
+/** External imports */
+import { createSelector } from '@reduxjs/toolkit';
+
 /** Application's imports */
 import { RootState } from 'store/slices';
 
@@ -22,6 +25,17 @@ export const selectTestType = (state: RootState) =>
 
 export const selectExamType = (state: RootState) =>
     state.subjectConfig.examType;
+
+export const selectMainFields = createSelector(
+    selectSubjectName,
+    selectSubSubjectName,
+    selectThemeName,
+    selectTestType,
+    selectExamType,
+    (subjectName, subSubjectName, themeName, testType, examType) => ({
+        subjectName, subSubjectName, themeName, testType, examType,
+    }),
+);
 
 export const selectWithSubSubject = (state: RootState) =>
     state.subjectConfig.withSubSubject;

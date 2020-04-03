@@ -11,7 +11,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type TTestType = 'THEME' | 'EXAM';
 export type TExamType = 'SESSION' | 'TRAINING';
 
-export namespace SubjectConfig {
+export namespace SubjectConfigSlice {
     export interface ErrorFields {
         subjectName: boolean;
         subSubjectName: boolean;
@@ -36,19 +36,19 @@ export namespace SubjectConfig {
     }
 }
 
-const defaultErrorFields: SubjectConfig.ErrorFields = {
+const defaultErrorFields: SubjectConfigSlice.ErrorFields = {
     subjectName: false,
     subSubjectName: false,
     themeName: false,
 };
 
-const defaultFieldsMessages: SubjectConfig.FieldsMessages = {
+const defaultFieldsMessages: SubjectConfigSlice.FieldsMessages = {
     subjectName: '',
     subSubjectName: '',
     themeName: '',
 };
 
-const initialState: SubjectConfig.State = {
+const initialState: SubjectConfigSlice.State = {
     subjectName: '',
     subSubjectName: '',
     themeName: '',
@@ -61,45 +61,45 @@ const initialState: SubjectConfig.State = {
 
 const subjectConfig = createSlice({
     initialState,
-    name: 'SubjectConfig',
+    name: 'SubjectConfigSlice',
     reducers: {
         setSubjectNameAction: (
-            state: SubjectConfig.State,
+            state: SubjectConfigSlice.State,
             { payload }: PayloadAction<string>,
         ) => ({
             ...state,
             subjectName: payload,
         }),
         setSubSubjectNameAction: (
-            state: SubjectConfig.State,
+            state: SubjectConfigSlice.State,
             { payload }: PayloadAction<string>,
         ) => ({
             ...state,
             subSubjectName: state.withSubSubject ? payload : state.subSubjectName,
         }),
         setThemeNameAction: (
-            state: SubjectConfig.State,
+            state: SubjectConfigSlice.State,
             { payload }: PayloadAction<string>,
         ) => ({
             ...state,
             themeName: payload,
         }),
         setTestTypeAction: (
-            state: SubjectConfig.State,
+            state: SubjectConfigSlice.State,
             { payload }: PayloadAction<TTestType>,
         ) => ({
             ...state,
             testType: payload,
         }),
         setExamTypeAction: (
-            state: SubjectConfig.State,
+            state: SubjectConfigSlice.State,
             { payload }: PayloadAction<TExamType>,
         ) => ({
             ...state,
             examType: payload,
         }),
         toggleWithSubSubjectAction: (
-            state: SubjectConfig.State,
+            state: SubjectConfigSlice.State,
             { payload }: PayloadAction<boolean>,
         ) => ({
             ...state,
@@ -107,7 +107,7 @@ const subjectConfig = createSlice({
         }),
         setSubjectConfigErrorFields: {
             reducer: (
-                state: SubjectConfig.State,
+                state: SubjectConfigSlice.State,
                 { payload }: PayloadAction<string[]>,
             ) => {
                 const errorFields = Object.keys(state.errorFields).reduce((acc, curr) => {
@@ -117,7 +117,7 @@ const subjectConfig = createSlice({
                         ...acc,
                         [curr]: match,
                     };
-                }, {} as SubjectConfig.ErrorFields);
+                }, {} as SubjectConfigSlice.ErrorFields);
 
                 return {
                     ...state,
@@ -130,8 +130,8 @@ const subjectConfig = createSlice({
         },
         setSubjectConfigFieldsMessages: {
             reducer: (
-                state: SubjectConfig.State,
-                { payload }: PayloadAction<Partial<SubjectConfig.FieldsMessages>>,
+                state: SubjectConfigSlice.State,
+                { payload }: PayloadAction<Partial<SubjectConfigSlice.FieldsMessages>>,
             ) => ({
                 ...state,
                 fieldsMessages: {
@@ -139,7 +139,7 @@ const subjectConfig = createSlice({
                     ...payload,
                 },
             }),
-            prepare: (messages?: Partial<SubjectConfig.FieldsMessages>) => ({
+            prepare: (messages?: Partial<SubjectConfigSlice.FieldsMessages>) => ({
                 payload: messages || defaultFieldsMessages,
             }),
         },

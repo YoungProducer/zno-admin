@@ -14,8 +14,8 @@ import MockAdapter from 'axios-mock-adapter';
 import api from 'api';
 import history from 'routes/history';
 import {
-    fetchSubjectsData,
-    createSubject,
+    fetchSubjectsDataAction,
+    createSubjectAction,
 } from '../subject';
 import { RootState } from 'store/slices';
 
@@ -40,7 +40,7 @@ describe('Subject async actions', () => {
         axiosMock.reset();
     });
 
-    test('fetchSubjectsData success', () => {
+    test('fetchSubjectsDataAction success', () => {
         axiosMock
             .onGet('/api/subject')
             .reply(200, [{
@@ -75,14 +75,14 @@ describe('Subject async actions', () => {
             }],
         }];
 
-        return store.dispatch(fetchSubjectsData() as any)
+        return store.dispatch(fetchSubjectsDataAction() as any)
             .then(() => {
                 /** Assert array of dispatched actions equals to expected actions */
                 expect(store.getActions()).toEqual(expectedAcitions);
             });
     });
 
-    test('createSubject success(subject)', () => {
+    test('createSubjectAction success(subject)', () => {
         axiosMock
             .onPost('/api/subject')
             .reply(200, {
@@ -106,14 +106,14 @@ describe('Subject async actions', () => {
             },
         }];
 
-        return store.dispatch(createSubject({ name: 'foo' }) as any)
+        return store.dispatch(createSubjectAction({ name: 'foo' }) as any)
             .then(() => {
                 /** Assert array of dispatched actions equals to expected actions */
                 expect(store.getActions()).toEqual(expectedActions);
             });
     });
 
-    test('createSubject success(subSubject)', () => {
+    test('createSubjectAction success(subSubject)', () => {
         axiosMock
             .onPost('/api/subject')
             .reply(200, {
@@ -137,7 +137,7 @@ describe('Subject async actions', () => {
             },
         }];
 
-        return store.dispatch(createSubject({ name: 'foo' }) as any)
+        return store.dispatch(createSubjectAction({ name: 'foo' }) as any)
             .then(() => {
                 /** Assert array of dispatched actions equals to expected actions */
                 expect(store.getActions()).toEqual(expectedActions);

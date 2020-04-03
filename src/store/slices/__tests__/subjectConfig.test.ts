@@ -7,12 +7,12 @@
 
 /** Application's imports */
 import subjectConfig, {
-    SubjectConfig,
+    SubjectConfigSlice,
     setSubjectConfigErrorFields,
     setSubjectConfigFieldsMessages,
 } from '../subjectConfig';
 
-describe('SubjectConfig slice', () => {
+describe('SubjectConfigSlice slice', () => {
     test('setSubjectConfigErrorFields with payload should correctly change error fields', () => {
         const initialState = {
             errorFields: {
@@ -20,7 +20,7 @@ describe('SubjectConfig slice', () => {
                 subSubjectName: false,
                 themeName: false,
             },
-        } as SubjectConfig.State;
+        } as SubjectConfigSlice.State;
 
         const result = subjectConfig(initialState, setSubjectConfigErrorFields(['subjectName']));
 
@@ -34,7 +34,7 @@ describe('SubjectConfig slice', () => {
                 subSubjectName: true,
                 themeName: true,
             },
-        } as SubjectConfig.State;
+        } as SubjectConfigSlice.State;
 
         const result = subjectConfig(initialState, setSubjectConfigErrorFields());
 
@@ -52,7 +52,7 @@ describe('SubjectConfig slice', () => {
                 subSubjectName: '',
                 themeName: '',
             },
-        } as SubjectConfig.State;
+        } as SubjectConfigSlice.State;
 
         const result = subjectConfig(MOCK_STATE, setSubjectConfigFieldsMessages({
             subjectName: 'foo',
@@ -68,7 +68,7 @@ describe('SubjectConfig slice', () => {
                 subSubjectName: 'bar',
                 themeName: '',
             },
-        } as SubjectConfig.State;
+        } as SubjectConfigSlice.State;
 
         const result = subjectConfig(MOCK_STATE, setSubjectConfigFieldsMessages());
 

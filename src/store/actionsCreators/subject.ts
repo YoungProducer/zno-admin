@@ -23,7 +23,7 @@ import {
     addSubSubjectAction,
 } from 'store/slices/subject';
 
-export const fetchSubjectsData = () =>
+export const fetchSubjectsDataAction = () =>
     async (dispatch: Dispatch<any>, _: () => RootState, extra: ThunkExtraArgument) => {
         dispatch(toggleSubjectLoadingAction(true));
 
@@ -47,7 +47,7 @@ export const fetchSubjectsData = () =>
             .catch((error: AxiosError) => { console.error(error); });
     };
 
-export const createSubject = (payload: Subject.CreatePayload) =>
+export const createSubjectAction = (payload: Subject.CreatePayload) =>
     async (
         dispatch: Dispatch<any>,
         _: () => RootState,

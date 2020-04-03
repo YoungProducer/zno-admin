@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import {
-    fetchCreateSubject,
-    fetchGetSubjectsNames,
-} from 'store/actionsCreators/createTest';
+    createSubjectAction,
+    fetchSubjectsDataAction,
+} from 'store/actionsCreators/subject';
 import {
     toggleWithSubSubjectAction,
     setSubjectNameAction,
@@ -21,26 +21,28 @@ import {
     setTestTypeAction,
     setExamTypeAction,
     setThemeNameAction,
-    ETestTypes,
-    EExamTypes,
-    IErrorFields,
-    ISubject,
-} from 'store/slices/createTest';
+    SubjectConfigSlice,
+    TExamType,
+    TTestType,
+} from 'store/slices/subjectConfig';
 import {
-    selectSubjects,
-    selectSubjectConfigurationsMainFields,
-    selectErrorFields,
+    selectSubjectConfigErrorFields,
     selectWithSubSubject,
-} from 'store/selectors/createTest';
+    selectMainFields,
+} from 'store/selectors/subjectConfig';
+import {
+    selectSubjectsNames,
+    selectSubSubjectsNames,
+} from 'store/selectors/subject';
 import { closeSnackbarAction } from 'store/slices/notifier';
 import { RootState } from 'store/slices';
-import { ICreateSubjectCredentials } from 'api/types';
+import { Subject } from 'api/types';
 
 export interface IMainFields {
     subjectName: string;
     subSubjectName: string;
-    testType: ETestTypes;
-    examType: EExamTypes;
+    testType: TTestType;
+    examType: TExamType;
     themeName: string;
 }
 
@@ -55,9 +57,10 @@ interface IOwnProps {
  * Props which component get from the redux-store.
  */
 interface IStateProps {
-    subjects: ISubject[];
+    subjectsNames: string[];
+    subSubjectsNames: string[];
     mainFields: IMainFields;
-    errorFields: IErrorFields;
+    errorFields: SubjectConfigSlice.ErrorFields;
     withSubSubject: boolean;
 }
 
@@ -65,13 +68,13 @@ interface IStateProps {
  * Props(actions) or async actions which component can dispatch.
  */
 interface IDispatchProps {
-    fetchCreateSubject: (credentials: ICreateSubjectCredentials) => void;
-    fetchGetSubjectsNames: () => void;
+    fetchCreateSubject: (payload: Subject.CreatePayload) => void;
+    fetchSubjectsData: () => void;
     toggleWithSubSubject: (payload: boolean) => void;
     setSubjectName: (name: string) => void;
     setSubSubjectName: (name: string) => void;
-    setTestType: (testType: ETestTypes) => void;
-    setExamType: (examType: EExamTypes) => void;
+    setTestType: (testType: TTestType) => void;
+    setExamType: (examType: TExamType) => void;
     setThemeName: (name: string) => void;
     closeSnackbar: (payload?: string | number) => void;
 }
@@ -79,16 +82,20 @@ interface IDispatchProps {
 /**
  * Declare main type which describe all props pushed to the component.
  */
-export type TSubjectConfigurationsPanelProps = IOwnProps & IStateProps & IDispatchProps;
+export type TSubjectConfigurationsPanelProps =
+    IOwnProps
+    & IStateProps
+    & IDispatchProps;
 
 /**
  * Define function mapStateToProps.
  * This function select some variables from the redux store to the component.
  */
 const mapStateToProps = (state: RootState): IStateProps => ({
-    subjects: selectSubjects(state),
-    mainFields: selectSubjectConfigurationsMainFields(state),
-    errorFields: selectErrorFields(state),
+    subjectsNames: selectSubjectsNames(state),
+    subSubjectsNames: selectSubSubjectsNames(state),
+    mainFields: selectMainFields(state),
+    errorFields: selectSubjectConfigErrorFields(state),
     withSubSubject: selectWithSubSubject(state),
 });
 
@@ -97,11 +104,11 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  * This funciton create functions which dispatch some actions to the store.
  */
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    fetchCreateSubject: (credentials: ICreateSubjectCredentials) =>
-        dispatch(fetchCreateSubject(credentials)),
+    fetchCreateSubject: (payload: Subject.CreatePayload) =>
+        dispatch(createSubjectAction(payload)),
 
-    fetchGetSubjectsNames: () =>
-        dispatch(fetchGetSubjectsNames()),
+    fetchSubjectsData: () =>
+        dispatch(fetchSubjectsDataAction()),
 
     toggleWithSubSubject: (payload: boolean) =>
         dispatch(toggleWithSubSubjectAction(payload)),
@@ -112,10 +119,10 @@ const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
     setSubSubjectName: (name: string) =>
         dispatch(setSubSubjectNameAction(name)),
 
-    setTestType: (testType: ETestTypes) =>
+    setTestType: (testType: TTestType) =>
         dispatch(setTestTypeAction(testType)),
 
-    setExamType: (examType: EExamTypes) =>
+    setExamType: (examType: TExamType) =>
         dispatch(setExamTypeAction(examType)),
 
     setThemeName: (name: string) =>
