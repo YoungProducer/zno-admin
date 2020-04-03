@@ -8,7 +8,6 @@ import {
     configureStore,
     getDefaultMiddleware,
 } from '@reduxjs/toolkit';
-import { createLogger } from 'redux-logger';
 import { History } from 'history';
 
 // Application's imports
