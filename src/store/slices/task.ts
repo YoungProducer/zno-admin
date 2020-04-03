@@ -16,10 +16,10 @@ export namespace TaskSlice {
          * Index of element.
          * For example:
          *  answer = ['1, '2', '1'];
-         *  index = 1;
+         *  elIndex = 1;
          *  el = '2';
          */
-        index: number;
+        elIndex: number;
         answer: string;
     }
 
@@ -58,13 +58,13 @@ const task = createSlice({
             ) => ({
                 ...state,
                 answer: state.answer.map((el, index) =>
-                    index !== payload.index
+                    index !== payload.elIndex
                         ? el
                         : payload.answer),
             }),
-            prepare: ({ index, answer }: Partial<TaskSlice.SetAnswerPayload>) => ({
+            prepare: ({ elIndex, answer }: Partial<TaskSlice.SetAnswerPayload>) => ({
                 payload: {
-                    index: index || 0,
+                    elIndex: elIndex || 0,
                     answer: answer || '',
                 },
             }),

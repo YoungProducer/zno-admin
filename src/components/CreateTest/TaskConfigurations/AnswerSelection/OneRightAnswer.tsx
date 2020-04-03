@@ -30,28 +30,32 @@ const Component = ({
     // Declare and define classes variable
     const classes = useStyles({});
 
-    // useEffect(() => {
-    //     setTaskAnswer(-1);
-    // },        []);
-    // const [answer, setAnswer] = useState<number>(-1);
-
-    const handleSetAnswer = (index: number) => {
-        setTaskAnswer(index === answer ? -1 : index);
+    const handleSetAnswer = (value: string, index: number) => {
+        setTaskAnswer({
+            elIndex: 0,
+            answer: value === answer[index]
+                ? ''
+                : value,
+        });
     };
 
     return (
         <Grid container spacing={1} item className={classes.root}>
-            {['A', 'Б', 'В', 'Г', 'Д'].map((el: string, index: number) => (
-                <Grid item key={index}>
-                    <Typography variant='h5' align='center'>
-                        {el}
-                    </Typography>
-                    <Cell
-                        selected={answer === index}
-                        callback={() => handleSetAnswer(index)}
-                    />
-                </Grid>
-            ))}
+            {['A', 'Б', 'В', 'Г', 'Д'].map((el: string, index: number) => {
+                const value = index.toString();
+
+                return (
+                    <Grid item key={index}>
+                        <Typography variant='h5' align='center'>
+                            {el}
+                        </Typography>
+                        <Cell
+                            selected={answer[index] === value}
+                            callback={() => handleSetAnswer(value, index)}
+                        />
+                    </Grid>
+                );
+            })}
         </Grid>
     );
 };

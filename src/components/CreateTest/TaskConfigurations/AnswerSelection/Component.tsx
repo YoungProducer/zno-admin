@@ -11,7 +11,6 @@ import OneRightAnswer from './OneRightAnswer';
 import RelationAnswer from './RelationAnswer';
 import TextAnswer from './TextAnswer';
 import { TAnswerSelectionProps } from './container';
-import { ETaskType } from 'store/slices/createTest';
 
 const Component = ({
     taskType,
@@ -20,13 +19,13 @@ const Component = ({
 
     return (
         <>
-            {taskType === ETaskType.ONE_RIGHT && (
+            {taskType === 'SINGLE' && (
                 <OneRightAnswer {...store} />
             )}
-            {taskType === ETaskType.RELATIONS && (
+            {taskType === 'RELATIONS' && (
                 <RelationAnswer {...store} />
             )}
-            {taskType === ETaskType.TEXT_FIELDS && (
+            {taskType === 'TEXT' && (
                 <TextAnswer {...store} />
             )}
         </>
