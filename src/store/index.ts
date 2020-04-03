@@ -12,7 +12,7 @@ import { History } from 'history';
 
 // Application's imports
 import rootReducer from './slices';
-import Api from 'api';
+import api from 'api';
 import { IApi } from 'api/types';
 import history from 'routes/history';
 
@@ -25,9 +25,6 @@ const createStore = () => {
     /** Extract env variable */
     const production = process.env.NODE_ENV === 'production';
     const development = process.env.NODE_ENV === 'development';
-
-    /** Create Api instance */
-    const api = new Api();
 
     /** Define middlewares */
     const defaultMiddleware = getDefaultMiddleware({
