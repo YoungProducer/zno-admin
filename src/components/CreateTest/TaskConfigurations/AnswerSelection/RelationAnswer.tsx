@@ -46,17 +46,13 @@ const Component = ({
     // Declare and define classes variable
     const classes = useStyles({});
 
-    // useEffect(() => {
-    //     setTaskAnswer([-1, -1, -1, -1]);
-    // },        []);
-
-    // const [answers, setAnswers] = useState<number[]>([-1, -1, -1, -1]);
-    const handleChangeAnswers = (hindex: number, vindex: number) => {
-        if (Array.isArray(answer)) {
-            const newAnswers = answer.map((ans, index) => index === hindex && answer.every(ans => ans !== vindex) ? vindex : ans);
-            setTaskAnswer(newAnswers);
-        }
-        // const newAnswers = answers.map((ans, index) => index === hindex && answers.every(ans => ans !== vindex) ? vindex : ans);
+    const handleChangeAnswers = (value: string, hindex: number, vindex: number) => {
+        setTaskAnswer({
+            elIndex: vindex,
+            answer: answer[vindex] === value
+                ? ''
+                : value,
+        });
     };
 
     return (
@@ -82,19 +78,23 @@ const Component = ({
                     >
                         {vel}
                     </Typography>
-                    {['А', 'Б', 'В', 'Г', 'Д'].map((hel: string, vindex: number) => (
-                        <Grid item key={vindex}>
-                            { hindex === 0 && (
-                                <Typography variant='h5' align='center'>
-                                    {hel}
-                                </Typography>
-                            )}
-                            <Cell
-                                selected={Array.isArray(answer) && answer[hindex] === vindex}
-                                callback={() => handleChangeAnswers(hindex, vindex)}
-                            />
-                        </Grid>
-                    ))}
+                    {['А', 'Б', 'В', 'Г', 'Д'].map((hel: string, vindex: number) => {
+                        const value = vindex.toString();
+
+                        return (
+                            <Grid item key={vindex}>
+                                { hindex === 0 && (
+                                    <Typography variant='h5' align='center'>
+                                        {hel}
+                                    </Typography>
+                                )}
+                                <Cell
+                                    selected={answer[hindex] === value}
+                                    callback={() => handleChangeAnswers(value, hindex, vindex)}
+                                />
+                            </Grid>
+                        );
+                    })}
                 </Grid>
             ))}
         </Grid>
