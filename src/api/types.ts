@@ -1,31 +1,53 @@
-// Created by: Oleksandr Bezrukov
-// Creation date: 8 February 2020
-
 /**
- * Describe all types and interfaces related to API.
- * Describe main interface for class 'api'.
+ * Created by: Oleksandr Bezrukov
+ * Creation date: 3 April 2020
+ *
+ * Define main type definitions for api class.
  */
 
-// Externals imports
-import { AxiosResponse, AxiosInstance } from 'axios';
-import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
-import { ITask } from 'store/slices/createTest';
+/** External imports */
+import { AxiosInstance, AxiosResponse } from 'axios';
 
-export interface ISignInCredentials {
-    email: string;
-    password: string;
+/** Auth */
+export namespace Auth {
+    export type UserRole = 'DEFAULT_USER' | 'ADMIN';
+
+    export interface SignInPayload {
+        email: string;
+        password: string;
+    }
+
+    export interface SignInResponseData {
+        id: string;
+        email: string;
+        name: string;
+        lastName: string;
+        role: UserRole;
+    }
 }
 
-export interface ICreateSubjectCredentials {
-    name: string;
+/** Subject */
+export namespace Subject {
+    /** Describe properties of subject */
+    export interface Data {
+        id: string;
+        name: string;
+        /** Icon image for desktop client */
+        icon?: string;
+    }
+
+    export interface CreatePayload extends Omit<Data, 'id' | 'icon'> {
+        subSubject?: boolean;
+    }
 }
 
 export interface IApi {
-    axiosInstance: AxiosInstance;
-    signIn: (cretentials: ISignInCredentials) => Promise<AxiosResponse>;
-    createSubject: (credentials: ICreateSubjectCredentials) => Promise<AxiosResponse>;
-    getSubjectsNames: () => Promise<AxiosResponse>;
-    getSubSubjects: () => Promise<AxiosResponse>;
-    getSubjectsData: () => Promise<AxiosResponse[]>;
-    createTest: (credentials: FormData) => Promise<AxiosResponse>;
+    instance: AxiosInstance;
+    /** Auth */
+    signIn: (payload: Auth.SignInPayload) => Promise<AxiosResponse<Auth.SignInResponseData>>;
+
+    /** Subject */
+    subjectsData: () => Promise<AxiosResponse<Subject.Data>>;
+    subSubjectsData: () => Promise<AxiosResponse<Subject.Data>>;
+    createSubject: (payload: Subject.CreatePayload) => Promise<AxiosResponse<Subject.Data>>;
 }

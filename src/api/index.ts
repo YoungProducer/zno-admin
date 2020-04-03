@@ -1,126 +1,57 @@
-// Created by: Oleksandr Bezrukov
-// Creation date: 8 February 2020
-
 /**
- * Created class which containt methods which create calls to api endpoints.
+ * Created by: Oleksandr Bezrukov
+ * Creation date: 3 March 2020
+ *
+ * Api class which contain all methods which related to admin part of zno-train application.
  */
 
-// External imports
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+/** External imports */
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
-// Application's imports
-import { FetchSignUpCredentials } from '../types/store/actionsCreators/auth/signup';
-import { FetchSignInCredentials } from '../types/store/actionsCreators';
-import { FetchUserCredentials } from '../types/store/actionsCreators/update/user';
-import { FetchFindUserByEmailCredentials } from '../types/store/actionsCreators/users/findByEmail';
-import { FetchUpdateUserRootsCredentials } from '../types/store/actionsCreators/update/userRoot';
-
+/** Application's imports */
 import {
     IApi,
-    ISignInCredentials,
-    ICreateSubjectCredentials,
+    Auth,
+    Subject,
 } from './types';
 
 class Api implements IApi {
-    axiosInstance: AxiosInstance;
+    instance!: AxiosInstance;
 
     constructor() {
-        this.axiosInstance = axios.create({
-            baseURL: 'http://localhost:4000',
+        console.log(process.env);
+        const apiEndpoint = process.env.API_ENDPOINT || 'http://localhost:4000';
+
+        this.instance = axios.create({
+            baseURL: apiEndpoint,
             timeout: 10000,
         });
     }
 
-    signIn = async (credentials: ISignInCredentials): Promise<AxiosResponse> =>
-        await this.axiosInstance.post(
-            '/auth/signin',
-            { ...credentials },
-            { withCredentials: true })
-
-    signUp = async(credentials: FetchSignUpCredentials): Promise<AxiosResponse> =>
-        await this.axiosInstance.post(
-            '/auth/signup',
-            { ...credentials },
-            { withCredentials: true })
-
-    me = async(): Promise<AxiosResponse> =>
-        await this.axiosInstance.get(
-            '/auth/me',
-            { withCredentials: true })
-
-    refresh = async(): Promise<AxiosResponse> =>
-        await this.axiosInstance.post(
-            '/auth/refresh',
-            {},
-            { withCredentials: true })
-
-    logout = async(): Promise<AxiosResponse> =>
-        await this.axiosInstance.post(
-            '/auth/logout',
-            {},
-            { withCredentials: true })
-
-    logoutAll = async(): Promise<AxiosResponse> =>
-        await this.axiosInstance.post(
-            '/auth/logoutall',
-            {},
-            { withCredentials: true })
-
-    updateUser = async(credentials: FetchUserCredentials): Promise<AxiosResponse> =>
-        await this.axiosInstance.post(
-            '/update/user',
-            { fields: credentials },
-            { withCredentials: true },
+    signIn = async (payload: Auth.SignInPayload): Promise<AxiosResponse<Auth.SignInResponseData>> =>
+        await this.instance.post(
+            '/api/auth/signin',
+            payload,
         )
 
-    findUserByEmail = async({ email }: FetchFindUserByEmailCredentials) =>
-        await this.axiosInstance.get(
-            `/users/findByEmail/?filter=${email}`,
-            {
-                withCredentials: true,
-            },
-        )
-
-    updateUserRoots = async(credentials: FetchUpdateUserRootsCredentials) =>
-        await this.axiosInstance.patch(
-            '/update/user/roots',
-            {
-                data: credentials,
-            },
-            { withCredentials: true },
-        )
-
-    /**
-     * Tasks, tests, and subjects
-     */
-    getSubjectsNames = async() =>
-        await this.axiosInstance.get(
+    subjectsData = async (): Promise<AxiosResponse<Subject.Data>> =>
+        await this.instance.get(
             '/api/subject',
             { withCredentials: true },
         )
 
-    getSubSubjects = async () =>
-        await this.axiosInstance.get(
-            '/api/subject?subSubjects=true',
+    subSubjectsData = async (): Promise<AxiosResponse<Subject.Data>> =>
+        await this.instance.get(
+            '/api/subject?subSubject=true',
             { withCredentials: true },
         )
 
-    getSubjectsData = async (): Promise<AxiosResponse<any>[]> =>
-        await axios.all([await this.getSubjectsNames(), await this.getSubSubjects()])
-
-    createSubject = async (credentials: ICreateSubjectCredentials) =>
-        await this.axiosInstance.post(
-            '/tasks/subjects',
-            { ...credentials },
-            { withCredentials: true },
-        )
-
-    createTest = async (credentials: FormData) =>
-        await this.axiosInstance.post(
-            '/api/test-suite',
-            credentials,
+    createSubject = async (payload: Subject.CreatePayload): Promise<AxiosResponse<Subject.Data>> =>
+        await this.instance.post(
+            '/api/subject',
+            payload,
             { withCredentials: true },
         )
 }
 
-export default new Api();
+export default Api;
