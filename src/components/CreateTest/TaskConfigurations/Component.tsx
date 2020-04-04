@@ -15,7 +15,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // Application's imports
 import AnswerSelection from './AnswerSelection';
 import { TTaskConfigurationProps } from './container';
-import { TaskSlice } from 'store/slices/task';
+import { TaskType } from 'store/slices/task';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 interface ITypeSelector {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    value: TaskSlice.TaskType;
+    value: TaskType;
 }
 
 export const TypeSelector = ({
@@ -73,7 +73,7 @@ const Component = ({
 
     // Handle change in radio group
     const handleChangeTaskType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskType((event.target as HTMLInputElement).value as TaskSlice.TaskType);
+        setTaskType((event.target as HTMLInputElement).value as TaskType);
     };
 
     return (
@@ -94,7 +94,7 @@ const Component = ({
             </FormControl>
             <div className={classes.answerWrapper}>
                 <AnswerSelection
-                    taskType={taskType as TaskSlice.TaskType}
+                    taskType={taskType as TaskType}
                 />
             </div>
         </div>

@@ -13,19 +13,20 @@ export interface Image extends File {
     preview: string;
 }
 
-export namespace TaskSlice {
-    export type TaskType = 'SINGLE' | 'RELATIONS' | 'TEXT';
+export type TaskType = 'SINGLE' | 'RELATIONS' | 'TEXT';
 
-    export interface Task {
-        answer: string[];
-        type: TaskType;
-        /** Related only for text type of answer */
-        answersAmount: number;
-        /** Task image */
-        image: Image;
-        /** Explanation image */
-        explanationImage: Image;
-    }
+export interface Task {
+    answer: string[];
+    type: TaskType;
+    /** Related only for text type of answer */
+    answersAmount: number;
+    /** Task image */
+    image: Image;
+    /** Explanation image */
+    explanationImage: Image;
+}
+
+export namespace TaskSlice {
 
     export interface SetAnswerPayload {
         /**
@@ -56,7 +57,7 @@ const task = createSlice({
     reducers: {
         setTaskTypeAction: (
             state: TaskSlice.State,
-            { payload }: PayloadAction<TaskSlice.TaskType>,
+            { payload }: PayloadAction<TaskType>,
         ) => ({
             ...state,
             type: payload,

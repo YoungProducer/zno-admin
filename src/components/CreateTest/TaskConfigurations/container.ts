@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import {
-    TaskSlice,
+    TaskType,
     setTaskTypeAction,
 } from 'store/slices/task';
 import {
@@ -20,11 +20,11 @@ import { RootState } from 'store/slices';
 interface IOwnProps {}
 
 interface IStateProps {
-    taskType: TaskSlice.TaskType;
+    taskType: TaskType;
 }
 
 interface IDispatchProps {
-    setTaskType?: (type: TaskSlice.TaskType) => void;
+    setTaskType?: (type: TaskType) => void;
 }
 
 export type TTaskConfigurationProps = IOwnProps & IStateProps & IDispatchProps;
@@ -34,7 +34,7 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    setTaskType: (type: TaskSlice.TaskType) =>
+    setTaskType: (type: TaskType) =>
         dispatch(setTaskTypeAction(type)),
 });
 

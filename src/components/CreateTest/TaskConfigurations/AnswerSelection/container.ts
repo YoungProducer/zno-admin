@@ -15,12 +15,13 @@ import {
 import {
     setAnswerAction,
     setAnswersAmountAction,
+    TaskType,
     TaskSlice,
 } from 'store/slices/task';
 import { RootState } from 'store/slices';
 
 interface IOwnProps {
-    taskType: TaskSlice.TaskType;
+    taskType: TaskType;
 }
 
 interface IStateProps {
