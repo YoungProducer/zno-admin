@@ -66,44 +66,27 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions);
 
 const Component = ({
-    setTaskImage,
-    setExplanationImage,
-    deleteTaskImage,
-    deleteExplanationImage,
-    taskImage,
-    explanationImage,
-    uploadImageType,
     open,
     onClose,
+    multiple,
+    previewImage,
+    deleteImage,
+    setImage,
 }: TImageUploadModalProps) => {
     // Declare and define classes
     const classes = useStyles({});
 
     const onDrop = useCallback((acceptedFiles: any[]) => {
-        if (uploadImageType === 'task') {
-            const file = acceptedFiles[0];
-            setTaskImage(Object.assign(file, { preview: URL.createObjectURL(file) }));
+        if (!multiple) {
+            setImage(acceptedFiles[0]);
         }
-        if (uploadImageType === 'explanation') {
-            const file = acceptedFiles[0];
-            setExplanationImage(Object.assign(file, { preview: URL.createObjectURL(file) }));
-        }
-    },                         [uploadImageType, setTaskImage, setExplanationImage]);
+    }, [multiple]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
+        multiple: multiple || false,
         accept: 'image/*,.svg',
-        multiple: false,
     });
-
-    const handleDeleteImage = () => {
-        if (uploadImageType === 'task') {
-            deleteTaskImage();
-        }
-        if (uploadImageType === 'explanation') {
-            deleteExplanationImage();
-        }
-    };
 
     return (
         <Dialog
@@ -114,9 +97,7 @@ const Component = ({
         >
             <DialogTitle id='upload-image-title'>
                 {
-                    uploadImageType === 'task'
-                        ? 'Завантаження завдання'
-                        : 'Завантаження пояснення'
+                    'Завантаження зображення'
                 }
             </DialogTitle>
             <DialogContent>
@@ -125,15 +106,9 @@ const Component = ({
                     <br />
                     Після завантаження ви одразу побачите попередній вигляд зображення.
                 </DialogContentText>
-                {uploadImageType === 'task' && taskImage && (
+                {previewImage && (
                     <img
-                        src={taskImage}
-                        className={classes.img}
-                    />
-                )}
-                {uploadImageType === 'explanation' && explanationImage && (
-                    <img
-                        src={explanationImage}
+                        src={previewImage}
                         className={classes.img}
                     />
                 )}
@@ -149,14 +124,11 @@ const Component = ({
                         Завантажити
                     </Button>
                 </div>
-                {
-                    ((taskImage && uploadImageType === 'task') ||
-                    (explanationImage && uploadImageType === 'explanation')) &&
-                    (
+                { previewImage && (
                         <Button
                             variant='outlined'
                             color='primary'
-                            onClick={handleDeleteImage}
+                            onClick={deleteImage}
                         >
                             Видалити
                         </Button>

@@ -23,10 +23,17 @@ export namespace TasksListSlice {
         Task
         & { id: number; };
 
-    export type AddPayload = Task | Partial<Task>[];
+    export type TaskForAddition =
+        Omit<Task, 'image' | 'explanationImage'>
+        & {
+            image: File;
+            explanationImage: File;
+        };
+
+    export type AddPayload = TaskForAddition | Partial<TaskForAddition>[];
 
     export interface UpdatePayload {
-        data: Partial<Omit<ExtendedTask, 'id' | 'answer' | 'image' | 'explanationImage'> & {
+        data: Partial<Omit<TaskForAddition, 'answer'> & {
             answer: Partial<TaskSlice.SetAnswerPayload>;
             image: File;
             explanationImage: File;
@@ -79,18 +86,32 @@ const tasksList = createSlice({
         addTaskAction: (
             state: TasksListSlice.State,
             { payload }: PayloadAction<TasksListSlice.AddPayload>,
-        ) => ({
-            ...state,
-            id: !Array.isArray(payload)
-                ? state.id + 1
-                : state.id + payload.length,
-            tasks: !Array.isArray(payload)
-                ? state.tasks.concat({ ...payload, id: state.id })
-                : state.tasks.concat(payload.map((task, index) => ({
-                    ...task,
-                    id: state.id + index,
-                }))),
-        }),
+        ) => {
+            const createImage = (image?: File) =>
+                image
+                    ? Object.assign(image, { preview: URL.createObjectURL(image) })
+                    : null;
+
+            return {
+                ...state,
+                id: !Array.isArray(payload)
+                    ? state.id + 1
+                    : state.id + payload.length,
+                tasks: !Array.isArray(payload)
+                    ? state.tasks.concat({
+                        ...payload,
+                        id: state.id,
+                        image: createImage(payload.image),
+                        explanationImage: createImage(payload.explanationImage),
+                    })
+                    : state.tasks.concat(payload.map((task, index): Partial<TasksListSlice.ExtendedTask> => ({
+                        ...task,
+                        id: state.id + index,
+                        image: createImage(task.image),
+                        explanationImage: createImage(task.explanationImage),
+                    }))),
+            };
+        },
         deleteTaskByIdAction: (
             state: TasksListSlice.State,
             { payload }: PayloadAction<number>,

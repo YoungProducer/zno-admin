@@ -12,43 +12,21 @@ import { connect } from 'react-redux';
 export type TUploadImageType = 'task' | 'explanation';
 
 interface IOwnProps {
-    uploadImageType: TUploadImageType;
     open: boolean;
+    multiple?: boolean;
     onClose: () => void;
-
-    taskImage: any;
-    explanationImage: any;
-
-    setTaskImage: (file: File) => void;
-    setExplanationImage: (file: File) => void;
-    deleteTaskImage: () => void;
-    deleteExplanationImage: () => void;
+    previewImage?: string;
+    setImage: (image: File) => void;
+    deleteImage: () => void;
 }
 
 interface IStateProps {
-    // taskImage: any;
-    // explanationImage: any;
 }
 
 interface IDispatchProps {
-    // setTaskImage: (file: File) => void;
-    // setExplanationImage: (file: File) => void;
-    // deleteTaskImage: () => void;
-    // deleteExplanationImage: () => void;
 }
 
 export type TImageUploadModalProps = IOwnProps & IStateProps & IDispatchProps;
-
-// const mapStateToProps = (state: RootState): IStateProps => ({
-//     ...selectTaskBuffer(state),
-// });
-
-// const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-//     setTaskImage: (image: any) => dispatch(setTaskImageAction(image)),
-//     setExplanationImage: (image: any) => dispatch(setExplanationImageAction(image)),
-//     deleteTaskImage: () => dispatch(deleteTaskImageAction()),
-//     deleteExplanationImage: () => dispatch(deleteExplanationImageAction()),
-// });
 
 export default connect<IStateProps, IDispatchProps, IOwnProps>(
     // mapStateToProps,

@@ -7,7 +7,7 @@
  */
 
 // External imports
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import MuiButton from '@material-ui/core/Button';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -135,26 +135,84 @@ const ExpansionPanelActions = withStyles(theme => ({
     },
 }))(MuiExpansionPanelActions);
 
-const Component = ({
-    task,
-    expanded,
-    index,
-    editionMode,
-    onChange,
-    updateTask,
-    deleteTask,
-    activateEditionMode,
-    deactivateEditionMode,
-    ...other
-}: TTaskInfoProps) => {
+const useUploadImageFields = (props: TTaskInfoProps) => {
+    const { updateTask, task } = props;
+
+    const [imageType, setImageType] = useState<TUploadImageType>('task');
+
+    const handleDeleteTaskImage = () =>
+        updateTask({ image: null });
+
+    const handleDeleteExplanationImage = () =>
+        updateTask({ explanationImage: null });
+
+    const handleChangeTaskImage = (image: File) =>
+        updateTask({ image });
+
+    const handleChangeExplanationImage = (image: File) =>
+        updateTask({ explanationImage: image });
+
+    const previewImage = useMemo(() => {
+        const { image, explanationImage } = task;
+
+        if (imageType === 'task' && image !== null) {
+            return image.preview;
+        }
+        if (imageType === 'explanation' && explanationImage !== null) {
+            return explanationImage.preview;
+        }
+
+        return undefined;
+    }, [imageType, task]);
+
+    const setImage = useCallback((image: File) => {
+        if (imageType === 'task') return handleChangeTaskImage(image);
+        if (imageType === 'explanation') return handleChangeExplanationImage(image);
+    }, [imageType]);
+
+    const deleteImage = useCallback(() => {
+        if (imageType === 'task') return handleDeleteTaskImage();
+        if (imageType === 'explanation') return handleDeleteExplanationImage();
+    }, [imageType]);
+
+    return {
+        handleDeleteTaskImage,
+        handleDeleteExplanationImage,
+        setImageType,
+        uploadModalFields: {
+            previewImage,
+            setImage,
+            deleteImage,
+        },
+    };
+};
+
+const Component = (props: TTaskInfoProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
+
+    const {
+        index,
+        updateTask,
+        deleteTask,
+        task,
+        expanded,
+        deactivateEditionMode,
+        activateEditionMode,
+        editionMode,
+        onChange,
+    } = props;
+
+    const {
+        uploadModalFields,
+        handleDeleteExplanationImage,
+        handleDeleteTaskImage,
+        setImageType,
+    } = useUploadImageFields(props);
 
     const [modalOpen, toggleModalOpen] = useState<boolean>(false);
     const handleOpenModal = () => toggleModalOpen(true);
     const handleCloseModal = () => toggleModalOpen(false);
-
-    const [imageType, setImageType] = useState<TUploadImageType>('task');
 
     // Handle change in radio group
     const handleChangeTaskType = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,18 +226,6 @@ const Component = ({
 
     const handleChangeAnswer = (payload: TaskSlice.SetAnswerPayload) =>
         updateTask({ answer: payload });
-
-    const handleDeleteTaskImage = () =>
-        updateTask({ image: null });
-
-    const handleDeleteExplanationImage = () =>
-        updateTask({ explanationImage: null });
-
-    const handleChangeTaskImage = (image: File) =>
-        updateTask({ image });
-
-    const handleChangeExplanationImage = (image: File) =>
-        updateTask({ explanationImage: image });
 
     const { type, answer, answersAmount, image, explanationImage,
         // error
@@ -346,13 +392,7 @@ const Component = ({
             <ImageUploadModal
                 open={modalOpen}
                 onClose={handleCloseModal}
-                uploadImageType={imageType}
-                setTaskImage={handleChangeTaskImage}
-                setExplanationImage={handleChangeExplanationImage}
-                deleteTaskImage={handleDeleteTaskImage}
-                deleteExplanationImage={handleDeleteExplanationImage}
-                taskImage={image.preview}
-                explanationImage={explanationImage.preview}
+                {...uploadModalFields}
             />
         </>
     );

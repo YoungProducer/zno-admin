@@ -158,15 +158,12 @@ const Component = ({
                 </Grid>
             </Grid>
             <ImageUploadModal
-                uploadImageType={uploadImageType}
                 open={openModal}
                 onClose={handleCloseModal}
-                deleteTaskImage={deleteTaskImage}
-                deleteExplanationImage={deleteExplanationImage}
-                setTaskImage={setTaskImage}
-                setExplanationImage={setExplanationImage}
-                taskImage={taskImagePreview}
-                explanationImage={explanationImagePreview}
+                previewImage={uploadImageType === 'task' ? taskImagePreview : explanationImagePreview}
+                multiple={false}
+                setImage={uploadImageType === 'task' ? setTaskImage : setExplanationImage}
+                deleteImage={uploadImageType === 'task' ? deleteTaskImage : deleteExplanationImage}
             />
         </div>
     );
