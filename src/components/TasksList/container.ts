@@ -11,9 +11,12 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import { selectTasksList, selectTasksListOpen } from 'store/selectors/createTest';
-import { deleteTaskAction, toggleOpenTasksListAction } from 'store/slices/createTest';
-import { ITask } from 'store/slices/createTest';
+import { selectTasksList, selectTasksListOpen } from 'store/selectors/tasksList';
+import {
+    deleteTaskByIdAction,
+    setOpenTasksListAction,
+    TasksListSlice,
+} from 'store/slices/tasksList';
 import { RootState } from 'store/slices';
 
 /**
@@ -25,7 +28,7 @@ interface IOwnProps {}
  * Props which component get from the redux store.
  */
 interface IStateProps {
-    tasksList: ITask[];
+    tasksList: Partial<TasksListSlice.ExtendedTask>[];
     open: boolean;
 }
 
@@ -57,10 +60,10 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  */
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
     deleteTask: (id: number) =>
-        dispatch(deleteTaskAction(id)),
+        dispatch(deleteTaskByIdAction(id)),
 
     toggleOpenTasksList: (payload: boolean) =>
-        dispatch(toggleOpenTasksListAction(payload)),
+        dispatch(setOpenTasksListAction(payload)),
 });
 
 /**
