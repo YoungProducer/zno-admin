@@ -40,8 +40,8 @@ const createStore = () => {
                  * This actions work with File's.
                  * To prevent error about non-serializable values need to ignore its.
                  */
-                'TaskBuffer/setBufferTaskImageAction',
-                'TaskBuffer/setBufferExplanationImageAction',
+                'Task/setTaskImageAction',
+                'Task/setExplanationImageAction',
                 'TasksList/addTaskAction',
                 'TasksList/deleteTaskAction',
                 'TasksList/changeTaskImageAction',

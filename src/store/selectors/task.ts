@@ -29,15 +29,23 @@ export const selectExplanationImage = (state: RootState) =>
 export const selectImagesPreviews = createSelector(
     [selectTaskImage, selectExplanationImage],
     (taskImage, explanationImage) => ({
-        taskImagePreview: taskImage.preview,
-        explanationImagePreview: explanationImage.preview,
+        taskImagePreview: taskImage !== null
+            ? taskImage.preview
+            : '',
+        explanationImagePreview: explanationImage !== null
+            ? explanationImage.preview
+            : '',
     }),
 );
 
 export const selectImagesNames = createSelector(
     [selectTaskImage, selectExplanationImage],
     (taskImage, explanationImage) => ({
-        taskImageName: taskImage.name,
-        explanationImageName: explanationImage.name,
+        taskImageName: taskImage !== null
+            ? taskImage.name
+            : '',
+        explanationImageName: explanationImage !== null
+            ? explanationImage.name
+            : '',
     }),
 );

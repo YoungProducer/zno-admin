@@ -46,8 +46,8 @@ const Component = () => {
                 Створення завдань та тесту
             </Typography>
             <TaskConfigurations />
-            {/* <UploadImages />
-            <CreateTestActions /> */}
+            <UploadImages />
+            {/* <CreateTestActions /> */}
         </Paper>
     );
 };

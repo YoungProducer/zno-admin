@@ -55,8 +55,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 const Component = ({
-    taskImage,
-    explanationImage,
+    taskImagePreview,
+    explanationImagePreview,
     taskImageName,
     explanationImageName,
     setTaskImage,
@@ -105,7 +105,7 @@ const Component = ({
                             >
                                 {taskImageName ? taskImageName : 'Завантажити завдання'}
                             </Button>
-                            {taskImage && (
+                            {taskImagePreview && (
                                 <IconButton
                                     size='small'
                                     className={classes.iconButton}
@@ -135,7 +135,7 @@ const Component = ({
                                 >
                                 {explanationImageName ? explanationImageName : 'Завантажити пояснення'}
                             </Button>
-                            {explanationImage && (
+                            {explanationImagePreview && (
                                 <IconButton
                                 size='small'
                                 className={classes.iconButton}
@@ -152,8 +152,8 @@ const Component = ({
                     </Grid>
                 </Grid>
                 <Grid item className={classes.imageWrapper}>
-                    {(taskImage || explanationImage) && (
-                        <img width='100%' src={uploadImageType === 'task' ? taskImage : explanationImage} />
+                    {(taskImagePreview || explanationImagePreview) && (
+                        <img width='100%' src={uploadImageType === 'task' ? taskImagePreview : explanationImagePreview} />
                     )}
                 </Grid>
             </Grid>
@@ -165,8 +165,8 @@ const Component = ({
                 deleteExplanationImage={deleteExplanationImage}
                 setTaskImage={setTaskImage}
                 setExplanationImage={setExplanationImage}
-                taskImage={taskImage}
-                explanationImage={explanationImage}
+                taskImage={taskImagePreview}
+                explanationImage={explanationImagePreview}
             />
         </div>
     );

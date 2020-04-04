@@ -11,13 +11,13 @@ import { connect } from 'react-redux';
 import {
     selectImagesPreviews,
     selectImagesNames,
-} from 'store/selectors/createTest';
+} from 'store/selectors/task';
 import {
-    setBufferTaskImageAction,
-    setBufferExplanationImageAction,
-    deleteBufferTaskImageAction,
-    deleteBufferExplanationImageAction,
-} from 'store/slices/createTest';
+    setTaskImageAction,
+    setExplanationImageAction,
+    deleteTaskImageAction,
+    deleteExplanationImageAction,
+} from 'store/slices/task';
 import { RootState } from 'store/slices';
 
 // Props which component get from the parent
@@ -25,8 +25,8 @@ interface IOwnProps {}
 
 // Props which component select from the redux store
 interface IStateProps {
-    taskImage: string;
-    explanationImage: string;
+    taskImagePreview: string;
+    explanationImagePreview: string;
     taskImageName: string;
     explanationImageName: string;
 }
@@ -52,10 +52,10 @@ const mapStateToProps = (state: RootState): IStateProps => ({
 // Define mapDispatchToProps.
 // Connect action related to this component
 const mapDispatchToProps = (dispatch: any): IDispatchToProps => ({
-    setTaskImage: (file: File) => dispatch(setBufferTaskImageAction(file)),
-    setExplanationImage: (file: File) => dispatch(setBufferExplanationImageAction(file)),
-    deleteTaskImage: () => dispatch(deleteBufferTaskImageAction()),
-    deleteExplanationImage: () => dispatch(deleteBufferExplanationImageAction()),
+    setTaskImage: (file: File) => dispatch(setTaskImageAction(file)),
+    setExplanationImage: (file: File) => dispatch(setExplanationImageAction(file)),
+    deleteTaskImage: () => dispatch(deleteTaskImageAction()),
+    deleteExplanationImage: () => dispatch(deleteExplanationImageAction()),
 });
 
 // Function to connect state and actions to component
