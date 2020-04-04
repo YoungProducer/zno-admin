@@ -30,7 +30,7 @@ const Component = ({
     // Declare and define classes variable
     const classes = useStyles({});
 
-    const handleSetAnswer = (value: string, index: number) => {
+    const handleSetAnswer = (value: string) => {
         setTaskAnswer({
             elIndex: 0,
             answer: value === answer[0]
@@ -51,7 +51,7 @@ const Component = ({
                         </Typography>
                         <Cell
                             selected={answer[0] === value}
-                            callback={() => handleSetAnswer(value, index)}
+                            callback={() => handleSetAnswer(value)}
                         />
                     </Grid>
                 );

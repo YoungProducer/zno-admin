@@ -31,8 +31,8 @@ import RelationAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelec
 import TextAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelection/TextAnswer';
 import ImageUploadModal, { TUploadImageType } from 'modals/ImageUploadModal';
 import { TypeSelector } from 'components/CreateTest/TaskConfigurations/Component';
-import { ITask, ETaskType } from 'store/slices/createTest';
 import { TTaskInfoProps } from './container';
+import { TaskType, TaskSlice } from 'store/slices/task';
 
 const expPanelTheme = createMuiTheme({
     palette: {
@@ -141,12 +141,8 @@ const Component = ({
     index,
     editionMode,
     onChange,
-    changeTaskType,
-    changeTaskImage,
-    changeExplanationImage,
+    updateTask,
     deleteTask,
-    deleteTaskImage,
-    deleteExplanationImage,
     activateEditionMode,
     deactivateEditionMode,
     ...other
@@ -162,10 +158,32 @@ const Component = ({
 
     // Handle change in radio group
     const handleChangeTaskType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        changeTaskType((event.target as HTMLInputElement).value as ETaskType);
+        updateTask({
+            type: (event.target as HTMLInputElement).value as TaskType,
+        });
     };
 
-    const { taskType, answer, answersAmount, error } = task;
+    const handleChangeAnswersAmount = (amount: number) =>
+        updateTask({ answersAmount: amount });
+
+    const handleChangeAnswer = (payload: TaskSlice.SetAnswerPayload) =>
+        updateTask({ answer: payload });
+
+    const handleDeleteTaskImage = () =>
+        updateTask({ image: null });
+
+    const handleDeleteExplanationImage = () =>
+        updateTask({ explanationImage: null });
+
+    const handleChangeTaskImage = (image: File) =>
+        updateTask({ image });
+
+    const handleChangeExplanationImage = (image: File) =>
+        updateTask({ explanationImage: image });
+
+    const { type, answer, answersAmount, image, explanationImage,
+        // error
+    } = task;
 
     const handleClickEditButton = () => {
         if (editionMode) {
@@ -189,7 +207,7 @@ const Component = ({
                 >
                     <Typography
                         data-testid="task-info-panel-summary-text"
-                        color={error ? 'error' : 'initial'}
+                        // color={error ? 'error' : 'initial'}
                     >
                         {`Завдання №${index + 1}`}
                     </Typography>
@@ -203,50 +221,53 @@ const Component = ({
                         <Grid item>
                             <Typography>
                                 Тип завдання: {
-                                    task.taskType === ETaskType.ONE_RIGHT
+                                    type === 'SINGLE'
                                     ? 'одна правильна відповідь'
-                                        : task.taskType === ETaskType.RELATIONS
+                                        : type === 'RELATIONS'
                                         ? 'відношення'
                                     : 'текстова відповідь'
                                 }
                             </Typography>
                             { editionMode && (
                                 <TypeSelector
-                                    value={task.taskType}
+                                    value={type}
                                     onChange={handleChangeTaskType}
                                 />
                             )}
-                            {taskType === ETaskType.ONE_RIGHT && (
+                            {type === 'SINGLE' && (
                                 <OneRightAnswer
                                     answer={answer}
                                     answersAmount={answersAmount}
-                                    {...other}
+                                    setTaskAnswer={handleChangeAnswer}
+                                    setAnswersAmount={handleChangeAnswersAmount}
                                 />
                             )}
-                            {taskType === ETaskType.RELATIONS && (
+                            {type === 'RELATIONS' && (
                                 <RelationAnswer
                                     answer={answer}
                                     answersAmount={answersAmount}
-                                    {...other}
+                                    setTaskAnswer={handleChangeAnswer}
+                                    setAnswersAmount={handleChangeAnswersAmount}
                                 />
                             )}
-                            {taskType === ETaskType.TEXT_FIELDS && (
+                            {type === 'TEXT' && (
                                 <TextAnswer
                                     answer={answer}
                                     answersAmount={task.answersAmount}
-                                    {...other}
+                                    setTaskAnswer={handleChangeAnswer}
+                                    setAnswersAmount={handleChangeAnswersAmount}
                                 />
                             )}
                         </Grid>
                         <Grid item>
                             <div className={classes.imageWrapper}>
                                 <Typography>
-                                    Зображення завдання: {!task.taskImage && 'зображення не завантажено.'}
+                                    Зображення завдання: {!image && 'зображення не завантажено.'}
                                 </Typography>
                                 {
                                     expanded === `panel${task.id}`
-                                    && task.taskImage
-                                    && <img src={task.taskImage.preview} className={classes.img} />
+                                    && image
+                                    && <img src={image.preview} className={classes.img} />
                                 }
                                 { editionMode && (
                                     <div className={classes.imageActions}>
@@ -263,7 +284,7 @@ const Component = ({
                                         <DeclineButton
                                             variant='contained'
                                             disableElevation
-                                            onClick={deleteTaskImage}
+                                            onClick={handleDeleteTaskImage}
                                         >
                                             Видалити
                                         </DeclineButton>
@@ -294,7 +315,7 @@ const Component = ({
                                         <DeclineButton
                                             variant='contained'
                                             disableElevation
-                                            onClick={deleteExplanationImage}
+                                            onClick={handleDeleteExplanationImage}
                                         >
                                             Видалити
                                         </DeclineButton>
@@ -326,12 +347,12 @@ const Component = ({
                 open={modalOpen}
                 onClose={handleCloseModal}
                 uploadImageType={imageType}
-                setTaskImage={changeTaskImage}
-                setExplanationImage={changeExplanationImage}
-                deleteTaskImage={deleteTaskImage}
-                deleteExplanationImage={deleteExplanationImage}
-                taskImage={task.taskImage}
-                explanationImage={task.explanationImage}
+                setTaskImage={handleChangeTaskImage}
+                setExplanationImage={handleChangeExplanationImage}
+                deleteTaskImage={handleDeleteTaskImage}
+                deleteExplanationImage={handleDeleteExplanationImage}
+                taskImage={image}
+                explanationImage={explanationImage}
             />
         </>
     );
