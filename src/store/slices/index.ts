@@ -5,6 +5,7 @@ import notifier from './notifier';
 import subject from './subject';
 import subjectConfig from './subjectConfig';
 import task from './task';
+import tasksList from './tasksList';
 
 const rootReducer = combineReducers({
     signIn,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     subject,
     subjectConfig,
     task,
+    tasksList,
 });
 
 export * from './types';
