@@ -26,8 +26,10 @@ export namespace TasksListSlice {
     export type AddPayload = ExtendedTask | Partial<ExtendedTask>[];
 
     export interface UpdatePayload {
-        data: Partial<Omit<ExtendedTask, 'answer'> & {
-            answer: Partial<TaskSlice.SetAnswerPayload>,
+        data: Partial<Omit<ExtendedTask, 'answer' | 'image' | 'explanationImage'> & {
+            answer: Partial<TaskSlice.SetAnswerPayload>;
+            image: File;
+            explanationImage: File;
         }>;
         where: {
             id: number;
