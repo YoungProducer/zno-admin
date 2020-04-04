@@ -51,6 +51,49 @@ const initialState: TaskSlice.State = {
     explanationImage: null,
 };
 
+export const changeTaskType = (type: TaskType): Partial<TaskSlice.State> =>
+    type === 'RELATIONS'
+        ? { type, answer: ['', '', '', ''] }
+        : {
+            type,
+            answer: [''],
+            answersAmount: 1,
+        };
+
+export type ChangeTaskAnswer =
+    <T extends
+        Partial<TaskSlice.SetAnswerPayload>
+        & { currAnswer: Task['answer']}
+    >(payload: T) => Partial<TaskSlice.State>;
+
+export const changeTaskAnswer: ChangeTaskAnswer = ({
+    currAnswer,
+    answer,
+    elIndex,
+}) => ({
+    answer: currAnswer.map((el, index) =>
+        index !== elIndex
+            ? el
+            : answer),
+});
+
+export type ChangeAnswersAmount = (payload: {
+    currAnswer: Task['answer'],
+    currAnswersAmount: Task['answersAmount'],
+    amount: number,
+}) => Partial<TaskSlice.State>;
+
+export const changeAnswersAmount: ChangeAnswersAmount = ({
+    currAnswer,
+    currAnswersAmount,
+    amount,
+}) => ({
+    answersAmount: amount,
+    answer: amount > currAnswersAmount
+        ? currAnswer.concat([''])
+        : currAnswer.slice(0, amount),
+});
+
 const task = createSlice({
     initialState,
     name: 'Task',
@@ -60,10 +103,7 @@ const task = createSlice({
             { payload }: PayloadAction<TaskType>,
         ) => ({
             ...state,
-            type: payload,
-            answer: payload === 'RELATIONS'
-                ? ['', '', '', '']
-                : [''],
+            ...changeTaskType(payload),
         }),
         setAnswerAction: {
             reducer: (
@@ -71,10 +111,10 @@ const task = createSlice({
                 { payload }: PayloadAction<TaskSlice.SetAnswerPayload>,
             ) => ({
                 ...state,
-                answer: state.answer.map((el, index) =>
-                    index !== payload.elIndex
-                        ? el
-                        : payload.answer),
+                ...changeTaskAnswer({
+                    ...payload,
+                    currAnswer: state.answer,
+                }),
             }),
             prepare: ({ elIndex, answer }: Partial<TaskSlice.SetAnswerPayload>) => ({
                 payload: {
@@ -88,10 +128,11 @@ const task = createSlice({
             { payload }: PayloadAction<number>,
         ) => ({
             ...state,
-            answersAmount: payload,
-            answer: payload > state.answersAmount
-                ? state.answer.concat([''])
-                : state.answer.slice(0, payload),
+            ...changeAnswersAmount({
+                currAnswer: state.answer,
+                currAnswersAmount: state.answersAmount,
+                amount: payload,
+            }),
         }),
         setTaskImageAction: (
             state: TaskSlice.State,
