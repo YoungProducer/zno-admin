@@ -351,8 +351,8 @@ const Component = ({
                 setExplanationImage={handleChangeExplanationImage}
                 deleteTaskImage={handleDeleteTaskImage}
                 deleteExplanationImage={handleDeleteExplanationImage}
-                taskImage={image}
-                explanationImage={explanationImage}
+                taskImage={image.preview}
+                explanationImage={explanationImage.preview}
             />
         </>
     );

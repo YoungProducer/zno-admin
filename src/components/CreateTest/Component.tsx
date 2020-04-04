@@ -37,7 +37,7 @@ const Component = () => {
             elevation={3}
             className={classes.root}
         >
-            {/* <TasksList /> */}
+            <TasksList />
             <Typography
                 variant='h4'
                 color='primary'
@@ -47,7 +47,7 @@ const Component = () => {
             </Typography>
             <TaskConfigurations />
             <UploadImages />
-            {/* <CreateTestActions /> */}
+            <CreateTestActions />
         </Paper>
     );
 };

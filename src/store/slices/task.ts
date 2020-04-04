@@ -174,10 +174,18 @@ const task = createSlice({
                 image: null,
             };
         },
-        /** Sets all properties to default */
-        clearTaskAction: (state: TaskSlice.State) => {
-            URL.revokeObjectURL(state.image.preview);
-            URL.revokeObjectURL(state.explanationImage.preview);
+        /**
+         * Sets all properties to default
+         * @param { Boolean } payload - related to object url revoking
+         */
+        clearTaskAction: (
+            state: TaskSlice.State,
+            { payload }: PayloadAction<boolean>,
+        ) => {
+            if (payload) {
+                if (state.image !== null) URL.revokeObjectURL(state.image.preview);
+                if (state.explanationImage !== null) URL.revokeObjectURL(state.explanationImage.preview);
+            }
 
             return {
                 ...initialState,

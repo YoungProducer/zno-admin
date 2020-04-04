@@ -11,6 +11,9 @@ import { createSelector } from '@reduxjs/toolkit';
 /** Application's imports */
 import { RootState } from 'store/slices';
 
+export const selectTaskSliceState = (state: RootState) =>
+    state.task;
+
 export const selectTaskType = (state: RootState) =>
     state.task.type;
 

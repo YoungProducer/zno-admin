@@ -7,14 +7,12 @@
  */
 
 // External imports
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
 import { TCreateTestActionProps } from './container';
-import { IImage } from 'store/slices/createTest';
-import SnackbarMessage from './SnackbarMessage';
 
 // Define and describe classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -36,64 +34,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 const Component = ({
-    taskBuffer,
+    task,
     tasksList,
-    mainFields,
-    haveErrors,
-    haveErrorFields,
     addTask,
-    clearTaskBuffer,
-    fetchCreateTest,
-    checkTasksFields,
-    checkEmptyFields,
-    enqueueSnackbar,
-    closeSnackbar,
-    toggleOpenTasksList,
+    clearTask,
 }: TCreateTestActionProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
 
     const handleAddTask = () => {
-        addTask(taskBuffer);
-        clearTaskBuffer();
-    };
-
-    const handleCreateTest = () => {
-        // checkTasksFields();
-        // checkEmptyFields();
-        // console.log({ haveErrors, haveErrorFields });
-        // if (!haveErrors && !haveErrorFields) {
-        fetchCreateTest({ tasksList, mainFields });
-        // } else {
-        //     enqueueSnackbar({
-        //         message: haveErrors && !haveErrorFields ? 'Відсутні деякі данні.' : 'Завдання заповнені неправильно.',
-        //         options: {
-        //             content: (key, message) => (
-        //                 <SnackbarMessage
-        //                     message={message}
-        //                     key={key}
-        //                     closeSnackbar={closeSnackbar}
-        //                     toggleOpenTasksList={() => toggleOpenTasksList(true)}
-        //                 />
-        //             ),
-        //             key: 'create-test-error',
-        //             variant: 'error',
-        //             persist: true,
-        //             preventDuplicate: true,
-        //         //     action: (key) => (
-        //         //         <Button
-        //         //             className={classes.button}
-        //         //             onClick={() => {
-        //         //                 toggleOpenTasksList(true);
-        //         //                 closeSnackbar(key);
-        //         //             }}
-        //         //         >
-        //         //             Переглянути
-        //         //         </Button>
-        //         //     ),
-        //         },
-        //     });
-        // }
+        addTask(task);
+        clearTask(false);
     };
 
     return (
@@ -111,7 +62,7 @@ const Component = ({
                 color='primary'
                 disableElevation
                 data-testid='create-test'
-                onClick={handleCreateTest}
+                // onClick={handleCreateTest}
             >
                 Створити тест
             </Button>

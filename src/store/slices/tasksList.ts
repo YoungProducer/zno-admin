@@ -23,7 +23,7 @@ export namespace TasksListSlice {
         Task
         & { id: number; };
 
-    export type AddPayload = ExtendedTask | Partial<ExtendedTask>[];
+    export type AddPayload = Task | Partial<Task>[];
 
     export interface UpdatePayload {
         data: Partial<Omit<ExtendedTask, 'id' | 'answer' | 'image' | 'explanationImage'> & {

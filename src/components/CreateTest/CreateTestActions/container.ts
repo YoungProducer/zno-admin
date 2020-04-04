@@ -10,52 +10,31 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import { fetchCreateTestAction, ICreateTestCredentials } from 'store/actionsCreators/createTest';
-import {
-    selectTaskBuffer,
-    selectTasksList,
-    selectSubjectConfigurationsMainFields,
-    selectIsHaveErrors,
-    selectIsHaveErrorFields,
-} from 'store/selectors/createTest';
+import { selectTaskSliceState } from 'store/selectors/task';
+import { selectTasksList } from 'store/selectors/tasksList';
 import {
     addTaskAction,
-    clearTaskBufferAction,
-    checkTasksFieldsAction,
-    toggleOpenTasksListAction,
-    checkEmptyFieldsAction,
-} from 'store/slices/createTest';
+    TasksListSlice,
+} from 'store/slices/tasksList';
 import {
-    enqueueSnackbarAction,
-    closeSnackbarAction,
-    IEnqueueSnackbarPreparePayload,
-} from 'store/slices/notifier';
-import { ITaskBufferState, IAddTaskPayload, ITask } from 'store/slices/createTest';
+    clearTaskAction,
+    TaskSlice,
+} from 'store/slices/task';
 import { RootState } from 'store/slices';
-import { IMainFields } from 'components/panels/SubjectConfigurationsPanel/container';
 
 // Props which component get from parent
 interface IOwnProps {}
 
 // Props which component get from redux store
 interface IStateProps {
-    taskBuffer: ITaskBufferState;
-    tasksList: ITask[];
-    mainFields: IMainFields;
-    haveErrors: boolean;
-    haveErrorFields: boolean;
+    task: TaskSlice.State;
+    tasksList: Partial<TasksListSlice.ExtendedTask>[];
 }
 
 // Props(actions) connected to the component
 interface IDispatchProps {
-    addTask: (payload: IAddTaskPayload) => void;
-    clearTaskBuffer: () => void;
-    fetchCreateTest: (credentials: ICreateTestCredentials) => void;
-    checkTasksFields: () => void;
-    checkEmptyFields: () => void;
-    enqueueSnackbar: (payload: IEnqueueSnackbarPreparePayload) => void;
-    toggleOpenTasksList: (payload: boolean) => void;
-    closeSnackbar: (payload?: string | number) => void;
+    addTask: (payload: TasksListSlice.AddPayload) => void;
+    clearTask: (revoke: boolean) => void;
 }
 
 // Define type of props for 'CreateTestActions' component which describe all props pushed to the component.
@@ -69,11 +48,8 @@ export type TCreateTestActionProps =
  * Connect store variables to component.
  */
 const mapStateTopProps = (state: RootState): IStateProps => ({
-    taskBuffer: selectTaskBuffer(state),
+    task: selectTaskSliceState(state),
     tasksList: selectTasksList(state),
-    mainFields: selectSubjectConfigurationsMainFields(state),
-    haveErrors: selectIsHaveErrors(state),
-    haveErrorFields: selectIsHaveErrorFields(state),
 });
 
 /**
@@ -81,25 +57,10 @@ const mapStateTopProps = (state: RootState): IStateProps => ({
  * Connect actions to component.
  */
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    addTask: (payload: IAddTaskPayload) => dispatch(addTaskAction(payload)),
+    addTask: (payload: TasksListSlice.AddPayload) =>
+        dispatch(addTaskAction(payload)),
 
-    clearTaskBuffer: () => dispatch(clearTaskBufferAction()),
-
-    fetchCreateTest: (credentials: ICreateTestCredentials) =>
-        dispatch(fetchCreateTestAction(credentials)),
-
-    checkTasksFields: () => dispatch(checkTasksFieldsAction()),
-
-    checkEmptyFields: () => dispatch(checkEmptyFieldsAction()),
-
-    enqueueSnackbar: (payload: IEnqueueSnackbarPreparePayload) =>
-        dispatch(enqueueSnackbarAction(payload)),
-
-    closeSnackbar: (payload?: string | number) =>
-        dispatch(closeSnackbarAction(payload)),
-
-    toggleOpenTasksList: (payload: boolean) =>
-        dispatch(toggleOpenTasksListAction(payload)),
+    clearTask: (revoke: boolean) => dispatch(clearTaskAction(revoke)),
 });
 
 /**

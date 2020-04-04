@@ -43,9 +43,8 @@ const createStore = () => {
                 'Task/setTaskImageAction',
                 'Task/setExplanationImageAction',
                 'TasksList/addTaskAction',
-                'TasksList/deleteTaskAction',
-                'TasksList/changeTaskImageAction',
-                'TasksList/changeExplanationImageAction',
+                'TasksList/deleteTaskByIdAction',
+                'TasksList/updateTask',
                 /**
                  * This actions in some cases can work with react component.
                  * To prevent errors its must be added to ignoredActions.
@@ -59,13 +58,13 @@ const createStore = () => {
                 'SubjectConfigurations/setThemeNameAction',
             ],
             ignoredPaths: [
-                'createTest.taskBuffer.taskImage',
-                'createTest.taskBuffer.explanationImage',
-                'createTest.tasksList.tasks',
+                'tasksList.tasks',
+                'task.image',
+                'task.explanationImage',
             ],
         }),
         immutableCheck: ({
-            ignore: ['createTest'],
+            ignore: ['task', 'tasksList'],
         }),
     });
 
