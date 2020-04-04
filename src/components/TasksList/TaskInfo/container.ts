@@ -11,31 +11,21 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import {
-    deleteTaskAction,
-    changeTaskTypeAction,
-    changeTaskAnswerAction,
-    changeAnswersAmountAction,
-    changeTaskImageAction,
-    changeExplanationImageAction,
-    activateEditionModeAction,
-    deactivateEditionModeAction,
-    ETaskType,
-} from 'store/slices/createTest';
-import {
-    deleteTaskImageAction,
-    deleteExplanationImageAction,
-} from 'store/slices/createTest/tasksList';
+    setEditionModeAction,
+    updateTaskAction,
+    deleteTaskByIdAction,
+    TasksListSlice,
+} from 'store/slices/tasksList';
 import {
     selectTasksListEditionMode,
-} from 'store/selectors/createTest';
-import { ITask } from 'store/slices/createTest';
+} from 'store/selectors/tasksList';
 import { RootState } from 'store/slices';
 
 /**
  * Props which component get from parent component.
  */
 interface IOwnProps {
-    task: ITask;
+    task: Partial<TasksListSlice.ExtendedTask>;
     expanded: string | false;
     index: number;
     onChange: (value: string) => any;
@@ -53,15 +43,9 @@ interface IStateProps {
  */
 interface IDispatchProps {
     deleteTask: () => void;
-    deleteTaskImage: () => void;
-    deleteExplanationImage: () => void;
-    setTaskAnswer: (payload: number | any[]) => void;
-    setAnswersAmount: (payload: number) => void;
-    changeTaskType: (payload: ETaskType) => void;
-    changeTaskImage: (payload: File) => void;
-    changeExplanationImage: (payload: File) => void;
     activateEditionMode: () => void;
     deactivateEditionMode: () => void;
+    updateTask: (payload: TasksListSlice.UpdatePayload['data']) => void;
 }
 
 /**
@@ -83,49 +67,19 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IOwnProps): IDispatchProps => ({
     deleteTask: () =>
-        dispatch(deleteTaskAction(ownProps.task.id)),
-
-    deleteTaskImage: () =>
-        dispatch(deleteTaskImageAction(ownProps.task.id)),
-
-    deleteExplanationImage: () =>
-        dispatch(deleteExplanationImageAction(ownProps.task.id)),
-
-    setTaskAnswer: (payload: number | any[]) =>
-        dispatch(changeTaskAnswerAction({
-            id: ownProps.task.id,
-            answer: payload,
-        })),
-
-    setAnswersAmount: (payload: number) =>
-        dispatch(changeAnswersAmountAction({
-            id: ownProps.task.id,
-            answersAmount: payload,
-        })),
-
-    changeTaskType: (payload: ETaskType) =>
-        dispatch(changeTaskTypeAction({
-            id: ownProps.task.id,
-            type: payload,
-        })),
-
-    changeTaskImage: (payload: File) =>
-        dispatch(changeTaskImageAction({
-            id: ownProps.task.id,
-            image: payload,
-        })),
-
-    changeExplanationImage: (payload: File) =>
-        dispatch(changeExplanationImageAction({
-            id: ownProps.task.id,
-            image: payload,
-        })),
+        dispatch(deleteTaskByIdAction(ownProps.task.id)),
 
     activateEditionMode: () =>
-        dispatch(activateEditionModeAction()),
+        dispatch(setEditionModeAction(true)),
 
     deactivateEditionMode: () =>
-        dispatch(deactivateEditionModeAction()),
+        dispatch(setEditionModeAction(false)),
+
+    updateTask: (payload: TasksListSlice.UpdatePayload['data']) =>
+        dispatch(updateTaskAction({
+            data: payload,
+            where: { id: ownProps.task.id },
+        })),
 });
 
 /**
