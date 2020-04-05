@@ -331,7 +331,7 @@ const Component = (props: TUploadImagesProps) => {
                                             <MenuList>
                                                 <MenuItem
                                                     button
-                                                    onClick={() => handleOpenModalMultiple('task')}
+                                                    onClick={() => handleOpenModalMultiple('explanation')}
                                                 >
                                                     Завантажити багато
                                                 </MenuItem>
