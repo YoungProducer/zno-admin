@@ -6,12 +6,17 @@
 // External imports
 import React, { useState, useCallback, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
+import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Zoom from '@material-ui/core/Zoom';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
+import Menu from '@material-ui/core/Menu';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 
 // Application's imports
 import ImageUploadModal from 'modals/ImageUploadModal';
@@ -64,6 +69,8 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
         deleteExplanationImage,
     } = props;
 
+    const [openModal, setOpenModal] = useState<boolean>(false);
+
     const [multiple, setMultiple] = useState<boolean>(false);
 
     const [uploadImageType, setUploadImageType] = useState<TUploadImageType>('task');
@@ -92,10 +99,25 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
             : null,
         [multiple]);
 
+    const handleOpenModalMultiple = (type: TUploadImageType) => {
+        setOpenModal(true);
+        setMultiple(true);
+        setUploadImageType(type);
+    };
+
     return {
+        handleOpenModalMultiple,
         imageType: {
             value: uploadImageType,
             set: setUploadImageType,
+        },
+        multiple: {
+            value: multiple,
+            set: setMultiple,
+        },
+        modal: {
+            open: openModal,
+            set: setOpenModal,
         },
         uploadImageFields: {
             imagePreview,
@@ -122,11 +144,12 @@ const Component = (props: TUploadImagesProps) => {
     const {
         imageType,
         uploadImageFields,
+        modal,
+        handleOpenModalMultiple,
     } = useUploadImageFields(props);
 
-    const [openModal, toggleOpenModal] = useState<boolean>(false);
-    const handleOpenModal = () => toggleOpenModal(true);
-    const handleCloseModal = () => toggleOpenModal(false);
+    const handleOpenModal = () => modal.set(true);
+    const handleCloseModal = () => modal.set(false);
 
     return (
         <div className={classes.root}>
@@ -173,6 +196,39 @@ const Component = (props: TUploadImagesProps) => {
                                     />
                                 </IconButton>
                             )}
+                            <PopupState variant="popover" popupId="tasks-upload-many-popover">
+                                {(popupState) => (
+                                    <div>
+                                        <IconButton
+                                            size='small'
+                                            className={classes.iconButton}
+                                            {...bindTrigger(popupState)}
+                                        >
+                                            <MoreVertIcon color='primary'/>
+                                        </IconButton>
+                                        <Popover
+                                            {...bindPopover(popupState)}
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'center',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'center',
+                                            }}
+                                        >
+                                            <MenuList>
+                                                <MenuItem
+                                                    button
+                                                    onClick={() => handleOpenModalMultiple('task')}
+                                                >
+                                                    Завантажити багато
+                                                </MenuItem>
+                                            </MenuList>
+                                        </Popover>
+                                    </div>
+                                )}
+                            </PopupState>
                         </div>
                     </Grid>
                     <Grid item>
@@ -187,22 +243,55 @@ const Component = (props: TUploadImagesProps) => {
                                         handleOpenModal();
                                     }
                                 }}
-                                >
+                            >
                                 {explanationImageName ? explanationImageName : 'Завантажити пояснення'}
                             </Button>
                             {explanationImagePreview && (
                                 <IconButton
-                                size='small'
-                                className={classes.iconButton}
-                                onClick={() => {
-                                    deleteExplanationImage();
-                                }}
+                                    size='small'
+                                    className={classes.iconButton}
+                                    onClick={() => {
+                                        deleteExplanationImage();
+                                    }}
                                 >
                                     <CloseIcon
                                         color='primary'
                                     />
                                 </IconButton>
                             )}
+                            <PopupState variant="popover" popupId="explanations-upload-many-popover">
+                                {(popupState) => (
+                                    <div>
+                                        <IconButton
+                                            size='small'
+                                            className={classes.iconButton}
+                                            {...bindTrigger(popupState)}
+                                        >
+                                            <MoreVertIcon color='primary'/>
+                                        </IconButton>
+                                        <Popover
+                                            {...bindPopover(popupState)}
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'center',
+                                            }}
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'center',
+                                            }}
+                                        >
+                                            <MenuList>
+                                                <MenuItem
+                                                    button
+                                                    onClick={() => handleOpenModalMultiple('task')}
+                                                >
+                                                    Завантажити багато
+                                                </MenuItem>
+                                            </MenuList>
+                                        </Popover>
+                                    </div>
+                                )}
+                            </PopupState>
                         </div>
                     </Grid>
                 </Grid>
@@ -213,7 +302,7 @@ const Component = (props: TUploadImagesProps) => {
                 </Grid>
             </Grid>
             <ImageUploadModal
-                open={openModal}
+                open={modal.open}
                 onClose={handleCloseModal}
                 {...uploadImageFields}
             />

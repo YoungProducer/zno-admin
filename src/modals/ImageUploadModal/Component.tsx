@@ -23,6 +23,15 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     img: {
         minWidth: '45vw',
     },
+    uploadArea: {
+        borderRadius: 16,
+        border: `1px solid ${theme.palette.primary.main}`,
+        width: '100%',
+        height: 100,
+    },
+    uploadTitle: {
+        lineHeight: '100px',
+    },
 }));
 
 // Create styles for dialog title
@@ -104,18 +113,35 @@ const Component = ({
                         className={classes.img}
                     />
                 )}
+                { multiple && (
+                    <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <div className={classes.uploadArea}>
+                            <Typography
+                                variant='h4'
+                                color='primary'
+                                align='center'
+                                className={classes.uploadTitle}
+                            >
+                                Натисніть тут або перетягніть файли
+                            </Typography>
+                        </div>
+                    </div>
+                )}
             </DialogContent>
             <DialogActions>
-                <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <Button
-                        variant='contained'
-                        color='primary'
-                        disableElevation
-                    >
-                        Завантажити
-                    </Button>
-                </div>
+                { !multiple && (
+                    <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <Button
+                            variant='contained'
+                            color='primary'
+                            disableElevation
+                        >
+                            Завантажити
+                        </Button>
+                    </div>
+                )}
                 { previewImage && deleteImage && (
                     <Button
                         variant='outlined'
