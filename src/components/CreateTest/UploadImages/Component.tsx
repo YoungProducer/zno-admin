@@ -67,6 +67,11 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
         setExplanationImage,
         deleteTaskImage,
         deleteExplanationImage,
+        addTask,
+        updateTask,
+        amountOfTasks,
+        amountWithTaskImage,
+        amountWithExplanationImage,
     } = props;
 
     const [openModal, setOpenModal] = useState<boolean>(false);
@@ -93,10 +98,53 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
             : deleteExplanationImage(),
         [uploadImageType]);
 
+    const setManyImages = useCallback((images: File[]) => {
+        const uploadedAmount = images.length;
+        const tasksAmountWithImage = uploadImageType === 'task'
+            ? amountWithTaskImage
+            : amountWithExplanationImage;
+        /**
+         * Calculate amount of tasks which must be updated.
+         * They must be updated because they are already created
+         * and just needed to add images to this tasks.
+         */
+        const updateAmount = uploadedAmount < amountOfTasks
+            ? uploadedAmount
+            : amountOfTasks - tasksAmountWithImage;
+        /**
+         * Calculate amount of tasks which must be added.
+         * They must be created because they are not already exist.
+         */
+        const addAmount = uploadedAmount < amountOfTasks
+            ? 0
+            : uploadedAmount - updateAmount;
+
+        const arrayToUpdate = images.slice(0, updateAmount);
+        const arrayToAdd = images.slice(updateAmount);
+
+        arrayToUpdate.forEach((image, index) => updateTask({
+            data: {
+                [uploadImageType === 'task' ? 'image' : 'explanationImage']: image,
+            },
+            where: {
+                id: tasksAmountWithImage + index,
+            },
+        }));
+
+        addTask(arrayToAdd.map(image => ({
+            [uploadImageType === 'task' ? 'image' : 'explanationImage']: image,
+        })));
+    }, [
+        uploadImageType,
+        amountOfTasks,
+        amountWithTaskImage,
+        amountWithExplanationImage,
+    ]);
+
     const onDropCallback = useCallback((acceptedFiles: File[]) =>
         !multiple
             ? setImage(acceptedFiles[0])
-            : null,
+            : setManyImages(acceptedFiles),
         [multiple]);
 
     const handleOpenModalMultiple = (type: TUploadImageType) => {

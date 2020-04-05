@@ -18,6 +18,16 @@ import {
     deleteTaskImageAction,
     deleteExplanationImageAction,
 } from 'store/slices/task';
+import {
+    addTaskAction,
+    updateTaskAction,
+    TasksListSlice,
+} from 'store/slices/tasksList';
+import {
+    selectTasksAmount,
+    selectTasksAmountWithTaskImage,
+    selectTasksAmountWithExplanationImage,
+} from 'store/selectors/tasksList';
 import { RootState } from 'store/slices';
 
 // Props which component get from the parent
@@ -29,10 +39,15 @@ interface IStateProps {
     explanationImagePreview: string;
     taskImageName: string;
     explanationImageName: string;
+    amountOfTasks: number;
+    amountWithTaskImage: number;
+    amountWithExplanationImage: number;
 }
 
 // Props(actions) which component can dispatch
 interface IDispatchToProps {
+    addTask: (payload: TasksListSlice.AddPayload) => void;
+    updateTask: (payload: TasksListSlice.UpdatePayload) => void;
     setTaskImage: (file: File) => void;
     setExplanationImage: (file: File) => void;
     deleteTaskImage: () => void;
@@ -47,11 +62,16 @@ export type TUploadImagesProps = IOwnProps & IStateProps & IDispatchToProps;
 const mapStateToProps = (state: RootState): IStateProps => ({
     ...selectImagesPreviews(state),
     ...selectImagesNames(state),
+    amountOfTasks: selectTasksAmount(state),
+    amountWithTaskImage: selectTasksAmountWithTaskImage(state),
+    amountWithExplanationImage: selectTasksAmountWithExplanationImage(state),
 });
 
 // Define mapDispatchToProps.
 // Connect action related to this component
 const mapDispatchToProps = (dispatch: any): IDispatchToProps => ({
+    addTask: (payload: TasksListSlice.AddPayload) => dispatch(addTaskAction(payload)),
+    updateTask: (payload: TasksListSlice.UpdatePayload) => dispatch(updateTaskAction(payload)),
     setTaskImage: (file: File) => dispatch(setTaskImageAction(file)),
     setExplanationImage: (file: File) => dispatch(setExplanationImageAction(file)),
     deleteTaskImage: () => dispatch(deleteTaskImageAction()),

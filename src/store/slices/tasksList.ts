@@ -128,8 +128,8 @@ const tasksList = createSlice({
             { payload }: PayloadAction<TasksListSlice.UpdatePayload>,
         ) => ({
             ...state,
-            tasks: state.tasks.map(task => {
-                if (task.id !== payload.where.id) {
+            tasks: state.tasks.map((task, index) => {
+                if (index !== payload.where.id) {
                     return task;
                 }
 
