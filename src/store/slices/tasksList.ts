@@ -13,6 +13,7 @@ import {
     Task,
     TaskType,
     TaskSlice,
+    Image,
     changeTaskType,
     changeTaskAnswer,
     changeAnswersAmount,
@@ -58,6 +59,16 @@ export namespace TasksListSlice {
     }
 }
 
+const createImage = (image?: File) =>
+    image
+        ? Object.assign(image, { preview: URL.createObjectURL(image) })
+        : null;
+
+const deleteImage = (image: Image) =>
+    image !== null
+        ? URL.revokeObjectURL(image.preview)
+        : null;
+
 const initialState: TasksListSlice.State = {
     tasks: [],
     editionMode: false,
@@ -86,32 +97,25 @@ const tasksList = createSlice({
         addTaskAction: (
             state: TasksListSlice.State,
             { payload }: PayloadAction<TasksListSlice.AddPayload>,
-        ) => {
-            const createImage = (image?: File) =>
-                image
-                    ? Object.assign(image, { preview: URL.createObjectURL(image) })
-                    : null;
-
-            return {
-                ...state,
-                id: !Array.isArray(payload)
-                    ? state.id + 1
-                    : state.id + payload.length,
-                tasks: !Array.isArray(payload)
-                    ? state.tasks.concat({
-                        ...payload,
-                        id: state.id,
-                        image: createImage(payload.image),
-                        explanationImage: createImage(payload.explanationImage),
-                    })
-                    : state.tasks.concat(payload.map((task, index): Partial<TasksListSlice.ExtendedTask> => ({
-                        ...task,
-                        id: state.id + index,
-                        image: createImage(task.image),
-                        explanationImage: createImage(task.explanationImage),
-                    }))),
-            };
-        },
+        ) => ({
+            ...state,
+            id: !Array.isArray(payload)
+                ? state.id + 1
+                : state.id + payload.length,
+            tasks: !Array.isArray(payload)
+                ? state.tasks.concat({
+                    ...payload,
+                    id: state.id,
+                    image: createImage(payload.image),
+                    explanationImage: createImage(payload.explanationImage),
+                })
+                : state.tasks.concat(payload.map((task, index): Partial<TasksListSlice.ExtendedTask> => ({
+                    ...task,
+                    id: state.id + index,
+                    image: createImage(task.image),
+                    explanationImage: createImage(task.explanationImage),
+                }))),
+        }),
         deleteTaskByIdAction: (
             state: TasksListSlice.State,
             { payload }: PayloadAction<number>,
@@ -134,28 +138,24 @@ const tasksList = createSlice({
                     ...Object.entries(payload.data).reduce((acc, curr) => {
                         if (curr[0] === 'image') {
                             if (curr[1] === null) {
-                                URL.revokeObjectURL(task.image.preview);
+                                deleteImage(task.image);
                             } else if (curr[1] !== null && curr[1]) {
-                                URL.revokeObjectURL(task.image.preview);
+                                deleteImage(task.image);
                                 return {
                                     ...acc,
-                                    [curr[0]]: Object.assign(curr[1], {
-                                        preview: URL.createObjectURL(curr[1]),
-                                    }),
+                                    [curr[0]]: createImage(curr[1] as File),
                                 };
                             }
                         }
 
                         if (curr[0] === 'explanationImage') {
                             if (curr[1] === null) {
-                                URL.revokeObjectURL(task.explanationImage.preview);
+                                deleteImage(task.explanationImage);
                             } else if (curr[1] !== null && curr[1]) {
-                                URL.revokeObjectURL(task.explanationImage.preview);
+                                deleteImage(task.explanationImage);
                                 return {
                                     ...acc,
-                                    [curr[0]]: Object.assign(curr[1], {
-                                        preview: URL.createObjectURL(curr[1]),
-                                    }),
+                                    [curr[0]]: createImage(curr[1] as File),
                                 };
                             }
                         }

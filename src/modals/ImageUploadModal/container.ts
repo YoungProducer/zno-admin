@@ -16,8 +16,8 @@ interface IOwnProps {
     multiple?: boolean;
     onClose: () => void;
     previewImage?: string;
-    setImage: (image: File) => void;
-    deleteImage: () => void;
+    deleteImage?: () => void;
+    onDropCallback: (acceptedFiles: File[]) => void;
 }
 
 interface IStateProps {

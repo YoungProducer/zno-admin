@@ -4,7 +4,7 @@
 // Modal component to upload images.
 
 // External imports
-import React, { useCallback } from 'react';
+import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -16,7 +16,7 @@ import { makeStyles, withStyles, createStyles, Theme, WithStyles } from '@materi
 import { useDropzone } from 'react-dropzone';
 
 // Application's imports
-import { TImageUploadModalProps, TUploadImageType } from './container';
+import { TImageUploadModalProps } from './container';
 
 // Define classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -71,19 +71,13 @@ const Component = ({
     multiple,
     previewImage,
     deleteImage,
-    setImage,
+    onDropCallback,
 }: TImageUploadModalProps) => {
     // Declare and define classes
     const classes = useStyles({});
 
-    const onDrop = useCallback((acceptedFiles: any[]) => {
-        if (!multiple) {
-            setImage(acceptedFiles[0]);
-        }
-    }, [multiple]);
-
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
+        onDrop: onDropCallback,
         multiple: multiple || false,
         accept: 'image/*,.svg',
     });
@@ -96,9 +90,7 @@ const Component = ({
             aria-labelledby='upload-image-title'
         >
             <DialogTitle id='upload-image-title'>
-                {
-                    'Завантаження зображення'
-                }
+                Завантаження зображення
             </DialogTitle>
             <DialogContent>
                 <DialogContentText color='initial'>
@@ -124,16 +116,15 @@ const Component = ({
                         Завантажити
                     </Button>
                 </div>
-                { previewImage && (
-                        <Button
-                            variant='outlined'
-                            color='primary'
-                            onClick={deleteImage}
-                        >
-                            Видалити
-                        </Button>
-                    )
-                }
+                { previewImage && deleteImage && (
+                    <Button
+                        variant='outlined'
+                        color='primary'
+                        onClick={deleteImage}
+                    >
+                        Видалити
+                    </Button>
+                )}
                 <Button
                     variant='outlined'
                     color='primary'

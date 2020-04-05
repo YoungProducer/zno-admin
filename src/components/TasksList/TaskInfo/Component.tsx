@@ -165,15 +165,20 @@ const useUploadImageFields = (props: TTaskInfoProps) => {
         return undefined;
     }, [imageType, task]);
 
-    const setImage = useCallback((image: File) => {
-        if (imageType === 'task') return handleChangeTaskImage(image);
-        if (imageType === 'explanation') return handleChangeExplanationImage(image);
-    }, [imageType]);
+    const setImage = useCallback((image: File) =>
+        imageType === 'task'
+            ? handleChangeTaskImage(image)
+            : handleChangeExplanationImage(image),
+        [imageType]);
 
-    const deleteImage = useCallback(() => {
-        if (imageType === 'task') return handleDeleteTaskImage();
-        if (imageType === 'explanation') return handleDeleteExplanationImage();
-    }, [imageType]);
+    const deleteImage = useCallback(() =>
+        imageType === 'task'
+            ? handleDeleteTaskImage()
+            : handleDeleteExplanationImage(),
+        [imageType]);
+
+    const onDropCallback = useCallback((acceptedFiles: File[]) =>
+        setImage(acceptedFiles[0]), []);
 
     return {
         handleDeleteTaskImage,
@@ -183,6 +188,7 @@ const useUploadImageFields = (props: TTaskInfoProps) => {
             previewImage,
             setImage,
             deleteImage,
+            onDropCallback,
         },
     };
 };

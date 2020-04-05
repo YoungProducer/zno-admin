@@ -4,7 +4,7 @@
 // Component to upload task and explanation images.
 
 // External imports
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -54,20 +54,75 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-const Component = ({
-    taskImagePreview,
-    explanationImagePreview,
-    taskImageName,
-    explanationImageName,
-    setTaskImage,
-    setExplanationImage,
-    deleteTaskImage,
-    deleteExplanationImage,
-}: TUploadImagesProps) => {
+const useUploadImageFields = (props: TUploadImagesProps) => {
+    const {
+        taskImagePreview,
+        explanationImagePreview,
+        setTaskImage,
+        setExplanationImage,
+        deleteTaskImage,
+        deleteExplanationImage,
+    } = props;
+
+    const [multiple, setMultiple] = useState<boolean>(false);
+
+    const [uploadImageType, setUploadImageType] = useState<TUploadImageType>('task');
+
+    const imagePreview = useMemo(() =>
+        uploadImageType
+            ? taskImagePreview
+            : explanationImagePreview,
+        [uploadImageType]);
+
+    const setImage = useCallback((image: File) =>
+        uploadImageType === 'task'
+            ? setTaskImage(image)
+            : setExplanationImage(image),
+        [uploadImageType]);
+
+    const deleteImage = useCallback(() =>
+        uploadImageType === 'task'
+            ? deleteTaskImage()
+            : deleteExplanationImage(),
+        [uploadImageType]);
+
+    const onDropCallback = useCallback((acceptedFiles: File[]) =>
+        !multiple
+            ? setImage(acceptedFiles[0])
+            : null,
+        [multiple]);
+
+    return {
+        imageType: {
+            value: uploadImageType,
+            set: setUploadImageType,
+        },
+        uploadImageFields: {
+            imagePreview,
+            deleteImage,
+            onDropCallback,
+            multiple,
+        },
+    };
+};
+
+const Component = (props: TUploadImagesProps) => {
     // Declare and define classes
     const classes = useStyles({});
 
-    const [uploadImageType, setUploadImageType] = useState<TUploadImageType>('task');
+    const {
+        taskImageName,
+        taskImagePreview,
+        explanationImageName,
+        explanationImagePreview,
+        deleteTaskImage,
+        deleteExplanationImage,
+    } = props;
+
+    const {
+        imageType,
+        uploadImageFields,
+    } = useUploadImageFields(props);
 
     const [openModal, toggleOpenModal] = useState<boolean>(false);
     const handleOpenModal = () => toggleOpenModal(true);
@@ -97,7 +152,7 @@ const Component = ({
                                 color='primary'
                                 variant='outlined'
                                 onClick={() => {
-                                    setUploadImageType('task');
+                                    imageType.set('task');
                                     if (!taskImageName) {
                                         handleOpenModal();
                                     }
@@ -127,7 +182,7 @@ const Component = ({
                                 color='primary'
                                 variant='outlined'
                                 onClick={() => {
-                                    setUploadImageType('explanation');
+                                    imageType.set('explanation');
                                     if (!explanationImageName) {
                                         handleOpenModal();
                                     }
@@ -153,17 +208,14 @@ const Component = ({
                 </Grid>
                 <Grid item className={classes.imageWrapper}>
                     {(taskImagePreview || explanationImagePreview) && (
-                        <img width='100%' src={uploadImageType === 'task' ? taskImagePreview : explanationImagePreview} />
+                        <img width='100%' src={imageType.value === 'task' ? taskImagePreview : explanationImagePreview} />
                     )}
                 </Grid>
             </Grid>
             <ImageUploadModal
                 open={openModal}
                 onClose={handleCloseModal}
-                previewImage={uploadImageType === 'task' ? taskImagePreview : explanationImagePreview}
-                multiple={false}
-                setImage={uploadImageType === 'task' ? setTaskImage : setExplanationImage}
-                deleteImage={uploadImageType === 'task' ? deleteTaskImage : deleteExplanationImage}
+                {...uploadImageFields}
             />
         </div>
     );
