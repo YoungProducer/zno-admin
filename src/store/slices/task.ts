@@ -13,6 +13,12 @@ export interface Image extends File {
     preview: string;
 }
 
+export type ImageType = 'task' | 'explanation';
+
+export type TaskImages<T = Image> = {
+    [attr in ImageType]?: T;
+};
+
 export type TaskType = 'SINGLE' | 'RELATIONS' | 'TEXT';
 
 export interface Task {
@@ -20,10 +26,7 @@ export interface Task {
     type: TaskType;
     /** Related only for text type of answer */
     answersAmount: number;
-    /** Task image */
-    image: Image;
-    /** Explanation image */
-    explanationImage: Image;
+    images: TaskImages;
 }
 
 export namespace TaskSlice {
@@ -40,6 +43,10 @@ export namespace TaskSlice {
         answer: string;
     }
 
+    export type SetImagePayload = {
+        [attr in ImageType]?: File;
+    };
+
     export interface State extends Task {}
 }
 
@@ -47,9 +54,21 @@ const initialState: TaskSlice.State = {
     answer: [''],
     type: 'SINGLE',
     answersAmount: 1,
-    image: null,
-    explanationImage: null,
+    images: {
+        task: null,
+        explanation: null,
+    },
 };
+
+export const createImage = (image?: File): Image =>
+    image
+        ? Object.assign(image, { preview: URL.createObjectURL(image) })
+        : null;
+
+export const deleteImage = (image: Image) =>
+    image !== null
+        ? URL.revokeObjectURL(image.preview)
+        : null;
 
 export const changeTaskType = (type: TaskType): Partial<TaskSlice.State> =>
     type === 'RELATIONS'
@@ -134,44 +153,30 @@ const task = createSlice({
                 amount: payload,
             }),
         }),
-        setTaskImageAction: (
+        setImageAction: (
             state: TaskSlice.State,
-            { payload }: PayloadAction<File>,
+            { payload }: PayloadAction<TaskSlice.SetImagePayload>,
         ) => ({
             ...state,
-            image: Object.assign(payload, {
-                preview: URL.createObjectURL(payload),
-            }),
+            images: {
+                ...state.images,
+                ...Object.entries(payload).reduce((acc, curr) => ({
+                    ...acc,
+                    [curr[0]]: createImage(curr[1]),
+                }), {}),
+            },
         }),
-        deleteTaskImageAction: (
+        deleteImageAction: (
             state: TaskSlice.State,
+            { payload }: PayloadAction<ImageType>,
         ) => {
-            // Delete reference to this object in browser to prevent memory leak
-            URL.revokeObjectURL(state.image.preview);
-
+            deleteImage(state.images[payload]);
             return {
                 ...state,
-                image: null,
-            };
-        },
-        setExplanationImageAction: (
-            state: TaskSlice.State,
-            { payload }: PayloadAction<File>,
-        ) => ({
-            ...state,
-            explanationImage: Object.assign(payload, {
-                preview: URL.createObjectURL(payload),
-            }),
-        }),
-        deleteExplanationImageAction: (
-            state: TaskSlice.State,
-        ) => {
-            // Delete reference to this object in browser to prevent memory leak
-            URL.revokeObjectURL(state.explanationImage.preview);
-
-            return {
-                ...state,
-                image: null,
+                images: {
+                    ...state.images,
+                    [payload]: null,
+                },
             };
         },
         /**
@@ -183,8 +188,8 @@ const task = createSlice({
             { payload }: PayloadAction<boolean>,
         ) => {
             if (payload) {
-                if (state.image !== null) URL.revokeObjectURL(state.image.preview);
-                if (state.explanationImage !== null) URL.revokeObjectURL(state.explanationImage.preview);
+                deleteImage(state.images.task);
+                deleteImage(state.images.explanation);
             }
 
             return {
@@ -195,13 +200,11 @@ const task = createSlice({
 });
 
 export const {
+    setImageAction,
+    deleteImageAction,
     setTaskTypeAction,
     setAnswerAction,
     setAnswersAmountAction,
-    setTaskImageAction,
-    deleteTaskImageAction,
-    setExplanationImageAction,
-    deleteExplanationImageAction,
     clearTaskAction,
 } = task.actions;
 

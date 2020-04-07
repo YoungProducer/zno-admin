@@ -78,7 +78,7 @@ const Component = ({
     open,
     onClose,
     multiple,
-    previewImage,
+    imagePreview,
     deleteImage,
     onDropCallback,
 }: TImageUploadModalProps) => {
@@ -107,9 +107,9 @@ const Component = ({
                     <br />
                     Після завантаження ви одразу побачите попередній вигляд зображення.
                 </DialogContentText>
-                {previewImage && (
+                {imagePreview && (
                     <img
-                        src={previewImage}
+                        src={imagePreview}
                         className={classes.img}
                     />
                 )}
@@ -142,7 +142,7 @@ const Component = ({
                         </Button>
                     </div>
                 )}
-                { previewImage && deleteImage && (
+                { imagePreview && deleteImage && (
                     <Button
                         variant='outlined'
                         color='primary'

@@ -32,7 +32,7 @@ import TextAnswer from 'components/CreateTest/TaskConfigurations/AnswerSelection
 import ImageUploadModal, { TUploadImageType } from 'modals/ImageUploadModal';
 import { TypeSelector } from 'components/CreateTest/TaskConfigurations/Component';
 import { TTaskInfoProps } from './container';
-import { TaskType, TaskSlice } from 'store/slices/task';
+import { TaskType, TaskSlice, ImageType } from 'store/slices/task';
 
 const expPanelTheme = createMuiTheme({
     palette: {
@@ -140,52 +140,32 @@ const useUploadImageFields = (props: TTaskInfoProps) => {
 
     const [imageType, setImageType] = useState<TUploadImageType>('task');
 
-    const handleDeleteTaskImage = () =>
-        updateTask({ image: null });
+    const handleDeleteImage = (type: ImageType) =>
+        updateTask({ images: { [type]: null } });
 
-    const handleDeleteExplanationImage = () =>
-        updateTask({ explanationImage: null });
+    const handleChangeImage = (type: ImageType, image: File) =>
+        updateTask({ images: { [type]: image } });
 
-    const handleChangeTaskImage = (image: File) =>
-        updateTask({ image });
+    const imagePreview = useMemo(() =>
+        task.images[imageType] !== null
+            ? task.images[imageType].preview
+            : '',
+        [imageType, task]);
 
-    const handleChangeExplanationImage = (image: File) =>
-        updateTask({ explanationImage: image });
-
-    const previewImage = useMemo(() => {
-        const { image, explanationImage } = task;
-
-        if (imageType === 'task' && image !== null) {
-            return image.preview;
-        }
-        if (imageType === 'explanation' && explanationImage !== null) {
-            return explanationImage.preview;
-        }
-
-        return undefined;
-    }, [imageType, task]);
-
-    const setImage = useCallback((image: File) =>
-        imageType === 'task'
-            ? handleChangeTaskImage(image)
-            : handleChangeExplanationImage(image),
+    const setImage = useCallback((image: File) => handleChangeImage(imageType, image),
         [imageType]);
 
-    const deleteImage = useCallback(() =>
-        imageType === 'task'
-            ? handleDeleteTaskImage()
-            : handleDeleteExplanationImage(),
+    const deleteImage = useCallback(() => handleDeleteImage(imageType),
         [imageType]);
 
     const onDropCallback = useCallback((acceptedFiles: File[]) =>
         setImage(acceptedFiles[0]), [imageType]);
 
     return {
-        handleDeleteTaskImage,
-        handleDeleteExplanationImage,
+        handleDeleteImage,
         setImageType,
         uploadModalFields: {
-            previewImage,
+            imagePreview,
             setImage,
             deleteImage,
             onDropCallback,
@@ -211,8 +191,7 @@ const Component = (props: TTaskInfoProps) => {
 
     const {
         uploadModalFields,
-        handleDeleteExplanationImage,
-        handleDeleteTaskImage,
+        handleDeleteImage,
         setImageType,
     } = useUploadImageFields(props);
 
@@ -233,8 +212,11 @@ const Component = (props: TTaskInfoProps) => {
     const handleChangeAnswer = (payload: TaskSlice.SetAnswerPayload) =>
         updateTask({ answer: payload });
 
-    const { type, answer, answersAmount, image, explanationImage,
-        // error
+    const {
+        type,
+        answer,
+        answersAmount,
+        images,
     } = task;
 
     const handleClickEditButton = () => {
@@ -314,12 +296,12 @@ const Component = (props: TTaskInfoProps) => {
                         <Grid item>
                             <div className={classes.imageWrapper}>
                                 <Typography>
-                                    Зображення завдання: {!image && 'зображення не завантажено.'}
+                                    Зображення завдання: {!images.task && 'зображення не завантажено.'}
                                 </Typography>
                                 {
                                     expanded === `panel${task.id}`
-                                    && image
-                                    && <img src={image.preview} className={classes.img} />
+                                    && images.task
+                                    && <img src={images.task.preview} className={classes.img} />
                                 }
                                 { editionMode && (
                                     <div className={classes.imageActions}>
@@ -336,7 +318,7 @@ const Component = (props: TTaskInfoProps) => {
                                         <DeclineButton
                                             variant='contained'
                                             disableElevation
-                                            onClick={handleDeleteTaskImage}
+                                            onClick={() => handleDeleteImage('task')}
                                         >
                                             Видалити
                                         </DeclineButton>
@@ -345,12 +327,12 @@ const Component = (props: TTaskInfoProps) => {
                             </div>
                             <div className={classes.imageWrapper}>
                                 <Typography>
-                                    Зображення пояснення: {!explanationImage && 'зображення не завантажено.'}
+                                    Зображення пояснення: {!images.explanation && 'зображення не завантажено.'}
                                 </Typography>
                                 {
                                     expanded === `panel${task.id}`
-                                    && task.explanationImage
-                                    && <img src={task.explanationImage.preview} className={classes.img} />
+                                    && images.explanation
+                                    && <img src={images.explanation.preview} className={classes.img} />
                                 }
                                 { editionMode && (
                                     <div className={classes.imageActions}>
@@ -367,7 +349,7 @@ const Component = (props: TTaskInfoProps) => {
                                         <DeclineButton
                                             variant='contained'
                                             disableElevation
-                                            onClick={handleDeleteExplanationImage}
+                                            onClick={() => handleDeleteImage('explanation')}
                                         >
                                             Видалити
                                         </DeclineButton>

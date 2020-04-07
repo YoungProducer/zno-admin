@@ -26,18 +26,28 @@ export const selectTasksListNextId = (state: RootState) =>
 export const selectTasksAmount = (state: RootState) =>
     state.tasksList.tasks.length;
 
-export const selectTasksAmountWithTaskImage = createSelector(
+export const selectTasksImages = createSelector(
     selectTasksList,
-    (tasks) => tasks.reduce((acc, curr) =>
-        curr.image === null
+    (tasks) => tasks.map(task => task.images.task),
+);
+
+export const selectExplanationsImages = createSelector(
+    selectTasksList,
+    (tasks) => tasks.map(task => task.images.explanation),
+);
+
+export const selectTasksAmountWithTaskImage = createSelector(
+    selectTasksImages,
+    (tasksImages) => tasksImages.reduce((acc, curr) =>
+        curr === null
             ? acc
             : acc + 1, 0),
 );
 
 export const selectTasksAmountWithExplanationImage = createSelector(
-    selectTasksList,
-    (tasks) => tasks.reduce((acc, curr) =>
-        curr.explanationImage === null
+    selectExplanationsImages,
+    (explanationsImages) => explanationsImages.reduce((acc, curr) =>
+        curr === null
             ? acc
             : acc + 1, 0),
 );

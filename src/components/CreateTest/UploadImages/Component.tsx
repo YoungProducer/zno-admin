@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
-import Menu from '@material-ui/core/Menu';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -20,8 +19,8 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 
 // Application's imports
 import ImageUploadModal from 'modals/ImageUploadModal';
-import { TUploadImageType } from 'modals/ImageUploadModal';
 import { TUploadImagesProps } from './container';
+import { ImageType } from 'store/slices/task';
 
 // Describe classes as hook
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -61,12 +60,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const useUploadImageFields = (props: TUploadImagesProps) => {
     const {
-        taskImagePreview,
-        explanationImagePreview,
-        setTaskImage,
-        setExplanationImage,
-        deleteTaskImage,
-        deleteExplanationImage,
+        setImage,
+        deleteImage,
+        imagesPreviews,
         addTask,
         updateTask,
         amountOfTasks,
@@ -78,25 +74,22 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
 
     const [multiple, setMultiple] = useState<boolean>(false);
 
-    const [uploadImageType, setUploadImageType] = useState<TUploadImageType>('task');
+    const [uploadImageType, setUploadImageType] = useState<ImageType>('task');
 
-    const imagePreview = useMemo(() =>
-        uploadImageType
-            ? taskImagePreview
-            : explanationImagePreview,
-        [uploadImageType]);
+    const imagePreview = useMemo(() => imagesPreviews[uploadImageType],
+        [uploadImageType, imagesPreviews]);
 
-    const setImage = useCallback((image: File) =>
-        uploadImageType === 'task'
-            ? setTaskImage(image)
-            : setExplanationImage(image),
-        [uploadImageType]);
+    // const setImage = useCallback((image: File) =>
+    //     uploadImageType === 'task'
+    //         ? setTaskImage(image)
+    //         : setExplanationImage(image),
+    //     [uploadImageType]);
 
-    const deleteImage = useCallback(() =>
-        uploadImageType === 'task'
-            ? deleteTaskImage()
-            : deleteExplanationImage(),
-        [uploadImageType]);
+    // const deleteImage = useCallback(() =>
+    //     uploadImageType === 'task'
+    //         ? deleteTaskImage()
+    //         : deleteExplanationImage(),
+    //     [uploadImageType]);
 
     const setManyImages = useCallback((images: File[]) => {
         const uploadedAmount = images.length;
@@ -124,7 +117,9 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
 
         arrayToUpdate.forEach((image, index) => updateTask({
             data: {
-                [uploadImageType === 'task' ? 'image' : 'explanationImage']: image,
+                images: {
+                    [uploadImageType]: image,
+                },
             },
             where: {
                 id: tasksAmountWithImage + index,
@@ -132,7 +127,9 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
         }));
 
         addTask(arrayToAdd.map(image => ({
-            [uploadImageType === 'task' ? 'image' : 'explanationImage']: image,
+            images: {
+                [uploadImageType]: image,
+            },
         })));
     }, [
         uploadImageType,
@@ -143,7 +140,9 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
 
     const onDropCallback = useCallback((acceptedFiles: File[]) =>
         !multiple
-            ? setImage(acceptedFiles[0])
+            ? setImage({
+                [uploadImageType]: acceptedFiles[0],
+            })
             : setManyImages(acceptedFiles),
         [
             multiple,
@@ -153,7 +152,7 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
             amountWithExplanationImage,
         ]);
 
-    const handleOpenModalMultiple = (type: TUploadImageType) => {
+    const handleOpenModalMultiple = (type: ImageType) => {
         setOpenModal(true);
         setMultiple(true);
         setUploadImageType(type);
@@ -175,9 +174,9 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
         },
         uploadImageFields: {
             imagePreview,
-            deleteImage,
             onDropCallback,
             multiple,
+            deleteImage: () => deleteImage(uploadImageType),
         },
     };
 };
@@ -187,12 +186,9 @@ const Component = (props: TUploadImagesProps) => {
     const classes = useStyles({});
 
     const {
-        taskImageName,
-        taskImagePreview,
-        explanationImageName,
-        explanationImagePreview,
-        deleteTaskImage,
-        deleteExplanationImage,
+        imagesNames,
+        imagesPreviews,
+        deleteImage,
     } = props;
 
     const {
@@ -230,19 +226,19 @@ const Component = (props: TUploadImagesProps) => {
                                 variant='outlined'
                                 onClick={() => {
                                     imageType.set('task');
-                                    if (!taskImageName) {
+                                    if (!imagesNames.task) {
                                         handleOpenModal();
                                     }
                                 }}
                             >
-                                {taskImageName ? taskImageName : 'Завантажити завдання'}
+                                {imagesNames.task ? imagesNames.task : 'Завантажити завдання'}
                             </Button>
-                            {taskImagePreview && (
+                            {imagesPreviews.task && (
                                 <IconButton
                                     size='small'
                                     className={classes.iconButton}
                                     onClick={() => {
-                                        deleteTaskImage();
+                                        deleteImage('task');
                                     }}
                                 >
                                     <CloseIcon
@@ -293,19 +289,19 @@ const Component = (props: TUploadImagesProps) => {
                                 variant='outlined'
                                 onClick={() => {
                                     imageType.set('explanation');
-                                    if (!explanationImageName) {
+                                    if (!imagesNames.explanation) {
                                         handleOpenModal();
                                     }
                                 }}
                             >
-                                {explanationImageName ? explanationImageName : 'Завантажити пояснення'}
+                                {imagesNames.explanation ? imagesNames.explanation : 'Завантажити пояснення'}
                             </Button>
-                            {explanationImagePreview && (
+                            {imagesPreviews.explanation && (
                                 <IconButton
                                     size='small'
                                     className={classes.iconButton}
                                     onClick={() => {
-                                        deleteExplanationImage();
+                                        deleteImage('explanation');
                                     }}
                                 >
                                     <CloseIcon
@@ -350,8 +346,8 @@ const Component = (props: TUploadImagesProps) => {
                     </Grid>
                 </Grid>
                 <Grid item className={classes.imageWrapper}>
-                    {(taskImagePreview || explanationImagePreview) && (
-                        <img width='100%' src={imageType.value === 'task' ? taskImagePreview : explanationImagePreview} />
+                    {(imagesPreviews.task || imagesPreviews.explanation) && (
+                        <img width='100%' src={imageType.value === 'task' ? imagesPreviews.task : imagesPreviews.explanation} />
                     )}
                 </Grid>
             </Grid>

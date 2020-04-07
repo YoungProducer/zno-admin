@@ -23,32 +23,27 @@ export const selectTaskAnswer = (state: RootState) =>
 export const selectTaskAnswersAmount = (state: RootState) =>
     state.task.answersAmount;
 
+export const selectTaskImages = (state: RootState) =>
+    state.task.images;
+
 export const selectTaskImage = (state: RootState) =>
-    state.task.image;
+    state.task.images.task;
 
 export const selectExplanationImage = (state: RootState) =>
-    state.task.explanationImage;
+    state.task.images.explanation;
 
 export const selectImagesPreviews = createSelector(
-    [selectTaskImage, selectExplanationImage],
-    (taskImage, explanationImage) => ({
-        taskImagePreview: taskImage !== null
-            ? taskImage.preview
-            : '',
-        explanationImagePreview: explanationImage !== null
-            ? explanationImage.preview
-            : '',
+    selectTaskImages,
+    ({ task, explanation }) => ({
+        task: task !== null ? task.preview : '',
+        explanation: explanation !== null ? explanation.preview : '',
     }),
 );
 
 export const selectImagesNames = createSelector(
-    [selectTaskImage, selectExplanationImage],
-    (taskImage, explanationImage) => ({
-        taskImageName: taskImage !== null
-            ? taskImage.name
-            : '',
-        explanationImageName: explanationImage !== null
-            ? explanationImage.name
-            : '',
+    selectTaskImages,
+    ({ task, explanation }) => ({
+        task: task !== null ? task.name : '',
+        explanation: explanation !== null ? explanation.name : '',
     }),
 );

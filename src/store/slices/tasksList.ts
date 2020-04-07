@@ -13,10 +13,13 @@ import {
     Task,
     TaskType,
     TaskSlice,
-    Image,
+    TaskImages,
+    ImageType,
     changeTaskType,
     changeTaskAnswer,
     changeAnswersAmount,
+    createImage,
+    deleteImage,
 } from './task';
 
 export namespace TasksListSlice {
@@ -25,19 +28,17 @@ export namespace TasksListSlice {
         & { id: number; };
 
     export type TaskForAddition =
-        Omit<Task, 'image' | 'explanationImage'>
+        Omit<Task, 'images'>
         & {
-            image: File;
-            explanationImage: File;
+            images: TaskImages<File>;
         };
 
-    export type AddPayload = TaskForAddition | Partial<TaskForAddition>[];
+    export type AddPayload = Partial<TaskForAddition> | Partial<TaskForAddition>[];
 
     export interface UpdatePayload {
         data: Partial<Omit<TaskForAddition, 'answer'> & {
             answer: Partial<TaskSlice.SetAnswerPayload>;
-            image: File;
-            explanationImage: File;
+            images: TaskImages<File>;
         }>;
         where: {
             id: number;
@@ -58,16 +59,6 @@ export namespace TasksListSlice {
         open: boolean;
     }
 }
-
-const createImage = (image?: File) =>
-    image
-        ? Object.assign(image, { preview: URL.createObjectURL(image) })
-        : null;
-
-const deleteImage = (image: Image) =>
-    image !== null
-        ? URL.revokeObjectURL(image.preview)
-        : null;
 
 const initialState: TasksListSlice.State = {
     tasks: [],
@@ -106,14 +97,18 @@ const tasksList = createSlice({
                 ? state.tasks.concat({
                     ...payload,
                     id: state.id,
-                    image: createImage(payload.image),
-                    explanationImage: createImage(payload.explanationImage),
+                    images: {
+                        task: createImage(payload.images.task),
+                        explanation: createImage(payload.images.explanation),
+                    },
                 })
                 : state.tasks.concat(payload.map((task, index): Partial<TasksListSlice.ExtendedTask> => ({
                     ...task,
                     id: state.id + index,
-                    image: createImage(task.image),
-                    explanationImage: createImage(task.explanationImage),
+                    images: {
+                        task: createImage(task.images.task),
+                        explanation: createImage(task.images.explanation),
+                    },
                 }))),
         }),
         deleteTaskByIdAction: (
@@ -136,28 +131,33 @@ const tasksList = createSlice({
                 return {
                     ...task,
                     ...Object.entries(payload.data).reduce((acc, curr) => {
-                        if (curr[0] === 'image') {
-                            if (curr[1] === null) {
-                                deleteImage(task.image);
-                            } else if (curr[1] !== null && curr[1]) {
-                                deleteImage(task.image);
-                                return {
-                                    ...acc,
-                                    [curr[0]]: createImage(curr[1] as File),
-                                };
-                            }
-                        }
+                        if (curr[0] === 'images') {
+                            const prevImages = task.images;
+                            const images = curr[1] as TaskSlice.SetImagePayload;
 
-                        if (curr[0] === 'explanationImage') {
-                            if (curr[1] === null) {
-                                deleteImage(task.explanationImage);
-                            } else if (curr[1] !== null && curr[1]) {
-                                deleteImage(task.explanationImage);
-                                return {
-                                    ...acc,
-                                    [curr[0]]: createImage(curr[1] as File),
-                                };
-                            }
+                            return {
+                                ...acc,
+                                images: {
+                                    ...prevImages,
+                                    ...Object.entries(images).reduce((newImages, currImage: [ImageType, File]) => {
+                                        const key = currImage[0];
+                                        const value = currImage[1];
+                                        deleteImage(task.images[key]);
+
+                                        if (value !== null) {
+                                            return {
+                                                ...newImages,
+                                                [key]: createImage(value),
+                                            };
+                                        }
+
+                                        return {
+                                            ...newImages,
+                                            [key]: null,
+                                        };
+                                    }, {}),
+                                },
+                            };
                         }
 
                         if (curr[0] === 'type') {

@@ -45,6 +45,8 @@ const createStore = () => {
                 'TasksList/addTaskAction',
                 'TasksList/deleteTaskByIdAction',
                 'TasksList/updateTaskAction',
+                'Task/setImageAction',
+                'Task/deleteImageAction',
                 /**
                  * This actions in some cases can work with react component.
                  * To prevent errors its must be added to ignoredActions.
