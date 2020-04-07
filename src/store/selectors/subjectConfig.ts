@@ -26,22 +26,17 @@ export const selectTestType = (state: RootState) =>
 export const selectExamType = (state: RootState) =>
     state.subjectConfig.examType;
 
+export const selectWithSubSubject = (state: RootState) =>
+    state.subjectConfig.withSubSubject;
+
 export const selectMainFields = createSelector(
     selectSubjectName,
     selectSubSubjectName,
     selectThemeName,
     selectTestType,
     selectExamType,
-    (subjectName, subSubjectName, themeName, testType, examType) => ({
-        subjectName, subSubjectName, themeName, testType, examType,
+    selectWithSubSubject,
+    (subjectName, subSubjectName, themeName, testType, examType, withSubSubject) => ({
+        subjectName, subSubjectName, themeName, testType, examType, withSubSubject,
     }),
 );
-
-export const selectWithSubSubject = (state: RootState) =>
-    state.subjectConfig.withSubSubject;
-
-export const selectSubjectConfigErrorFields = (state: RootState) =>
-    state.subjectConfig.errorFields;
-
-export const selectSubjectConfigFieldsMessages = (state: RootState) =>
-    state.subjectConfig.fieldsMessages;

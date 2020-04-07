@@ -8,3 +8,16 @@ export interface StateWithLoading {
 }
 
 export type LoadingPayload = boolean;
+
+export type ErrorFields<T = any> = {
+    [attr in keyof T]?: boolean;
+};
+
+export type ErrorMessages<T = any> = {
+    [attr in keyof T]?: string;
+};
+
+export type Errors<T = any> = {
+    fields: ErrorFields<T>;
+    messages: ErrorMessages<T>;
+};

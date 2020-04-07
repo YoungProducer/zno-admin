@@ -26,6 +26,14 @@ export const selectTasksListNextId = (state: RootState) =>
 export const selectTasksAmount = (state: RootState) =>
     state.tasksList.tasks.length;
 
+export const selectTasksAnswers = createSelector(
+    selectTasksList,
+    (tasks) => tasks.map(task => ({
+        answer: task.answer,
+        type: task.type,
+    })),
+);
+
 export const selectTasksImages = createSelector(
     selectTasksList,
     (tasks) => tasks.map(task => task.images.task),
