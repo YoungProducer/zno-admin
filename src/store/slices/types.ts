@@ -3,6 +3,8 @@
 
 // Describe main types for slices
 
-export interface ILoadingAction {
-    payload: boolean;
+export interface StateWithLoading {
+    loading: boolean;
 }
+
+export type LoadingPayload = boolean;

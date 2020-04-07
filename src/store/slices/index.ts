@@ -6,6 +6,7 @@ import subject from './subject';
 import subjectConfig from './subjectConfig';
 import task from './task';
 import tasksList from './tasksList';
+import createTest from './createTest';
 
 const rootReducer = combineReducers({
     signIn,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     subjectConfig,
     task,
     tasksList,
+    createTest,
 });
 
 export * from './types';
