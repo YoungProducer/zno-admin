@@ -178,7 +178,7 @@ const useUploadImageFields = (props: TTaskInfoProps) => {
         [imageType]);
 
     const onDropCallback = useCallback((acceptedFiles: File[]) =>
-        setImage(acceptedFiles[0]), []);
+        setImage(acceptedFiles[0]), [imageType]);
 
     return {
         handleDeleteTaskImage,
@@ -345,7 +345,7 @@ const Component = (props: TTaskInfoProps) => {
                             </div>
                             <div className={classes.imageWrapper}>
                                 <Typography>
-                                    Зображення пояснення: {!task.explanationImage && 'зображення не завантажено.'}
+                                    Зображення пояснення: {!explanationImage && 'зображення не завантажено.'}
                                 </Typography>
                                 {
                                     expanded === `panel${task.id}`

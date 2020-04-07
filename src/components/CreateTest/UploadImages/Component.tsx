@@ -119,7 +119,7 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
             ? 0
             : uploadedAmount - updateAmount;
 
-        const arrayToUpdate = images.slice(0, updateAmount);
+        const arrayToUpdate = images.slice(tasksAmountWithImage, updateAmount);
         const arrayToAdd = images.slice(updateAmount);
 
         arrayToUpdate.forEach((image, index) => updateTask({
@@ -145,7 +145,13 @@ const useUploadImageFields = (props: TUploadImagesProps) => {
         !multiple
             ? setImage(acceptedFiles[0])
             : setManyImages(acceptedFiles),
-        [multiple]);
+        [
+            multiple,
+            uploadImageType,
+            amountOfTasks,
+            amountWithTaskImage,
+            amountWithExplanationImage,
+        ]);
 
     const handleOpenModalMultiple = (type: TUploadImageType) => {
         setOpenModal(true);

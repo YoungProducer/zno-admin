@@ -67,7 +67,7 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IOwnProps): IDispatchProps => ({
     deleteTask: () =>
-        dispatch(deleteTaskByIdAction(ownProps.task.id)),
+        dispatch(deleteTaskByIdAction(ownProps.index)),
 
     activateEditionMode: () =>
         dispatch(setEditionModeAction(true)),
@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IOwnProps): IDispatchProps 
     updateTask: (payload: TasksListSlice.UpdatePayload['data']) =>
         dispatch(updateTaskAction({
             data: payload,
-            where: { id: ownProps.task.id },
+            where: { id: ownProps.index },
         })),
 });
 

@@ -121,7 +121,7 @@ const tasksList = createSlice({
             { payload }: PayloadAction<number>,
         ) => ({
             ...state,
-            tasks: state.tasks.filter(task => task.id !== payload),
+            tasks: state.tasks.filter((task, index) => index !== payload),
         }),
         updateTaskAction: (
             state: TasksListSlice.State,
