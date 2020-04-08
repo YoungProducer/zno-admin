@@ -11,7 +11,6 @@
 import { connect } from 'react-redux';
 
 // Application's imports
-import { selectIsHaveErrorFields, selectIsHaveErrors } from 'store/selectors/createTest';
 import { RootState } from 'store/slices';
 
 /**
@@ -20,8 +19,8 @@ import { RootState } from 'store/slices';
 interface IOwnProps {
     message: React.ReactNode;
     key: string | number;
-    haveErrors: boolean;
-    haveErrorFields: boolean;
+    hasSubjectConfigError: boolean;
+    hasTasksListError: boolean;
     closeSnackbar: (key: string | number) => void;
     toggleOpenTasksList: () => void;
 }

@@ -38,7 +38,7 @@ const initialState: SubjectConfigSlice.State = {
 
 const subjectConfig = createSlice({
     initialState,
-    name: 'SubjectConfigSlice',
+    name: 'SubjectConfig',
     reducers: {
         setSubjectNameAction: (
             state: SubjectConfigSlice.State,

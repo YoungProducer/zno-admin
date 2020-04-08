@@ -10,8 +10,9 @@ import { createSelector } from '@reduxjs/toolkit';
 
 /** Application's imports */
 import { RootState } from 'store/slices';
+import { TasksListSlice } from 'store/slices/tasksList';
 
-export const selectTasksList = (state: RootState) =>
+export const selectTasksList = (state: RootState): Partial<TasksListSlice.ExtendedTask>[] =>
     state.tasksList.tasks;
 
 export const selectTasksListOpen = (state: RootState) =>
@@ -36,12 +37,24 @@ export const selectTasksAnswers = createSelector(
 
 export const selectTasksImages = createSelector(
     selectTasksList,
-    (tasks) => tasks.map(task => task.images.task),
+    (tasks) => tasks.reduce((acc, curr) => {
+        if (curr.images.task !== null) {
+            return acc.concat(curr.images.task);
+        }
+
+        return acc;
+    }, []),
 );
 
 export const selectExplanationsImages = createSelector(
     selectTasksList,
-    (tasks) => tasks.map(task => task.images.explanation),
+    (tasks) => tasks.reduce((acc, curr) => {
+        if (curr.images.explanation !== null) {
+            return acc.concat(curr.images.explanation);
+        }
+
+        return acc;
+    }, []),
 );
 
 export const selectTasksAmountWithTaskImage = createSelector(

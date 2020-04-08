@@ -26,7 +26,9 @@ import {
     TTestType,
 } from 'store/slices/subjectConfig';
 import {
-    selectSubjectConfigErrorFields,
+    setSubjectConfigErrorsAction, CreateTestSlice,
+} from 'store/slices/createTest';
+import {
     selectWithSubSubject,
     selectMainFields,
 } from 'store/selectors/subjectConfig';
@@ -34,8 +36,12 @@ import {
     selectSubjectsNames,
     selectSubSubjectsNames,
 } from 'store/selectors/subject';
+import {
+    selectSubjectConfigErrorFields,
+} from 'store/selectors/createTest';
 import { closeSnackbarAction } from 'store/slices/notifier';
 import { RootState } from 'store/slices';
+import { ErrorFields } from 'store/slices/types';
 import { Subject } from 'api/types';
 
 export interface IMainFields {
@@ -60,7 +66,7 @@ interface IStateProps {
     subjectsNames: string[];
     subSubjectsNames: string[];
     mainFields: IMainFields;
-    errorFields: SubjectConfigSlice.ErrorFields;
+    errorFields: ErrorFields<SubjectConfigSlice.MainFields>;
     withSubSubject: boolean;
 }
 
@@ -77,6 +83,7 @@ interface IDispatchProps {
     setExamType: (examType: TExamType) => void;
     setThemeName: (name: string) => void;
     closeSnackbar: (payload?: string | number) => void;
+    setSubjectConfigErrors: (payload?: CreateTestSlice.SetSubjectConfigErrorsPayload) => void;
 }
 
 /**
@@ -130,6 +137,9 @@ const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
 
     closeSnackbar: (payload?: string | number) =>
         dispatch(closeSnackbarAction(payload)),
+
+    setSubjectConfigErrors: (payload?: CreateTestSlice.SetSubjectConfigErrorsPayload) =>
+        dispatch(setSubjectConfigErrorsAction(payload)),
 });
 
 /**

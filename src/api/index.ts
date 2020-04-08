@@ -13,6 +13,7 @@ import {
     IApi,
     Auth,
     Subject,
+    TestSuite,
 } from './types';
 
 class Api implements IApi {
@@ -48,6 +49,13 @@ class Api implements IApi {
     createSubject = async (payload: Subject.CreatePayload): Promise<AxiosResponse<Subject.Data>> =>
         await this.instance.post(
             '/api/subject',
+            payload,
+            { withCredentials: true },
+        )
+
+    createTestSuite: TestSuite.Create = async (payload) =>
+        await this.instance.post(
+            '/api/test-siote',
             payload,
             { withCredentials: true },
         )

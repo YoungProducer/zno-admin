@@ -74,8 +74,8 @@ const Component = forwardRef(
     key,
     closeSnackbar,
     toggleOpenTasksList,
-    haveErrors,
-    haveErrorFields,
+    hasTasksListError,
+    hasSubjectConfigError,
 }: TSnackbarMessageProps,
  ref,
 ) => {
@@ -117,14 +117,14 @@ const Component = forwardRef(
             <Collapse in={expanded}>
                 <Paper className={classes.paper}>
                     <List>
-                        { haveErrorFields && (
+                        { hasSubjectConfigError && (
                             <ListItem divider>
                                 <Typography className={classes.contentTypography}>
                                     Є незаповненні поля у налаштуваннях теста.
                                 </Typography>
                             </ListItem>
                         )}
-                        { haveErrors && (
+                        { hasTasksListError && (
                             <ListItem divider>
                                 <Typography className={classes.contentTypography}>
                                     Деякі завдання заповнені неправильно або їх взагалі не створено.

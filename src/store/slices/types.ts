@@ -21,3 +21,5 @@ export type Errors<T = any> = {
     fields: ErrorFields<T>;
     messages: ErrorMessages<T>;
 };
+
+export type WithError<T = any> = T & { hasError: boolean };

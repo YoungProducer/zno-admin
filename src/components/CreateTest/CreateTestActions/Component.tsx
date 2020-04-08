@@ -38,6 +38,7 @@ const Component = ({
     tasksList,
     addTask,
     clearTask,
+    createTest,
 }: TCreateTestActionProps) => {
     // Declare and define classes variable
     const classes = useStyles({});
@@ -62,7 +63,7 @@ const Component = ({
                 color='primary'
                 disableElevation
                 data-testid='create-test'
-                // onClick={handleCreateTest}
+                onClick={createTest}
             >
                 Створити тест
             </Button>

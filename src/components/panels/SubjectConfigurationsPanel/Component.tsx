@@ -51,6 +51,7 @@ const Component = ({
     createSubject,
     fetchSubjectsData,
     closeSnackbar,
+    setSubjectConfigErrors,
 }: TSubjectConfigurationsPanelProps) => {
     const classes = useStyles({});
 
@@ -90,6 +91,7 @@ const Component = ({
                     additionalCallback={() => {
                         if (errorFields.subjectName) {
                             closeSnackbar('create-test-error');
+                            setSubjectConfigErrors();
                         }
                     }}
                     list={subjectsNames}
@@ -98,7 +100,7 @@ const Component = ({
                     variant='standard'
                     color='primary'
                     error={errorFields.subjectName}
-                    helperText={errorFields.subjectName ? 'Поле не заповнено.' : null}
+                    helperText={errorFields.subjectName || false ? 'Поле не заповнено.' : null}
                 />
             </div>
             <div className={classes.part}>
@@ -121,6 +123,7 @@ const Component = ({
                         additionalCallback={() => {
                             if (errorFields.subSubjectName) {
                                 closeSnackbar('create-test-error');
+                                setSubjectConfigErrors();
                             }
                         }}
                         list={subSubjectsNames}
@@ -129,7 +132,7 @@ const Component = ({
                         variant='standard'
                         color='primary'
                         error={errorFields.subSubjectName}
-                        helperText={errorFields.subSubjectName ? 'Поле не заповнено.' : null}
+                        helperText={errorFields.subSubjectName || false ? 'Поле не заповнено.' : null}
                     />
                 </Collapse>
             </div>
@@ -161,6 +164,7 @@ const Component = ({
                         additionalCallback={() => {
                             if (errorFields.subjectName) {
                                 closeSnackbar('create-test-error');
+                                setSubjectConfigErrors();
                             }
                         }}
                         list={[]}
@@ -168,7 +172,7 @@ const Component = ({
                         color='primary'
                         variant='standard'
                         error={errorFields.themeName}
-                        helperText={errorFields.themeName ? 'Поле не заповнено' : null}
+                        helperText={errorFields.themeName || false ? 'Поле не заповнено' : null}
                     />
                 </Collapse>
             </div>

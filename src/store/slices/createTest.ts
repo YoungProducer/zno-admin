@@ -15,12 +15,17 @@ import { SubjectConfigSlice } from './subjectConfig';
 import {
     StateWithLoading,
     LoadingPayload,
+    ErrorFields,
     ErrorMessages,
     Errors,
 } from './types';
 
 export namespace CreateTestSlice {
     export type SubjectConfigErrors = Errors<SubjectConfigSlice.MainFields>;
+
+    export interface TasksListErrors {
+        invalidTasks: number[];
+    }
 
     export type SetSubjectConfigErrorsPayload = {
         fields?: string[];
@@ -29,12 +34,31 @@ export namespace CreateTestSlice {
 
     export interface State extends StateWithLoading {
         subjectConfigErrors: Partial<SubjectConfigErrors>;
+        tasksListErrors: TasksListErrors;
     }
 }
 
+const defaultSubjectConfigErrorFields: ErrorFields<SubjectConfigSlice.MainFields> = {
+    subjectName: false,
+    subSubjectName: false,
+    themeName: false,
+};
+
+const defaultSubjectConfigErrorMessages: ErrorMessages<SubjectConfigSlice.MainFields> = {
+    subjectName: '',
+    subSubjectName: '',
+    themeName: '',
+};
+
 const initialState: CreateTestSlice.State = {
     loading: false,
-    subjectConfigErrors: {},
+    subjectConfigErrors: {
+        fields: defaultSubjectConfigErrorFields,
+        messages: defaultSubjectConfigErrorMessages,
+    },
+    tasksListErrors: {
+        invalidTasks: [],
+    },
 };
 
 const createTest = createSlice({
@@ -60,7 +84,7 @@ const createTest = createSlice({
                             ? {
                                 ...state.subjectConfigErrors.fields,
                                 ...Object
-                                    .keys(state.subjectConfigErrors.fields)
+                                    .keys(state.subjectConfigErrors.fields || {})
                                     .reduce((acc, curr) => ({
                                         ...acc,
                                         [curr]: payload.fields.some(field => field === curr),
@@ -72,7 +96,10 @@ const createTest = createSlice({
                             ...payload.messages,
                         },
                     }
-                    : {},
+                    : {
+                        fields: defaultSubjectConfigErrorFields,
+                        messages: defaultSubjectConfigErrorMessages,
+                    },
             }),
             prepare: (payload?: CreateTestSlice.SetSubjectConfigErrorsPayload) => ({
                 payload: payload
@@ -80,12 +107,21 @@ const createTest = createSlice({
                     : undefined,
             }),
         },
+        setTasksListErrorsAction: (
+            state: CreateTestSlice.State,
+            { payload }: PayloadAction<CreateTestSlice.TasksListErrors>,
+        ) => ({
+            ...state,
+            tasksListErrors: payload,
+        }),
     },
 });
 
 /** Export actions */
 export const {
     setCreateTestLoadingAction,
+    setSubjectConfigErrorsAction,
+    setTasksListErrorsAction,
 } = createTest.actions;
 
 /** Export reducer */

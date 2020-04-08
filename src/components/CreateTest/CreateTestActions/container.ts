@@ -10,6 +10,7 @@
 import { connect } from 'react-redux';
 
 // Application's imports
+import { createTestAction } from 'store/actionsCreators/createTest';
 import { selectTaskSliceState } from 'store/selectors/task';
 import { selectTasksList } from 'store/selectors/tasksList';
 import {
@@ -35,6 +36,7 @@ interface IStateProps {
 interface IDispatchProps {
     addTask: (payload: TasksListSlice.AddPayload) => void;
     clearTask: (revoke: boolean) => void;
+    createTest: () => void;
 }
 
 // Define type of props for 'CreateTestActions' component which describe all props pushed to the component.
@@ -61,6 +63,8 @@ const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
         dispatch(addTaskAction(payload)),
 
     clearTask: (revoke: boolean) => dispatch(clearTaskAction(revoke)),
+
+    createTest: () => dispatch(createTestAction()),
 });
 
 /**

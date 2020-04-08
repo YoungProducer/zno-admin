@@ -42,11 +42,16 @@ const createStore = () => {
                  */
                 'Task/setTaskImageAction',
                 'Task/setExplanationImageAction',
+                'Task/clearTaskAction',
+                'Task/setImageAction',
+                'Task/deleteImageAction',
                 'TasksList/addTaskAction',
                 'TasksList/deleteTaskByIdAction',
                 'TasksList/updateTaskAction',
-                'Task/setImageAction',
-                'Task/deleteImageAction',
+                'TasksList/setOpenTasksListAction',
+                'CreateTest/setCreateTestLoadingAction',
+                'CreateTest/setTasksListErrorsAction',
+                'CreateTest/setSubjectConfigErrorsAction',
                 /**
                  * This actions in some cases can work with react component.
                  * To prevent errors its must be added to ignoredActions.
@@ -54,10 +59,9 @@ const createStore = () => {
                 'Notifier/closeSnackbarAction',
                 'Notifier/enqueueSnackbarAction',
                 'Notifier/removeSnackbarAction',
-                'TasksList/toggleOpenTasksListAction',
-                'SubjectConfigurations/setSubjectNameAction',
-                'SubjectConfigurations/setSubSubjectNameAction',
-                'SubjectConfigurations/setThemeNameAction',
+                'SubjectConfig/setSubjectNameAction',
+                'SubjectConfig/setSubSubjectNameAction',
+                'SubjectConfig/setThemeNameAction',
             ],
             ignoredPaths: [
                 'tasksList.tasks',

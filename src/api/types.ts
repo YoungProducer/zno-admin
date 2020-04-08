@@ -42,6 +42,13 @@ export namespace Subject {
     }
 }
 
+export namespace TestSuite {
+    type CreatePayload = FormData;
+    type CreateReturn = any;
+    export type Create = (payload: CreatePayload)
+        => Promise<AxiosResponse<CreateReturn>>;
+}
+
 export interface IApi {
     instance: AxiosInstance;
     /** Auth */
@@ -51,4 +58,7 @@ export interface IApi {
     subjectsData: () => Promise<AxiosResponse<Subject.Data[]>>;
     subSubjectsData: () => Promise<AxiosResponse<Subject.Data[]>>;
     createSubject: (payload: Subject.CreatePayload) => Promise<AxiosResponse<Subject.Data>>;
+
+    /** Test suite */
+    createTestSuite: TestSuite.Create;
 }

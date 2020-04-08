@@ -10,3 +10,9 @@ import { RootState } from 'store/slices';
 
 export const selectCreateTestLoading = (state: RootState) =>
     state.createTest.loading;
+
+export const selectSubjectConfigErrorFields = (state: RootState) =>
+    state.createTest.subjectConfigErrors.fields || {};
+
+export const selectTasksListErrors = (state: RootState) =>
+    state.createTest.tasksListErrors;
