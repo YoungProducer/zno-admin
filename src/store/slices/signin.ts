@@ -4,10 +4,10 @@
 // Slice for user signin
 
 // External imports
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Application's imports
-import { ILoadingAction } from 'store/slices/types';
+import { LoadingPayload, StateWithLoading } from 'store/slices/types';
 
 export interface ISignInInvalidFields {
     email: boolean;
@@ -23,7 +23,6 @@ export interface IUser {
     id: string;
     email: string;
     role: string;
-    userName: string;
 }
 
 /**
@@ -58,11 +57,10 @@ interface ISetInvalidFieldsMessagesAction {
     payload: ISetInvalidFieldsMessagesPayload;
 }
 
-export interface ISignInState {
+export interface ISignInState extends StateWithLoading {
     user?: IUser;
     invalidFields: ISignInInvalidFields;
     invalidFieldsMessages: ISignInInvalidFieldsMessages;
-    loading: boolean;
     loggedIn: boolean;
 }
 
@@ -73,7 +71,7 @@ const defaultInvalidFieldsMessages: ISignInInvalidFieldsMessages = {
 
 const initialState: ISignInState = {
     loading: false,
-    loggedIn: true,
+    loggedIn: false,
     invalidFields: {
         email: false,
         password: false,
@@ -122,7 +120,7 @@ const signInSlice = createSlice({
                 }
 
                 return { ...acc };
-            },                                      {});
+            }, {});
 
             return {
                 ...state,
@@ -180,7 +178,7 @@ const signInSlice = createSlice({
         }),
         loadingSignInAction: (
             state: ISignInState,
-            { payload }: ILoadingAction,
+            { payload }: PayloadAction<LoadingPayload>,
         ) => ({
             ...state,
             loading: payload,

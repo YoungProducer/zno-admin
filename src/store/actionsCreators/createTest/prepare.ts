@@ -10,11 +10,10 @@ import { MainFields } from './hasErrors';
 import { RootState } from 'store/slices';
 import { TaskType, Image } from 'store/slices/task';
 import { TasksListSlice } from 'store/slices/tasksList';
-import { selectSubjectIdByName, selectSubSubjectIdByName } from 'store/selectors/subject';
 
 export interface PreparedFields {
-    subjectId: string;
-    subSubjectId: string;
+    subjectName: string;
+    subSubjectName: string;
     theme: string;
     training: string;
     session: string;
@@ -55,12 +54,9 @@ export const prepareSubjectConfig: PrepareSubjectConfig = (mainFields, state) =>
         withSubSubject,
     } = mainFields;
 
-    const subjectId = selectSubjectIdByName(subjectName)(state);
-    const subSubjectId = selectSubSubjectIdByName(subSubjectName)(state);
-
     return {
-        subjectId,
-        subSubjectId: withSubSubject ? subSubjectId : null,
+        subjectName,
+        subSubjectName: withSubSubject ? subSubjectName : null,
         theme: testType === 'THEME' ? themeName : null,
         training: testType === 'EXAM' && examType === 'TRAINING' ? themeName : null,
         session: testType === 'EXAM' && examType === 'SESSION' ? themeName : null,

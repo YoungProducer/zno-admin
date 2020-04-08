@@ -11,7 +11,7 @@ import isemail from 'isemail';
 
 // Application's imports
 import api from 'api';
-import { ISignInCredentials } from 'api/types';
+import { Auth } from 'api/types';
 import {
     setUserDataAction,
     setLoggedIn,
@@ -22,7 +22,7 @@ import {
     ISetInvalidFieldsMessagesPayload,
 } from 'store/slices/signin';
 
-const validateCredentials = (credentials: ISignInCredentials): [boolean, string[], ISetInvalidFieldsMessagesPayload] => {
+const validateCredentials = (credentials: Auth.SignInPayload): [boolean, string[], ISetInvalidFieldsMessagesPayload] => {
     const invalidFields = [];
     const invalidFieldsMessages: ISetInvalidFieldsMessagesPayload = {};
 
@@ -40,7 +40,7 @@ const validateCredentials = (credentials: ISignInCredentials): [boolean, string[
     return [invalid, invalidFields, invalidFieldsMessages];
 };
 
-export const fetchSignInAction = (credentials: ISignInCredentials) =>
+export const fetchSignInAction = (credentials: Auth.SignInPayload) =>
     async (dispatch: Dispatch<any>) => {
         dispatch(loadingSignInAction(true));
 
@@ -55,11 +55,6 @@ export const fetchSignInAction = (credentials: ISignInCredentials) =>
         if (!invalid) {
             return api.signIn(credentials)
                 .then(response => {
-                    if (response.status !== 200) {
-                        dispatch(loadingSignInAction(false));
-                        throw Error(response.statusText);
-                    }
-
                     dispatch(loadingSignInAction(false));
 
                     return response.data;
@@ -69,12 +64,12 @@ export const fetchSignInAction = (credentials: ISignInCredentials) =>
                     dispatch(setLoggedIn(true));
                 })
                 .catch(error => {
-                    const errorData = error.response.data.error.data;
+                    dispatch(loadingSignInAction(false));
+                    const errorData = error.response.data.errors;
 
-                    if (Object.keys(error.response.data).some(key => key === 'error')) {
-                        dispatch(setSignInInvalidFieldsAction(errorData.invalidFields));
-                        dispatch(setSignInInvalidFieldsMessagesAction(errorData.invalidFieldsMessages));
-                        dispatch(loadingSignInAction(false));
+                    if (errorData) {
+                        dispatch(setSignInInvalidFieldsAction(errorData.errorFields));
+                        dispatch(setSignInInvalidFieldsMessagesAction(errorData.errorMessages));
                     }
                 });
         }
