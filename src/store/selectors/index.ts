@@ -4,7 +4,7 @@
 // Entry point of selectors path
 // Export all selectors
 
-export * from './signin';
+export * from './auth/signin';
 export * from './subject';
 export * from './subjectConfig';
 export * from './task';

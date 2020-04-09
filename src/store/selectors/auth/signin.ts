@@ -11,15 +11,15 @@ import { createSelector } from '@reduxjs/toolkit';
 // Application's imports
 import { RootState } from 'store/slices';
 
-export const selectSignInUserData = (state: RootState) => state.signIn.user;
+export const selectSignInUserData = (state: RootState) => state.auth.signin.user;
 
-export const selectSignInLoggedIn = (state: RootState) => state.signIn.loggedIn;
+export const selectSignInLoggedIn = (state: RootState) => state.auth.signin.loggedIn;
 
-export const selectSignInInvalidFields = (state: RootState) => state.signIn.invalidFields;
+export const selectSignInInvalidFields = (state: RootState) => state.auth.signin.invalidFields;
 
-export const selectSignInInvalidFieldsMessages = (state: RootState) => state.signIn.invalidFieldsMessages;
+export const selectSignInInvalidFieldsMessages = (state: RootState) => state.auth.signin.invalidFieldsMessages;
 
-export const selectSignInLoading = (state: RootState) => state.signIn.loading;
+export const selectSignInLoading = (state: RootState) => state.auth.signin.loading;
 
 export const selectSignInIsInvalidCredentials = createSelector(
     selectSignInInvalidFields,

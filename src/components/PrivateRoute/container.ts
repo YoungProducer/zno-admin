@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { RouteProps } from 'react-router-dom';
 
 // Applicaiton's imports
-import { selectSignInLoggedIn } from 'store/selectors/signin';
+import { selectSignInLoggedIn } from 'store/selectors/auth/signin';
 import { RootState } from 'store/slices';
 
 /**

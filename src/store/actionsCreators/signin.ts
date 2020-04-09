@@ -20,7 +20,7 @@ import {
     loadingSignInAction,
     IUser,
     ISetInvalidFieldsMessagesPayload,
-} from 'store/slices/signin';
+} from 'store/slices/auth/signin';
 
 const validateCredentials = (credentials: Auth.SignInPayload): [boolean, string[], ISetInvalidFieldsMessagesPayload] => {
     const invalidFields = [];

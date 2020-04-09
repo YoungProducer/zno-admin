@@ -1,40 +1,3 @@
-// import { Dispatch } from 'redux';
-// import {
-//     connect,
-// } from 'react-redux';
-
-// // Custom imports
-// import {
-//     createFetchSignInAction,
-// } from '../../store/actionsCreators/auth/signin';
-
-// import {
-//     fetchSignInAction,
-// } from 'store/actionsCreators/signin';
-
-// // Types imports
-// import {
-//     FetchSignInCredentials,
-// } from '../../types/store/actionsCreators';
-
-// import { getSignInLoading } from '../../store/selectors/auth/signin';
-// import { getEmailAfterSignUp } from '../../store/selectors/auth/signup';
-// import { ISignInCredentials } from 'api/types';
-
-// const mapStateToProps = (state: any) => ({
-//     userEmail: getEmailAfterSignUp(state.signup),
-//     loading: getSignInLoading(state.signin),
-// });
-
-// const mapDispatchToProps = (dispatch: any) => ({
-//     signIn: ({ email, password }: ISignInCredentials) => dispatch(fetchSignInAction({ email, password })),
-// });
-
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps,
-// );
-
 // Created by: Oleksandr Bezrukov
 // Creation date: 8 February 2020
 
@@ -54,14 +17,14 @@ import {
     selectSignInInvalidFieldsMessages,
     selectSignInLoading,
     selectSignInIsInvalidCredentials,
-} from 'store/selectors/signin';
+} from 'store/selectors/auth/signin';
 import {
     clearSignInInvalidFieldsAction,
     clearSignInInvalidFieldsMessagesAction,
     ISignInInvalidFields,
     ISignInInvalidFieldsMessages,
-} from 'store/slices/signin';
-import { ISignInCredentials } from 'api/types';
+} from 'store/slices/auth/signin';
+import { Auth } from 'api/types';
 
 /**
  * Props which component get from the parent.
@@ -82,7 +45,7 @@ interface IStateProps {
  * Props(acitons) which call to the redux store or async actions.
  */
 interface IDispatchProps {
-    signIn: (credentials: ISignInCredentials) => void;
+    signIn: (paylaod: Auth.SignInPayload) => void;
     clearSignInInvalidFields: () => void;
     clearSignInInvalidFieldsMessages: () => void;
 }
@@ -108,8 +71,8 @@ const mapStateToProps = (state: RootState): IStateProps => ({
  * This function create functions which dispatch some actions.
  */
 const mapDispatchToProps = (dispatch: any): IDispatchProps => ({
-    signIn: (credentials: ISignInCredentials) =>
-        dispatch(fetchSignInAction(credentials)),
+    signIn: (payload: Auth.SignInPayload) =>
+        dispatch(fetchSignInAction(payload)),
 
     clearSignInInvalidFields: () =>
         dispatch(clearSignInInvalidFieldsAction()),

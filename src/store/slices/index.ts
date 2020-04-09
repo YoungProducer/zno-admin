@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import signIn from './signin';
+import auth from './auth';
 import notifier from './notifier';
 import subject from './subject';
 import subjectConfig from './subjectConfig';
@@ -9,7 +9,7 @@ import tasksList from './tasksList';
 import createTest from './createTest';
 
 const rootReducer = combineReducers({
-    signIn,
+    auth,
     notifier,
     subject,
     subjectConfig,

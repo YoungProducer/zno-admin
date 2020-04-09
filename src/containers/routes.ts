@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import Routes from 'routes';
-import { selectSignInLoggedIn } from 'store/selectors/signin';
+import { selectSignInLoggedIn } from 'store/selectors/auth/signin';
 import { RootState } from 'store/slices';
 
 /**
