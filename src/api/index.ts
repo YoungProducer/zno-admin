@@ -30,8 +30,9 @@ class Api implements IApi {
 
     signIn = async (payload: Auth.SignInPayload): Promise<AxiosResponse<Auth.SignInResponseData>> =>
         await this.instance.post(
-            '/api/auth/signin',
+            '/api/auth/admin/signin',
             payload,
+            { withCredentials: true },
         )
 
     subjectsData = async (): Promise<AxiosResponse<Subject.Data[]>> =>
