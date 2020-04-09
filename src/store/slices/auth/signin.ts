@@ -7,6 +7,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Application's imports
+import { Auth } from 'api/types';
 import { LoadingPayload, StateWithLoading } from 'store/slices/types';
 
 export interface ISignInInvalidFields {
@@ -17,19 +18,6 @@ export interface ISignInInvalidFields {
 export interface ISignInInvalidFieldsMessages {
     email?: string;
     password?: string;
-}
-
-export interface IUser {
-    id: string;
-    email: string;
-    role: string;
-}
-
-/**
- * SetUserDataAction
- */
-interface ISetUserDataAction {
-    payload: IUser;
 }
 
 /**
@@ -58,7 +46,7 @@ interface ISetInvalidFieldsMessagesAction {
 }
 
 export interface ISignInState extends StateWithLoading {
-    user?: IUser;
+    user?: Auth.User;
     invalidFields: ISignInInvalidFields;
     invalidFieldsMessages: ISignInInvalidFieldsMessages;
     loggedIn: boolean;
@@ -92,7 +80,7 @@ const signInSlice = createSlice({
         }),
         setUserDataAction: (
             state: ISignInState,
-            { payload }: ISetUserDataAction,
+            { payload }: PayloadAction<Auth.User>,
         ) => ({
             ...state,
             user: payload,

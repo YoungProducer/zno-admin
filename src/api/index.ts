@@ -28,10 +28,23 @@ class Api implements IApi {
         });
     }
 
-    signIn = async (payload: Auth.SignInPayload): Promise<AxiosResponse<Auth.SignInResponseData>> =>
+    signIn: Auth.SignIn = async (payload) =>
         await this.instance.post(
             '/api/auth/admin/signin',
             payload,
+            { withCredentials: true },
+        )
+
+    me: Auth.Me = async () =>
+        await this.instance.get(
+            'api/auth/admin/me',
+            { withCredentials: true },
+        )
+
+    logout: Auth.Logout = async () =>
+        await this.instance.post(
+            'api/auth/admin/logout',
+            {},
             { withCredentials: true },
         )
 

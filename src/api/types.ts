@@ -11,19 +11,31 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 /** Auth */
 export namespace Auth {
     export type UserRole = 'DEFAULT_USER' | 'ADMIN';
-
-    export interface SignInPayload {
-        email: string;
-        password: string;
-    }
-
-    export interface SignInResponseData {
+    export interface User {
         id: string;
         email: string;
         name: string;
         lastName: string;
         role: UserRole;
     }
+
+    /** =========================== */
+    export interface SignInPayload {
+        email: string;
+        password: string;
+    }
+
+    export type SignInResponse = User;
+
+    export type SignIn = (payload: SignInPayload) => Promise<AxiosResponse<SignInResponse>>;
+
+    /** =========================== */
+    export type MeReponse = User;
+    export type Me = () => Promise<AxiosResponse<MeReponse>>;
+
+    /** =========================== */
+    export type LogoutResponse = any;
+    export type Logout = () => Promise<AxiosResponse<LogoutResponse>>;
 }
 
 /** Subject */
@@ -52,7 +64,9 @@ export namespace TestSuite {
 export interface IApi {
     instance: AxiosInstance;
     /** Auth */
-    signIn: (payload: Auth.SignInPayload) => Promise<AxiosResponse<Auth.SignInResponseData>>;
+    signIn: Auth.SignIn;
+    me: Auth.Me;
+    logout: Auth.Logout;
 
     /** Subject */
     subjectsData: () => Promise<AxiosResponse<Subject.Data[]>>;

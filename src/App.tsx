@@ -1,23 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import Routes from 'containers/routes';
-import Notifier from 'components/Notifier';
 
-interface IApp {
-    // loggedIn: boolean;
-    // emailAfterSignUp: string;
-    // fetchMe: Function;
-}
-
-const App = ({
-    // loggedIn,
-    // emailAfterSignUp,
-    // fetchMe,
-}: IApp) => {
+const App = () => {
 
     return(
         <>
-            <Notifier />
             <Routes />
         </>
     );

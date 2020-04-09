@@ -1,5 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
@@ -7,11 +7,13 @@ import { SnackbarProvider } from 'notistack';
 // Application's imports
 import theme from './theme';
 import store from './store';
-import App from "./containers/AppContainer";
+import App from './App';
+import SessionWatcher from './components/SessionWatcher';
+import Notifier from 'components/Notifier';
 
-import "./index.css";
+import './index.css';
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 
 ReactDOM.render(
     <Provider store={store}>
@@ -24,6 +26,8 @@ ReactDOM.render(
                 }}
                 autoHideDuration={1500}
             >
+                <Notifier />
+                <SessionWatcher />
                 <App />
             </SnackbarProvider>
         </ThemeProvider>

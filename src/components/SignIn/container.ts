@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 // Application's imports
 import { RootState } from 'store/slices';
-import { fetchSignInAction } from 'store/actionsCreators/signin';
+import { fetchSignInAction } from 'store/actionsCreators/auth/signin';
 import {
     selectSignInInvalidFields,
     selectSignInInvalidFieldsMessages,

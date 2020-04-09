@@ -18,7 +18,6 @@ import {
     setSignInInvalidFieldsAction,
     setSignInInvalidFieldsMessagesAction,
     loadingSignInAction,
-    IUser,
     ISetInvalidFieldsMessagesPayload,
 } from 'store/slices/auth/signin';
 
@@ -59,7 +58,7 @@ export const fetchSignInAction = (credentials: Auth.SignInPayload) =>
 
                     return response.data;
                 })
-                .then((data: IUser) => {
+                .then((data: Auth.User) => {
                     dispatch(setUserDataAction(data));
                     dispatch(setLoggedIn(true));
                 })
