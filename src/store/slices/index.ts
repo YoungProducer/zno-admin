@@ -7,6 +7,7 @@ import subjectConfig from './subjectConfig';
 import task from './task';
 import tasksList from './tasksList';
 import createTest from './createTest';
+import errorHandler from './errorHandler';
 
 const rootReducer = combineReducers({
     auth,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     task,
     tasksList,
     createTest,
+    errorHandler,
 });
 
 export * from './types';
