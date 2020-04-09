@@ -15,6 +15,7 @@ import rootReducer from './slices';
 import api from 'api';
 import { IApi } from 'api/types';
 import history from 'routes/history';
+import znoMiddlewares from 'store/middlewares';
 
 export interface ThunkExtraArgument {
     history: History<{}>;
@@ -82,8 +83,8 @@ const createStore = () => {
         : undefined;
 
     const middleware = production
-        ? [...defaultMiddleware]
-        : [...defaultMiddleware, logger];
+        ? [...defaultMiddleware, znoMiddlewares]
+        : [...defaultMiddleware, znoMiddlewares, logger];
 
     return configureStore({
         middleware,
