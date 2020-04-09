@@ -22,6 +22,7 @@ import {
     addSubjectAction,
     addSubSubjectAction,
 } from 'store/slices/subject';
+import { setErrorAction } from 'store/slices/errorHandler';
 
 export const fetchSubjectsDataAction = () =>
     async (dispatch: Dispatch<any>, _: () => RootState, extra: ThunkExtraArgument) => {
@@ -44,7 +45,7 @@ export const fetchSubjectsDataAction = () =>
                 dispatch(setSubjectsAction(subjects));
                 dispatch(setSubSubjectsAction(subSubjects));
             })
-            .catch((error: AxiosError) => { console.error(error); });
+            .catch((error: AxiosError) => dispatch(setErrorAction(error)));
     };
 
 export const createSubjectAction = (payload: Subject.CreatePayload) =>
@@ -70,5 +71,5 @@ export const createSubjectAction = (payload: Subject.CreatePayload) =>
                     dispatch(addSubjectAction(subject));
                 }
             })
-            .catch((error: AxiosError) => console.error(error));
+            .catch((error: AxiosError) => dispatch(setErrorAction(error)));
     };

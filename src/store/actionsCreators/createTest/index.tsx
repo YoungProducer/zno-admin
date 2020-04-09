@@ -9,6 +9,7 @@
 /** Extermnal imports */
 import React from 'react';
 import { Dispatch } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 
 /** Application's imports */
 import { RootState } from 'store/slices';
@@ -24,6 +25,7 @@ import {
     closeSnackbarAction,
 } from 'store/slices/notifier';
 import { setOpenTasksListAction } from 'store/slices/tasksList';
+import { setErrorAction } from 'store/slices/errorHandler';
 import {
     selectTasksImages,
     selectExplanationsImages,
@@ -133,8 +135,9 @@ export const createTestAction = () =>
                         },
                     }));
                 })
-                .catch(err => {
+                .catch((error: AxiosError) => {
                     dispatch(setCreateTestLoadingAction(false));
+                    dispatch(setErrorAction(error));
                 });
         }
 
