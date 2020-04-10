@@ -20,7 +20,7 @@ export interface PreparedFields {
 }
 
 export type PrepareSubjectConfig = (mainFields: MainFields, state: RootState) =>
-    PreparedFields;
+    Partial<PreparedFields>;
 
 export interface PreparedAnswer {
     answer: string[];
@@ -54,13 +54,22 @@ export const prepareSubjectConfig: PrepareSubjectConfig = (mainFields, state) =>
         withSubSubject,
     } = mainFields;
 
-    return {
-        subjectName,
-        subSubjectName: withSubSubject ? subSubjectName : null,
-        theme: testType === 'THEME' ? themeName : null,
-        training: testType === 'EXAM' && examType === 'TRAINING' ? themeName : null,
-        session: testType === 'EXAM' && examType === 'SESSION' ? themeName : null,
-    };
+    return Object
+        .entries({
+            subjectName,
+            subSubjectName: withSubSubject ? subSubjectName : null,
+            theme: testType === 'THEME' ? themeName : null,
+            training: testType === 'EXAM' && examType === 'TRAINING' ? themeName : null,
+            session: testType === 'EXAM' && examType === 'SESSION' ? themeName : null,
+        })
+        .reduce((acc, curr) => {
+            if (curr[1] === null) return acc;
+
+            return {
+                ...acc,
+                [curr[0]]: curr[1],
+            };
+        }, {});
 };
 
 export const prepareAnswers: PrepareAnswers = (tasksList) =>
