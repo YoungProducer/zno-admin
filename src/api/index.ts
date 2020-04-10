@@ -69,7 +69,7 @@ class Api implements IApi {
 
     createTestSuite: TestSuite.Create = async (payload) =>
         await this.instance.post(
-            '/api/test-siote',
+            '/api/test-suite',
             payload,
             { withCredentials: true },
         )
