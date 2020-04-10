@@ -14,6 +14,7 @@ import SubjectConfigurationsPanel from 'components/panels/SubjectConfigurationsP
 import SignIn from 'components/SignIn';
 import { TRoutesProps } from 'containers/routes';
 import history from './history';
+import SessionWatcher from 'components/SessionWatcher';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     panel: {
@@ -28,23 +29,16 @@ const Component = ({ loggedIn }: TRoutesProps) => {
 
     return(
         <Router history={history}>
+            <SessionWatcher />
             <Switch>
-                <Route exact path='/'>
-                    { loggedIn
-                        ? <Redirect
-                            to={{
-                                pathname: '/dashboard',
-                                state: { from: '/' },
-                            }}
-                        />
-                        : <Redirect
-                            to={{
-                                pathname: '/auth/signin',
-                                state: { from: '/' },
-                            }}
-                        />
-                    }
-                </Route>
+                <PrivateRoute exact path='/'>
+                    <Redirect
+                        to={{
+                            pathname: '/dashboard',
+                            state: { from: '/' },
+                        }}
+                    />
+                </PrivateRoute>
                 <Route exact path='/auth/signin'>
                     { loggedIn
                         ? <Redirect to={{

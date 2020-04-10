@@ -7,19 +7,29 @@
 
 /** External imports */
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 /** Application's imports */
 import { SessionWatcherProps } from './container';
 
 const Component = ({
     fetchMe,
-}: SessionWatcherProps): null => {
+    loggedIn,
+}: SessionWatcherProps) => {
+    const history = useHistory();
 
     useEffect(() => {
         fetchMe();
     }, []);
 
-    return null;
+    useEffect(() => {
+        if (loggedIn && history.location.pathname === '/auth/signin') {
+            const newUrl = (history.location.state as any).from;
+            history.push(newUrl);
+        }
+    }, [history, loggedIn]);
+
+    return <></>;
 };
 
 export default Component;

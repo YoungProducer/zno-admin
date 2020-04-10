@@ -21,6 +21,9 @@ export const selectSignInInvalidFieldsMessages = (state: RootState) => state.aut
 
 export const selectSignInLoading = (state: RootState) => state.auth.signin.loading;
 
+export const selectLoggedIn = (state: RootState) =>
+    Boolean(state.auth.signin.user) && state.auth.signin.user !== null;
+
 export const selectSignInIsInvalidCredentials = createSelector(
     selectSignInInvalidFields,
     (invalidFields) =>

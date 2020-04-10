@@ -8,7 +8,6 @@ import { SnackbarProvider } from 'notistack';
 import theme from './theme';
 import store from './store';
 import App from './App';
-import SessionWatcher from './components/SessionWatcher';
 import Notifier from 'components/Notifier';
 
 import './index.css';
@@ -27,7 +26,6 @@ ReactDOM.render(
                 autoHideDuration={1500}
             >
                 <Notifier />
-                <SessionWatcher />
                 <App />
             </SnackbarProvider>
         </ThemeProvider>

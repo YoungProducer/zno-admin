@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { RouteProps } from 'react-router-dom';
 
 // Applicaiton's imports
-import { selectSignInLoggedIn } from 'store/selectors/auth/signin';
+import { selectLoggedIn } from 'store/selectors/auth/signin';
 import { RootState } from 'store/slices';
 
 /**
@@ -39,7 +39,7 @@ export type TPrivateRoute = IOwnProps & IStateProps;
  * Function select variables from the redux store.
  */
 const mapStateToProps = (state: RootState): IStateProps => ({
-    loggedIn: selectSignInLoggedIn(state),
+    loggedIn: selectLoggedIn(state),
 });
 
 /**
