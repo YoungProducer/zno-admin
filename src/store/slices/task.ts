@@ -194,6 +194,7 @@ const task = createSlice({
 
             return {
                 ...initialState,
+                ...changeTaskType(state.type),
             };
         },
     },
