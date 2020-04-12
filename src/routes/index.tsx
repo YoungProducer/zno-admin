@@ -49,9 +49,10 @@ const Component = ({ loggedIn }: TRoutesProps) => {
                     }
                 </Route>
                 <PrivateRoute exact path='/dashboard'>
-                    <Drawer content={
+                    <Redirect to='/dashboard/create'/>
+                    {/* <Drawer content={
                         <h1>dashboard</h1>
-                    }/>
+                    }/> */}
                 </PrivateRoute>
                 <PrivateRoute exact path='/dashboard/create'>
                     <Drawer
