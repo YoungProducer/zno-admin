@@ -5,5 +5,7 @@
 
 // Application's imports
 import Component from './Component';
+import container from './container';
 
-export default Component;
+/** Export configured component */
+export default container(Component);

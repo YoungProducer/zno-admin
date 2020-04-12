@@ -1,7 +1,9 @@
-// Created by: Oleksandr Bezrukov
-// Cretion date: 27 January 2020
-
-// Component with navigation
+/**
+ * Created by: Oleksandr Bezrukov
+ * Cretion date: 27 January 2020
+ *
+ * Component which display main navigation of application.
+ */
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
@@ -15,6 +17,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from '@material-ui/core/Divider';
 import Collapse from '@material-ui/core/Collapse';
 import Fade from '@material-ui/core/Fade';
@@ -27,6 +30,9 @@ import { NavLink, NavLinkProps as RouterLinkProps } from 'react-router-dom';
 import { Omit } from '@material-ui/types';
 
 import TestsIcon from 'components/Icons/TestsIcon';
+
+/** Applicaiton's imports */
+import { DrawerProps } from './container';
 
 const drawerWidth: number = 240;
 
@@ -191,15 +197,11 @@ const ListItemLink = (props: IListItemLinkProps) => {
     );
 };
 
-interface IDrawerProps {
-    content: React.ReactNode;
-    panel?: React.ReactNode;
-}
-
 const Component = ({
     content,
     panel,
-}: IDrawerProps) => {
+    logout,
+}: DrawerProps) => {
     const classes = useStyles({});
     const [open, toggleOpen] = useState<boolean>(false);
     // Variable related to sublist of 'Tests' list item
@@ -326,6 +328,23 @@ const Component = ({
                         nested={false}
                         classes={classes}
                     />
+                    <ListItem
+                        button
+                        color='primary'
+                        onClick={() => {
+                            handleDrawerOpen();
+                            logout();
+                        }}
+                    >
+                            <Fade in={open}>
+                                <ListItemText className={classes.listItemText}>
+                                    Вийти
+                                </ListItemText>
+                            </Fade>
+                            <ListItemIcon className={classes.listIcon}>
+                                <ExitToAppIcon width='35px' height='35px' className={classes.icon}/>
+                            </ListItemIcon>
+                    </ListItem>
                 </List>
             </Drawer>
             { panel && (
