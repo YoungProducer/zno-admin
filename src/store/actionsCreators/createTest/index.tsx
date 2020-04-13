@@ -134,11 +134,11 @@ export const createTestAction = () =>
                             variant: 'success',
                         },
                     }));
+                    dispatch(clearTasksListAction());
                 })
                 .catch((error: AxiosError) => {
                     dispatch(setCreateTestLoadingAction(false));
                     dispatch(setErrorAction(error));
-                    dispatch(clearTasksListAction());
                     dispatch(enqueueSnackbarAction({
                         message: 'Сталась помилка.',
                         options: {
