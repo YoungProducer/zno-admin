@@ -135,7 +135,7 @@ const Component = forwardRef(
                                         toggleOpenTasksList();
                                         handleCloseClick();
                                     }}
-                                    color='secondary'
+                                    color='primary'
                                     variant='contained'
                                     disableElevation
                                 >
