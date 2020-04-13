@@ -24,7 +24,7 @@ import {
     enqueueSnackbarAction,
     closeSnackbarAction,
 } from 'store/slices/notifier';
-import { setOpenTasksListAction } from 'store/slices/tasksList';
+import { setOpenTasksListAction, clearTasksListAction } from 'store/slices/tasksList';
 import { setErrorAction } from 'store/slices/errorHandler';
 import {
     selectTasksImages,
@@ -138,6 +138,14 @@ export const createTestAction = () =>
                 .catch((error: AxiosError) => {
                     dispatch(setCreateTestLoadingAction(false));
                     dispatch(setErrorAction(error));
+                    dispatch(clearTasksListAction());
+                    dispatch(enqueueSnackbarAction({
+                        message: 'Сталась помилка.',
+                        options: {
+                            key: 'FailureCreateTest',
+                            variant: 'success',
+                        },
+                    }));
                 });
         }
 
@@ -158,7 +166,7 @@ export const createTestAction = () =>
                         toggleOpenTasksList={() => dispatch(setOpenTasksListAction(true))}
                     />
                 ),
-                key: 'create-test-error',
+                key: 'FailureCreateTest',
                 variant: 'error',
                 persist: true,
                 preventDuplicate: true,

@@ -196,6 +196,12 @@ const tasksList = createSlice({
                 };
             }),
         }),
+        clearTasksListAction: (state: TasksListSlice.State) => ({
+            ...state,
+            id: 0,
+            editionMode: false,
+            tasks: [],
+        }),
     },
 });
 
@@ -206,6 +212,7 @@ export const {
     addTaskAction,
     deleteTaskByIdAction,
     updateTaskAction,
+    clearTasksListAction,
 } = tasksList.actions;
 
 /** Export reducer */
