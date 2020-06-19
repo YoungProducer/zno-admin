@@ -10,7 +10,7 @@ import store from './store';
 import App from './App';
 import Notifier from 'components/Notifier';
 
-import './index.css';
+import 'styles/index.css';
 
 const rootElement = document.getElementById('root');
 

@@ -7,7 +7,7 @@
 import React from 'react';
 
 // Application's imports
-import TestIcon from 'public/images/tests.svg';
+import TestIcon from 'images/tests.svg';
 
 interface ITestIconProps     {
     width?: string;

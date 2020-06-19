@@ -9,7 +9,7 @@ import Zoom from '@material-ui/core/Zoom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // Application's imports
-import cross from 'public/images/grey-cross.png';
+import cross from 'images/grey-cross.png';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {

@@ -8,6 +8,8 @@
 /** External imports */
 import { createBrowserHistory } from 'history';
 
-const history = createBrowserHistory();
+const history = createBrowserHistory({
+    basename: '/zno/admin',
+});
 
 export default history;
