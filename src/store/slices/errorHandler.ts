@@ -52,8 +52,8 @@ const errorHandler = createSlice({
                 payload: error
                     ? {
                         message: error.message,
-                        status: error.response.statusText,
-                        statusCode: error.response.status,
+                        status: error?.response?.statusText,
+                        statusCode: error?.response?.status,
                     }
                     : {
                         message: '',

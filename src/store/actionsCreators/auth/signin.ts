@@ -64,7 +64,7 @@ export const fetchSignInAction = (credentials: Auth.SignInPayload) =>
                 })
                 .catch(error => {
                     dispatch(loadingSignInAction(false));
-                    const errorData = error.response.data.errors;
+                    const errorData = error.response?.data?.errors;
 
                     if (errorData) {
                         dispatch(setSignInInvalidFieldsAction(errorData.errorFields));
