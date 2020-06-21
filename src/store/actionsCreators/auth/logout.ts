@@ -26,7 +26,6 @@ export const logoutAction = () =>
             .then(response => {
                 dispatch(setLogoutLoadingAction(false));
                 dispatch(deleteUserDataAction());
-                // dispatch(setLoggedIn(false));
             })
             .catch((error: AxiosError) => {
                 setLogoutLoadingAction(false);
