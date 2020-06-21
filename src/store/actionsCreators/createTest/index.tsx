@@ -89,6 +89,8 @@ export const createTestAction = () =>
         const subjectConfigErrors = hasSubjectConfigErrors(mainFields);
         const tasksListErrors = hasTasksListErrors(tasksList);
 
+        console.log({ tasksListErrors });
+
         if (subjectConfigErrors.hasError) {
             dispatch(setSubjectConfigErrorsAction(subjectConfigErrors as CreateTestSlice.SetSubjectConfigErrorsPayload));
         }
@@ -143,7 +145,7 @@ export const createTestAction = () =>
                         message: 'Сталась помилка.',
                         options: {
                             key: 'FailureCreateTest',
-                            variant: 'success',
+                            variant: 'error',
                         },
                     }));
                 });

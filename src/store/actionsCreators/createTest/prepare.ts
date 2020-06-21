@@ -57,13 +57,13 @@ export const prepareSubjectConfig: PrepareSubjectConfig = (mainFields, state) =>
     return Object
         .entries({
             subjectName,
-            subSubjectName: withSubSubject ? subSubjectName : null,
-            theme: testType === 'THEME' ? themeName : null,
-            training: testType === 'EXAM' && examType === 'TRAINING' ? themeName : null,
-            session: testType === 'EXAM' && examType === 'SESSION' ? themeName : null,
+            subSubjectName: withSubSubject ? subSubjectName : undefined,
+            theme: testType === 'THEME' ? themeName : undefined,
+            training: testType === 'EXAM' && examType === 'TRAINING' ? themeName : undefined,
+            session: testType === 'EXAM' && examType === 'SESSION' ? themeName : undefined,
         })
         .reduce((acc, curr) => {
-            if (curr[1] === null) return acc;
+            if (!curr[1]) return acc;
 
             return {
                 ...acc,

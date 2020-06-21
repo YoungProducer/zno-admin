@@ -59,6 +59,8 @@ export const hasSubjectConfigErrors: HasSubjectConfigErrors = (mainFields) => {
 };
 
 export const hasTasksListErrors: HasTasksListErrors = (tasksList) => {
+    if (tasksList.length === 0) return { hasError: true };
+
     const invalidTasks = tasksList.reduce((acc, curr, index) => {
         if (!curr.images.task
             || curr.answer.some(el => el === '')
