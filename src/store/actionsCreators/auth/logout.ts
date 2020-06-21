@@ -13,7 +13,7 @@ import { AxiosError } from 'axios';
 /** Application's imports */
 import { ThunkExtraArgument } from 'store';
 import { RootState } from 'store/slices';
-import { setLogoutLoadingAction, setUserDataAction } from 'store/slices/auth';
+import { setLogoutLoadingAction, setUserDataAction, deleteUserDataAction, setLoggedIn } from 'store/slices/auth';
 import { setErrorAction } from 'store/slices/errorHandler';
 
 export const logoutAction = () =>
@@ -25,12 +25,11 @@ export const logoutAction = () =>
         return api.logout()
             .then(response => {
                 dispatch(setLogoutLoadingAction(false));
-                return response.data;
-            })
-            .then(data => {
-                dispatch(setUserDataAction(null));
+                dispatch(deleteUserDataAction());
+                // dispatch(setLoggedIn(false));
             })
             .catch((error: AxiosError) => {
+                setLogoutLoadingAction(false);
                 dispatch(setErrorAction(error));
             });
     };

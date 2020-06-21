@@ -46,7 +46,7 @@ interface ISetInvalidFieldsMessagesAction {
 }
 
 export interface ISignInState extends StateWithLoading {
-    user?: Auth.User;
+    user: Auth.User | null;
     invalidFields: ISignInInvalidFields;
     invalidFieldsMessages: ISignInInvalidFieldsMessages;
     loggedIn: boolean;
@@ -65,6 +65,7 @@ const initialState: ISignInState = {
         password: false,
     },
     invalidFieldsMessages: defaultInvalidFieldsMessages,
+    user: null,
 };
 
 const signInSlice = createSlice({
@@ -80,7 +81,7 @@ const signInSlice = createSlice({
         }),
         setUserDataAction: (
             state: ISignInState,
-            { payload }: PayloadAction<Auth.User>,
+            { payload }: PayloadAction<Auth.User | null>,
         ) => ({
             ...state,
             user: payload,

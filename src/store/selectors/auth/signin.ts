@@ -13,7 +13,10 @@ import { RootState } from 'store/slices';
 
 export const selectSignInUserData = (state: RootState) => state.auth.signin.user;
 
-export const selectSignInLoggedIn = (state: RootState) => state.auth.signin.loggedIn;
+export const selectSignInLoggedIn = createSelector(
+    selectSignInUserData,
+    (user) => user !== null,
+);
 
 export const selectSignInInvalidFields = (state: RootState) => state.auth.signin.invalidFields;
 

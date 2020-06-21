@@ -84,7 +84,7 @@ const createStore = () => {
 
     const middleware = production
         ? [...defaultMiddleware, ...znoMiddlewares]
-        : [...defaultMiddleware, ...znoMiddlewares, logger];
+        : [...defaultMiddleware, logger, ...znoMiddlewares];
 
     return configureStore({
         middleware,

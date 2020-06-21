@@ -8,8 +8,13 @@
 /** External imports */
 import { createBrowserHistory } from 'history';
 
-const history = createBrowserHistory({
-    basename: '/zno/admin',
-});
+const mode = process.env.NODE_ENV;
+const basename = mode === 'development'
+    ? '/'
+    : '/zno-admin';
 
+/** Create browser history */
+const history = createBrowserHistory({
+    basename,
+});
 export default history;

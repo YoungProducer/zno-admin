@@ -307,13 +307,13 @@ const Component = ({
                                 classes={classes}
                                 open={open}
                             />
-                            {/* <ListItemLink
+                            <ListItemLink
                                 to='/dashboard/edit'
                                 primary='Редагувати наявний'
                                 nested
                                 classes={classes}
                                 open={open}
-                            /> */}
+                            />
                             <Divider />
                         </>
                     </Collapse>
