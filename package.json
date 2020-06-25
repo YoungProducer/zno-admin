@@ -9,7 +9,7 @@
     "test": "jest --watchAll --updateSnapshot --detectOpenHandles",
     "test:changed": "jest --onlyChanged --watch --updateSnapshot"
   },
-  "homepage": "/zno/admin",
+  "homepage": "/zno-admin",
   "license": "MIT",
   "devDependencies": {
     "@types/axios-mock-adapter": "^1.10.0",

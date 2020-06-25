@@ -1,13 +1,13 @@
 {
-  "main.css": "/zno/admin/static/css/main.822a0692.chunk.css",
-  "main.js": "/zno/admin/static/js/main.2f6a3b3e.chunk.js",
-  "main.js.map": "/zno/admin/static/js/main.2f6a3b3e.chunk.js.map",
-  "runtime~main.js": "/zno/admin/static/js/runtime~main.130a1eec.js",
-  "runtime~main.js.map": "/zno/admin/static/js/runtime~main.130a1eec.js.map",
-  "static/js/2.abe45e50.chunk.js": "/zno/admin/static/js/2.abe45e50.chunk.js",
-  "static/js/2.abe45e50.chunk.js.map": "/zno/admin/static/js/2.abe45e50.chunk.js.map",
-  "index.html": "/zno/admin/index.html",
-  "static/css/main.822a0692.chunk.css.map": "/zno/admin/static/css/main.822a0692.chunk.css.map",
-  "static/media/index.css": "/zno/admin/static/media/ProductSans-Light.dc226ad8.eot",
-  "static/media/tests.svg": "/zno/admin/static/media/tests.16ef6ed4.svg"
+  "main.css": "/zno-admin/static/css/main.969e9dac.chunk.css",
+  "main.js": "/zno-admin/static/js/main.85e767bd.chunk.js",
+  "main.js.map": "/zno-admin/static/js/main.85e767bd.chunk.js.map",
+  "runtime~main.js": "/zno-admin/static/js/runtime~main.885f2936.js",
+  "runtime~main.js.map": "/zno-admin/static/js/runtime~main.885f2936.js.map",
+  "static/js/2.d4f10f53.chunk.js": "/zno-admin/static/js/2.d4f10f53.chunk.js",
+  "static/js/2.d4f10f53.chunk.js.map": "/zno-admin/static/js/2.d4f10f53.chunk.js.map",
+  "index.html": "/zno-admin/index.html",
+  "static/css/main.969e9dac.chunk.css.map": "/zno-admin/static/css/main.969e9dac.chunk.css.map",
+  "static/media/index.css": "/zno-admin/static/media/ProductSans-Light.dc226ad8.eot",
+  "static/media/tests.svg": "/zno-admin/static/media/tests.16ef6ed4.svg"
 }
