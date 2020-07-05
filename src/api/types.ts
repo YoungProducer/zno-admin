@@ -51,6 +51,7 @@ export namespace Subject {
 
     export interface CreatePayload extends Pick<Data, 'name'> {
         isSubSubject?: boolean;
+        parent?: string;
     }
 }
 

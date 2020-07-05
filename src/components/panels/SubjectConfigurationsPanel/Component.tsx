@@ -127,7 +127,11 @@ const Component = ({
                             }
                         }}
                         list={subSubjectsNames}
-                        addCallback={() => createSubject({ name: subSubjectName, isSubSubject: true })}
+                        addCallback={() => createSubject({
+                            name: subSubjectName,
+                            isSubSubject: true,
+                            parent: subjectName,
+                        })}
                         label='Під-предмет'
                         variant='standard'
                         color='primary'
